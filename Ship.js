@@ -37,21 +37,22 @@ Ship.prototype.rememberResets = function () {
     this.reset_rotation = this.rotation;
 };
 
-Ship.prototype.KEY_THRUST = 'W'.charCodeAt(0);
-Ship.prototype.KEY_RETRO  = 'S'.charCodeAt(0);
+Ship.prototype.KEY_UP = 'W'.charCodeAt(0);
+Ship.prototype.KEY_DOWN  = 'S'.charCodeAt(0);
 Ship.prototype.KEY_LEFT   = 'A'.charCodeAt(0);
 Ship.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 
 Ship.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 
 // Initial, inheritable, default values
-Ship.prototype.rotation = 0;
+Ship.prototype.rotation = Math.PI/2;
 Ship.prototype.cx = 200;
 Ship.prototype.cy = 200;
 Ship.prototype.velX = 0;
 Ship.prototype.velY = 0;
 Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
+Ship.prototype.speed = 3;
 
 // HACKED-IN AUDIO (no preloading)
 Ship.prototype.warpSound = new Audio(
@@ -139,11 +140,7 @@ Ship.prototype.update = function (du) {
     }
 
     // Perform movement substeps
-    var steps = this.numSubSteps;
-    var dStep = du / steps;
-    for (var i = 0; i < steps; ++i) {
-        this.computeSubStep(dStep);
-    }
+    this.handleMovement(du);
 
     // Handle firing
     this.maybeFireBullet();
@@ -156,46 +153,19 @@ Ship.prototype.update = function (du) {
     }
 };
 
-Ship.prototype.computeSubStep = function (du) {
+Ship.prototype.handleMovement = function (du) {
     
-    var thrust = this.computeThrustMag();
+    if (keys[this.KEY_UP]) this.cy -= this.speed;
+    if (keys[this.KEY_DOWN]) this.cy += this.speed;
+    if (keys[this.KEY_LEFT]) this.cx -= this.speed;
+    if (keys[this.KEY_RIGHT]) this.cx += this.speed;
 
-    // Apply thrust directionally, based on our rotation
-    var accelX = +Math.sin(this.rotation) * thrust;
-    var accelY = -Math.cos(this.rotation) * thrust;
-    
-    accelY += this.computeGravity();
-
-    this.applyAccel(accelX, accelY, du);
-    
-    this.wrapPosition();
-    
-    if (thrust === 0 || g_allowMixedActions) {
-        this.updateRotation(du);
-    }
 };
 
 var NOMINAL_GRAVITY = 0.12;
 
 Ship.prototype.computeGravity = function () {
     return g_useGravity ? NOMINAL_GRAVITY : 0;
-};
-
-var NOMINAL_THRUST = +0.2;
-var NOMINAL_RETRO  = -0.1;
-
-Ship.prototype.computeThrustMag = function () {
-    
-    var thrust = 0;
-    
-    if (keys[this.KEY_THRUST]) {
-        thrust += NOMINAL_THRUST;
-    }
-    if (keys[this.KEY_RETRO]) {
-        thrust += NOMINAL_RETRO;
-    }
-    
-    return thrust;
 };
 
 Ship.prototype.applyAccel = function (accelX, accelY, du) {
