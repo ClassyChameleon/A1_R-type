@@ -75,7 +75,6 @@ Ship.prototype._updateWarp = function (du) {
     if (this._scale < 0.2) {
     
         this._moveToASafePlace();
-        this.halt();
         this._scaleDirn = 1;
         
     } else if (this._scale > 1) {
