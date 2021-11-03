@@ -51,6 +51,7 @@ Ship.prototype.cy = 200;
 Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
 Ship.prototype.speed = 3;
+Ship.prototype.ready2Fire = false;
 
 // HACKED-IN AUDIO (no preloading)
 Ship.prototype.warpSound = new Audio(
@@ -169,7 +170,11 @@ Ship.prototype.handleMovement = function (du) {
 Ship.prototype.maybeFireBullet = function () {
 
     if (keys[this.KEY_FIRE]) {
-    
+        this.ready2Fire = true;
+    }
+
+    if(!keys[this.KEY_FIRE]){
+            
         var dX = +Math.sin(this.rotation);
         var dY = -Math.cos(this.rotation);
         var launchDist = this.getRadius() * 1.2;
@@ -177,12 +182,16 @@ Ship.prototype.maybeFireBullet = function () {
         var relVel = this.launchVel;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
-
-        entityManager.fireBullet(
-           this.cx + dX * launchDist, this.cy + dY * launchDist,
-           this.velX + relVelX,
-           this.rotation);
-           
+        
+        if(!this.ready2Fire) return;
+        else {
+            entityManager.fireBullet(
+                this.cx + dX * launchDist, this.cy + dY * launchDist,
+                this.velX + relVelX,
+                this.rotation);
+            
+            this.ready2Fire = false;
+        }
     }
     
 };
