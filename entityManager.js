@@ -95,12 +95,10 @@ init: function() {
     //this._generateShip();
 },
 
-fireBullet: function(cx, cy, velX, velY, rotation) {
+fireBullet: function(cx, cy, rotation) {
     this._bullets.push(new Bullet({
         cx   : cx,
         cy   : cy,
-        velX : velX,
-        velY : velY,
 
         rotation : rotation
     }));

@@ -41,8 +41,8 @@ Bullet.prototype.zappedSound = new Audio(
 Bullet.prototype.rotation = 0;
 Bullet.prototype.cx = 200;
 Bullet.prototype.cy = 200;
-Bullet.prototype.velX = 1;
-Bullet.prototype.velY = 1;
+Bullet.prototype.velX = 5;
+Bullet.prototype.checkStuff = true;
 
 // Convert times from milliseconds to "nominal" time units.
 Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
@@ -57,15 +57,15 @@ Bullet.prototype.update = function (du) {
 
     this.lifeSpan -= du;
     if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
-
+    if (this.checkStuff) {
+        this.checkStuff = false;
+        console.log("pos: (" + this.cx + ", " + this.cy + ")");
+        console.log("vel: (" + this.velX + ", " + this.velY + ")");
+        console.log("du: " + du);
+    }
     this.cx += this.velX * du;
-    this.cy += this.velY * du;
 
     this.rotation += 1 * du;
-    this.rotation = util.wrapRange(this.rotation,
-                                   0, consts.FULL_CIRCLE);
-
-    this.wrapPosition();
     
     // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
     //
@@ -75,6 +75,10 @@ Bullet.prototype.update = function (du) {
     if (hitEntity) {
         var canTakeHit = hitEntity.takeBulletHit;
         if (canTakeHit) canTakeHit.call(hitEntity); 
+        return entityManager.KILL_ME_NOW;
+    }
+    // If off-screen
+    if (this.cx > g_canvas.width) {
         return entityManager.KILL_ME_NOW;
     }
     
@@ -101,7 +105,7 @@ Bullet.prototype.render = function (ctx) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
 
-    g_sprites.bullet.drawWrappedCentredAt(
+    g_sprites.bullet.drawCentredAt(
         ctx, this.cx, this.cy, this.rotation
     );
 

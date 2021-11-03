@@ -157,6 +157,12 @@ Ship.prototype.handleMovement = function (du) {
     if (keys[this.KEY_LEFT]) this.cx -= this.speed;
     if (keys[this.KEY_RIGHT]) this.cx += this.speed;
 
+    var halfWidth = this.sprite.width/2;
+    var halfHeight = this.sprite.height/2;
+    if (this.cx+halfWidth > g_canvas.width) this.cx = g_canvas.width-halfWidth;
+    if (this.cy+halfHeight > g_canvas.height) this.cy = g_canvas.height-halfHeight;
+    if (this.cx-halfWidth < 0) this.cx = halfWidth;
+    if (this.cy-halfHeight < 0) this.cy = halfHeight;
 };
 
 
@@ -174,7 +180,7 @@ Ship.prototype.maybeFireBullet = function () {
 
         entityManager.fireBullet(
            this.cx + dX * launchDist, this.cy + dY * launchDist,
-           this.velX + relVelX, this.velY + relVelY,
+           this.velX + relVelX,
            this.rotation);
            
     }
