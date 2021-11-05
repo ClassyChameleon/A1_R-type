@@ -114,7 +114,7 @@ generateShip : function(descr) {
 },
 
 generateBlock : function(descr) {
-    //this._blocks.push(new Block(descr));
+    this._blocks.push(new Block(descr));
 },
 
 killNearestShip : function(xPos, yPos) {

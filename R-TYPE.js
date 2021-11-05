@@ -56,8 +56,9 @@ function createInitialShips() {
 }
 
 function createInitialEnvironment(){
+
     entityManager.generateBlock({
-        cx : 20,
+        cx : 200,
         cy : 20,
         length: 100,
         width: 50

@@ -13,7 +13,7 @@
 
 
 // A generic contructor which accepts an arbitrary descriptor object
-function Rock(descr) {
+function Block(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
@@ -26,20 +26,20 @@ function Rock(descr) {
 
 };
 
-Rock.prototype = new Entity();
-Rock.prototype.celNo = 0;
+Block.prototype = new Entity();
+Block.prototype.celNo = 0;
 
-Rock.prototype.update = function (du) {
+Block.prototype.update = function (du) {
 
     // TODO: YOUR STUFF HERE! --- Unregister and check for death
     //spatialManager.unregister(this);
 
-    this.cx -= 5;
+    this.cx -= 0.5;
 
     //spatialManager.register(this);
 };
 
-Rock.prototype.render = function (ctx) {
+Block.prototype.render = function (ctx) {
     ctx.fillStyle = "#FF0000";
     ctx.fillRect(this.cx, this.cy, this.length, this.width);
 };
