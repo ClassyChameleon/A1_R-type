@@ -55,6 +55,15 @@ function createInitialShips() {
     
 }
 
+function createInitialEnvironment(){
+    entityManager.generateBlock({
+        cx : 20,
+        cy : 20,
+        length: 100,
+        width: 50
+    });
+}
+
 // =============
 // GATHER INPUTS
 // =============
@@ -198,6 +207,7 @@ function preloadDone() {
 
     entityManager.init();
     createInitialShips();
+    createInitialEnvironment();
 
     main.init();
 }
