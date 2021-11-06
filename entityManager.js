@@ -30,6 +30,7 @@ var entityManager = {
 _rocks   : [],
 _bullets : [],
 _ships   : [],
+_enemies : [],
 
 _bShowRocks : true,
 
@@ -87,12 +88,13 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships];
+    this._categories = [this._rocks, this._bullets, this._ships, this._enemies];
 },
 
 init: function() {
     this._generateRocks();
     //this._generateShip();
+    this.generateEnemy();
 },
 
 fireBullet: function(cx, cy, rotation) {
@@ -110,6 +112,10 @@ generateRock : function(descr) {
 
 generateShip : function(descr) {
     this._ships.push(new Ship(descr));
+},
+
+generateEnemy: function(descr) {
+    this._enemies.push(new Enemy(descr));
 },
 
 killNearestShip : function(xPos, yPos) {
