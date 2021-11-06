@@ -52,6 +52,12 @@ Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
 Ship.prototype.speed = 3;
 Ship.prototype.ready2Fire = false;
+// Animation stuff
+Ship.prototype.celNo = 2;
+Ship.prototype.timestampUP = 0;
+Ship.prototype.timestampUPSTOP = 0;
+Ship.prototype.timestampDOWN = 0;
+Ship.prototype.timestampDOWNSTOP = 0;
 
 // HACKED-IN AUDIO (no preloading)
 Ship.prototype.warpSound = new Audio(
@@ -149,22 +155,75 @@ Ship.prototype.update = function (du) {
     } else {
         spatialManager.register(this);
     }
+
 };
 
 Ship.prototype.handleMovement = function (du) {
+    var origSpeed = this.speed;
+    this.speed *= du;
     
-    if (keys[this.KEY_UP]) this.cy -= this.speed;
-    if (keys[this.KEY_DOWN]) this.cy += this.speed;
-    if (keys[this.KEY_LEFT]) this.cx -= this.speed;
-    if (keys[this.KEY_RIGHT]) this.cx += this.speed;
+    this._movementInputs(du);
 
+    // Handle screen boundaries
     var halfWidth = this.sprite.width/2;
     var halfHeight = this.sprite.height/2;
     if (this.cx+halfWidth > g_canvas.width) this.cx = g_canvas.width-halfWidth;
     if (this.cy+halfHeight > g_canvas.height) this.cy = g_canvas.height-halfHeight;
     if (this.cx-halfWidth < 0) this.cx = halfWidth;
     if (this.cy-halfHeight < 0) this.cy = halfHeight;
+
+    this._movementAnimation(du);
+
+    this.speed = origSpeed;
 };
+
+Ship.prototype._movementInputs = function (du) {
+    // Movement inputs
+    if (keys[this.KEY_UP]) {
+        this.timestampUPSTOP = Date.now();
+        this.cy -= this.speed;
+        if (this.celNo < 2) {
+            this.timestampUP = Date.now();
+        } else {
+            if (Date.now() - this.timestampUP > 100) this.celNo = 3;
+            if (Date.now() - this.timestampUP > 200) this.celNo = 4;
+        }
+    }
+    if (keys[this.KEY_DOWN]) {
+        this.timestampDOWNSTOP = Date.now();
+        this.cy += this.speed;
+        if (this.celNo > 2) {
+            this.timestampDOWN = Date.now();
+        } else {
+            if (Date.now() - this.timestampDOWN > 100) this.celNo = 1;
+            if (Date.now() - this.timestampDOWN > 200) this.celNo = 0;
+        }
+    }
+    if (keys[this.KEY_LEFT]) this.cx -= this.speed;
+    if (keys[this.KEY_RIGHT]) this.cx += this.speed;
+};
+
+Ship.prototype._movementAnimation = function (du) {
+    // Animation timestamps
+    if (!keys[this.KEY_UP]) {
+        this.timestampUP = Date.now();
+        if (this.celNo > 2) {
+            if (Date.now() - this.timestampUPSTOP > 100) {
+                this.celNo--;
+                this.timestampUPSTOP = Date.now();
+            }
+        }
+    }
+    if (!keys[this.KEY_DOWN]) {
+        this.timestampDOWN = Date.now();
+        if (this.celNo < 2) {
+            if (Date.now() - this.timestampDOWNSTOP > 100) {
+                this.celNo++;
+                this.timestampDOWNSTOP = Date.now();
+            }
+        }
+    }
+}
 
 
 Ship.prototype.maybeFireBullet = function () {
@@ -211,6 +270,8 @@ Ship.prototype.reset = function () {
 
 
 Ship.prototype.render = function (ctx) {
+    // Previous sprite code
+    /*
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this._scale;
@@ -218,4 +279,8 @@ Ship.prototype.render = function (ctx) {
 	ctx, this.cx, this.cy, this.rotation
     );
     this.sprite.scale = origScale;
+    */
+    var cel = g_spriteAnimations.ship[this.celNo];
+    cel.scale = this._scale * 1.75;
+    cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
 };

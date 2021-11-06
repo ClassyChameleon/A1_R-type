@@ -177,15 +177,18 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        rock   : "https://notendur.hi.is/~pk/308G/images/rock.png"
+        ship         : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        ship2        : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+        rock         : "https://notendur.hi.is/~pk/308G/images/rock.png",
+        shipAnimated : "https://notendur.hi.is/~gvg8/308G/A1_R-type/imgs/R-type.gif",
+        rockAnimated : "https://notendur.hi.is/~pk/308G/images/rocks.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
 }
 
 var g_sprites = {};
+var g_spriteAnimations = {}
 
 function preloadDone() {
 
@@ -195,6 +198,9 @@ function preloadDone() {
 
     g_sprites.bullet = new Sprite(g_images.ship);
     g_sprites.bullet.scale = 0.25;
+
+    g_spriteAnimations.rock = animate(64, 64, 5, 6, 30, g_images.rockAnimated, 0, 0)
+    g_spriteAnimations.ship = animate(33, 17, 5, 1, 5, g_images.shipAnimated, 100.5, 0)
 
     entityManager.init();
     createInitialShips();
