@@ -21,10 +21,10 @@ function Ship(descr) {
     this.rememberResets();
     
     // Default sprite, if not otherwise specified
-    this.sprite = this.sprite || g_sprites.ship;
+    this.sprite = g_spriteAnimations.ship[2];
     
     // Set normal drawing scale, and warp state off
-    this._scale = 1;
+    this._scale = 1.75;
     this._isWarping = false;
 };
 
@@ -84,9 +84,9 @@ Ship.prototype._updateWarp = function (du) {
         this._moveToASafePlace();
         this._scaleDirn = 1;
         
-    } else if (this._scale > 1) {
+    } else if (this._scale > 1.75) {
     
-        this._scale = 1;
+        this._scale = 1.75;
         this._isWarping = false;
         
         // Reregister me from my old posistion
@@ -165,8 +165,8 @@ Ship.prototype.handleMovement = function (du) {
     this._movementInputs(du);
 
     // Handle screen boundaries
-    var halfWidth = this.sprite.width/2;
-    var halfHeight = this.sprite.height/2;
+    var halfWidth = this.sprite.width*this._scale/2;
+    var halfHeight = this.sprite.height*this._scale/2;
     if (this.cx+halfWidth > g_canvas.width) this.cx = g_canvas.width-halfWidth;
     if (this.cy+halfHeight > g_canvas.height) this.cy = g_canvas.height-halfHeight;
     if (this.cx-halfWidth < 0) this.cx = halfWidth;
@@ -281,6 +281,6 @@ Ship.prototype.render = function (ctx) {
     this.sprite.scale = origScale;
     */
     var cel = g_spriteAnimations.ship[this.celNo];
-    cel.scale = this._scale * 1.75;
+    cel.scale = this._scale;
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
 };
