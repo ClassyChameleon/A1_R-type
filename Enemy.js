@@ -17,6 +17,7 @@ function Enemy(descr) {
     // TODO: Sprite setup
     this.sprite = this.sprite || g_sprites.enemy;
     this.scale  = this.scale  || 1;
+    this.rotation = this.rotation || Math.PI * (-2/4);
 }
 
 Enemy.prototype = new Entity();
@@ -24,11 +25,14 @@ Enemy.prototype = new Entity();
 Enemy.prototype.randomiseEntry = function () {
     this.cx = this.cx || g_canvas.width;
     this.cy = this.cy || Math.random() * g_canvas.height;
-    this.rotation = this.rotation || 0;
 }
 
 Enemy.prototype.velX = -1;
 Enemy.prototype.velY = 0;
+
+Entity.prototype.getRadius = function () {
+    return (this.sprite.width / 2) * 0.9;
+};
 
 Enemy.prototype.update = function (du) {
     spatialManager.unregister(this);
@@ -38,10 +42,6 @@ Enemy.prototype.update = function (du) {
 
     this.cx += this.velX * du;
     this.cy += this.velY * du;
-
-    this.rotation += 1 * this.velRot;
-    this.rotation = util.wrapRange(this.rotation,
-                                   0, consts.FULL_CIRCLE);
 
     // TODO: YOUR STUFF HERE! --- (Re-)Register
     spatialManager.register(this);
