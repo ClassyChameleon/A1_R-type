@@ -190,7 +190,7 @@ function requestPreloads() {
         ship         : "https://notendur.hi.is/~pk/308G/images/ship.png",
         ship2        : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         rock         : "https://notendur.hi.is/~pk/308G/images/rock.png",
-        shipAnimated : "https://notendur.hi.is/~gvg8/308G/A1_R-type/imgs/R-type.gif",
+        playerSheet  : "https://notendur.hi.is/~gvg8/308G/A1_R-type/imgs/R-type.gif",
         rockAnimated : "https://notendur.hi.is/~pk/308G/images/rocks.png"
     };
 
@@ -206,11 +206,13 @@ function preloadDone() {
     g_sprites.ship2 = new Sprite(g_images.ship2);
     g_sprites.rock  = new Sprite(g_images.rock);
 
-    g_sprites.bullet = new Sprite(g_images.ship);
-    g_sprites.bullet.scale = 0.25;
+    //g_sprites.bullet = new Sprite(g_images.ship);
+    //g_sprites.bullet.scale = 0.25;
+    g_sprites.bullet = new SpriteAnimated(247, 88, 20, 7, g_images.playerSheet);
+    g_sprites.bullet.scale = 1.75;
 
     g_spriteAnimations.rock = animate(64, 64, 5, 6, 30, g_images.rockAnimated, 0, 0)
-    g_spriteAnimations.ship = animate(33, 17, 5, 1, 5, g_images.shipAnimated, 100.5, 0)
+    g_spriteAnimations.ship = animate(33, 17, 5, 1, 5, g_images.playerSheet, 100.5, 0)
 
     entityManager.init();
     createInitialShips();
