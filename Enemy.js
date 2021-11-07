@@ -11,8 +11,8 @@ function Enemy(descr) {
     // Common inherited setup logic from Entity
     this.setup(descr);
 
-    this.randomiseEntry();
-
+    Enemy.prototype.oldY = this.cy;
+    console.log(this.cy);
 
     // TODO: Sprite setup
     this.sprite = this.sprite || g_sprites.enemy;
@@ -22,17 +22,19 @@ function Enemy(descr) {
 
 Enemy.prototype = new Entity();
 
-Enemy.prototype.randomiseEntry = function () {
-    this.cx = this.cx || g_canvas.width;
-    this.cy = this.cy || Math.random() * g_canvas.height;
-}
-
 Enemy.prototype.velX = -1;
-Enemy.prototype.velY = 0;
+Enemy.prototype.angle = 0;
+Enemy.prototype.angleSpeed = 0.01;
 
-Entity.prototype.getRadius = function () {
+Enemy.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
+
+Enemy.prototype.Movement = function (du) { // TODO: Still kinda buggy, will have to fix!
+    this.cx += this.velX * du;
+    this.angle += this.angleSpeed;
+    this.cy = (this.oldY + Math.sin(this.angle) * 100); // multiplying with du makes it bug.
+}
 
 Enemy.prototype.update = function (du) {
     spatialManager.unregister(this);
@@ -40,8 +42,7 @@ Enemy.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
-    this.cx += this.velX * du;
-    this.cy += this.velY * du;
+    this.Movement(du);
 
     // TODO: YOUR STUFF HERE! --- (Re-)Register
     spatialManager.register(this);
@@ -50,6 +51,10 @@ Enemy.prototype.update = function (du) {
 Enemy.prototype.takeBulletHit = function () {
     this.kill();
 };
+
+Enemy.prototype.wrapPosition = function () {
+    return 0;
+}
 
 Enemy.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
@@ -60,3 +65,5 @@ Enemy.prototype.render = function (ctx) {
     );
     this.sprite.scale = origScale;
 };
+
+
