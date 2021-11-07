@@ -41,7 +41,7 @@ Bullet.prototype.zappedSound = new Audio(
 Bullet.prototype.rotation = 0;
 Bullet.prototype.cx = 200;
 Bullet.prototype.cy = 200;
-Bullet.prototype.velX = 10;
+Bullet.prototype.velX = 20;
 Bullet.prototype.checkStuff = true;
 Bullet.prototype.scale = 1.75;
 
