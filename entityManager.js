@@ -93,7 +93,7 @@ deferredSetup : function () {
 },
 
 init: function() {
-    this._generateRocks();
+    //this._generateRocks();
     //this._generateShip();
     this.generateEnemy();
 },
@@ -128,7 +128,7 @@ generateEnemy1: function() {
     let cx = g_canvas.width;
     let cy = 0
     for (let index = 0; index < 6; index++) {
-        if (index % 2 === 0) cy =  randStart + 20;
+        if (index % 2 === 0) cy = randStart + 20;
         else cy = randStart - 20;
         this._enemies.push(new Enemy({
             cx : cx + (index * 60),
@@ -185,7 +185,7 @@ update: function(du) {
         }
     }
     
-    if (this._rocks.length === 0) this._generateRocks();
+    //if (this._rocks.length === 0) this._generateRocks();
 
 },
 
