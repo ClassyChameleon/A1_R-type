@@ -59,8 +59,4 @@ Enemy.prototype.render = function (ctx) {
 	ctx, this.cx, this.cy, this.rotation
     );
     this.sprite.scale = origScale;
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> 7c892adefbb8d564856194e5573f858d02200121
