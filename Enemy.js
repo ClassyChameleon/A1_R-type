@@ -12,7 +12,6 @@ function Enemy(descr) {
     this.setup(descr);
 
     Enemy.prototype.oldY = this.cy;
-    console.log(this.cy);
 
     // TODO: Sprite setup
     this.sprite = this.sprite || g_sprites.enemy;
@@ -30,10 +29,15 @@ Enemy.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
 
-Enemy.prototype.Movement = function (du) { // TODO: Still kinda buggy, will have to fix!
+Enemy.prototype.Movement = function (du) { // TODO: Makes it so that the enemy does
+                                           //       not float out of the screen
+    let tempCy = this.cy;
+    var halfHeight = this.sprite.height*this._scale/2;
+
     this.cx += this.velX * du;
     this.angle += this.angleSpeed;
     this.cy = (this.oldY + Math.sin(this.angle) * 100); // multiplying with du makes it bug.
+
 }
 
 Enemy.prototype.update = function (du) {
@@ -60,7 +64,7 @@ Enemy.prototype.render = function (ctx) {
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this.scale;
-    this.sprite.drawWrappedCentredAt(
+    this.sprite.drawCentredAt(
 	ctx, this.cx, this.cy, this.rotation
     );
     this.sprite.scale = origScale;
