@@ -189,6 +189,8 @@ render: function(ctx) {
         }
         debugY += 10;
     }
+
+    g_interface.render(ctx);
 }
 
 }

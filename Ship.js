@@ -168,7 +168,7 @@ Ship.prototype.handleMovement = function (du) {
     var halfWidth = this.sprite.width*this._scale/2;
     var halfHeight = this.sprite.height*this._scale/2;
     if (this.cx+halfWidth > g_canvas.width) this.cx = g_canvas.width-halfWidth;
-    if (this.cy+halfHeight > g_canvas.height) this.cy = g_canvas.height-halfHeight;
+    if (this.cy+halfHeight > g_canvas.height-30) this.cy = g_canvas.height-halfHeight-30;
     if (this.cx-halfWidth < 0) this.cx = halfWidth;
     if (this.cy-halfHeight < 0) this.cy = halfHeight;
 
