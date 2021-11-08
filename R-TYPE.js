@@ -55,6 +55,16 @@ function createInitialShips() {
     
 }
 
+function createInitialEnvironment(){
+
+    entityManager.generateBlock({
+        cx : 200,
+        cy : 20,
+        length: 100,
+        width: 50
+    });
+}
+
 // =============
 // GATHER INPUTS
 // =============
@@ -86,7 +96,7 @@ function updateSimulation(du) {
     entityManager.update(du);
 
     // Prevent perpetual firing!
-    eatKey(Ship.prototype.KEY_FIRE);
+    //eatKey(Ship.prototype.KEY_FIRE);
 }
 
 // GAME-SPECIFIC DIAGNOSTICS
@@ -177,15 +187,18 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship   : "https://notendur.hi.is/~pk/308G/images/ship.png",
-        ship2  : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        rock   : "https://notendur.hi.is/~pk/308G/images/rock.png"
+        ship         : "https://notendur.hi.is/~pk/308G/images/ship.png",
+        ship2        : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
+        rock         : "https://notendur.hi.is/~pk/308G/images/rock.png",
+        playerSheet  : "https://notendur.hi.is/~gvg8/308G/A1_R-type/imgs/R-type.gif",
+        rockAnimated : "https://notendur.hi.is/~pk/308G/images/rocks.png"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
 }
 
 var g_sprites = {};
+var g_spriteAnimations = {}
 
 function preloadDone() {
 
@@ -194,11 +207,17 @@ function preloadDone() {
     g_sprites.rock  = new Sprite(g_images.rock);
     g_sprites.enemy = new Sprite(g_images.ship2);
 
-    g_sprites.bullet = new Sprite(g_images.ship);
-    g_sprites.bullet.scale = 0.25;
+    //g_sprites.bullet = new Sprite(g_images.ship);
+    //g_sprites.bullet.scale = 0.25;
+    g_sprites.bullet = new SpriteAnimated(247, 88, 20, 7, g_images.playerSheet);
+    g_sprites.bullet.scale = 1.75;
+
+    g_spriteAnimations.rock = animate(64, 64, 5, 6, 30, g_images.rockAnimated, 0, 0)
+    g_spriteAnimations.ship = animate(33, 17, 5, 1, 5, g_images.playerSheet, 100.5, 0)
 
     entityManager.init();
     createInitialShips();
+    createInitialEnvironment();
 
     main.init();
 }

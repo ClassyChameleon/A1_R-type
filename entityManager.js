@@ -30,6 +30,7 @@ var entityManager = {
 _rocks   : [],
 _bullets : [],
 _ships   : [],
+_blocks  : [],
 _enemies : [],
 
 _bShowRocks : true,
@@ -88,7 +89,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships, this._enemies];
+    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks];
 },
 
 init: function() {

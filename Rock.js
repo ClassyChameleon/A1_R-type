@@ -79,6 +79,10 @@ Rock.prototype.update = function (du) {
     
     // TODO: YOUR STUFF HERE! --- (Re-)Register
     spatialManager.register(this);
+
+    // Animation
+    ++this.celNo;
+    if (this.celNo === g_spriteAnimations.rock.length) this.celNo = 0;
 };
 
 Rock.prototype.getRadius = function () {
@@ -121,9 +125,7 @@ Rock.prototype.render = function (ctx) {
         ctx, this.cx, this.cy, this.rotation
     );
     */
-   var cel = g_rockSprites[this.celNo];
+   var cel = g_spriteAnimations.rock[this.celNo];
    cel.scale = this.scale;
    cel.drawCenteredAt(ctx, this.cx, this.cy, this.rotation);
-   ++this.celNo;
-   if (this.celNo === g_rockSprites.length) this.celNo = 0;
 };
