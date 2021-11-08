@@ -122,18 +122,25 @@ generateBlock : function(descr) {
 generateEnemy: function() {
     this.generateEnemy1();
 },
-
+// TODO: Maybe a better way to do this?
 generateEnemy1: function() {
     let randStart = util.randRange(20, g_canvas.height-20);
     let cx = g_canvas.width;
-    let cy = 0
+    let newEnemy;
     for (let index = 0; index < 6; index++) {
-        if (index % 2 === 0) cy = randStart + 20;
-        else cy = randStart - 20;
-        this._enemies.push(new Enemy({
-            cx : cx + (index * 60),
-            cy : cy
-        }));
+        if (index % 2 === 0) {
+            newEnemy = new Enemy({
+                cx : cx + (index * 60),
+                cy : randStart + 20
+            });
+        }
+        else {
+            newEnemy = new Enemy({
+                cx : cx + (index * 60),
+                cy : randStart - 20,
+            });
+        }
+        this._enemies.push(newEnemy);
     }
 },
 

@@ -10,8 +10,8 @@ function Enemy(descr) {
     
     // Common inherited setup logic from Entity
     this.setup(descr);
-
-    Enemy.prototype.oldY = this.cy;
+    
+    this.oldY = this.cy;
 
     // TODO: Sprite setup
     this.sprite = this.sprite || g_sprites.enemy;
@@ -48,7 +48,6 @@ Enemy.prototype.update = function (du) {
 
     this.Movement(du);
 
-    // TODO: YOUR STUFF HERE! --- (Re-)Register
     spatialManager.register(this);
 };
 
