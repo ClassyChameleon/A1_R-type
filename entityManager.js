@@ -95,7 +95,10 @@ deferredSetup : function () {
 init: function() {
     //this._generateRocks();
     //this._generateShip();
-    this.generateEnemy();
+    this.generateEnemy(new WormShip({
+        cx : g_canvas.width,
+        cy : 200
+    }));
 },
 
 fireBullet: function(cx, cy, rotation) {
@@ -119,29 +122,9 @@ generateBlock : function(descr) {
     this._blocks.push(new Block(descr));
 },
 
-generateEnemy: function() {
-    this.generateEnemy1();
-},
-// TODO: Maybe a better way to do this?
-generateEnemy1: function() {
-    let randStart = util.randRange(20, g_canvas.height-20);
-    let cx = g_canvas.width;
-    let newEnemy;
-    for (let index = 0; index < 6; index++) {
-        if (index % 2 === 0) {
-            newEnemy = new Enemy({
-                cx : cx + (index * 60),
-                cy : randStart + 20
-            });
-        }
-        else {
-            newEnemy = new Enemy({
-                cx : cx + (index * 60),
-                cy : randStart - 20,
-            });
-        }
-        this._enemies.push(newEnemy);
-    }
+generateEnemy: function(descr) {
+    let ship = new WormShip(descr);
+    ship.init();
 },
 
 killNearestShip : function(xPos, yPos) {
