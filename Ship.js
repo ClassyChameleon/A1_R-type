@@ -51,6 +51,8 @@ Ship.prototype.cy = 200;
 Ship.prototype.launchVel = 2;
 Ship.prototype.numSubSteps = 1;
 Ship.prototype.speed = 3;
+// Firepower
+Ship.prototype.power = 0;
 Ship.prototype.ready2Fire = false;
 // Animation stuff
 Ship.prototype.celNo = 2;
@@ -147,7 +149,7 @@ Ship.prototype.update = function (du) {
     this.handleMovement(du);
 
     // Handle firing
-    this.maybeFireBullet();
+    this.maybeFireBullet(du);
 
     // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
     if (this.isColliding()) {
@@ -156,6 +158,8 @@ Ship.prototype.update = function (du) {
         spatialManager.register(this);
     }
 
+    // Display power on interface
+    g_interface.beamMeter = this.power;
 };
 
 Ship.prototype.handleMovement = function (du) {
@@ -168,7 +172,7 @@ Ship.prototype.handleMovement = function (du) {
     var halfWidth = this.sprite.width*this._scale/2;
     var halfHeight = this.sprite.height*this._scale/2;
     if (this.cx+halfWidth > g_canvas.width) this.cx = g_canvas.width-halfWidth;
-    if (this.cy+halfHeight > g_canvas.height) this.cy = g_canvas.height-halfHeight;
+    if (this.cy+halfHeight > g_canvas.height-30) this.cy = g_canvas.height-halfHeight-30;
     if (this.cx-halfWidth < 0) this.cx = halfWidth;
     if (this.cy-halfHeight < 0) this.cy = halfHeight;
 
@@ -226,10 +230,16 @@ Ship.prototype._movementAnimation = function (du) {
 }
 
 
-Ship.prototype.maybeFireBullet = function () {
+Ship.prototype.maybeFireBullet = function (du) {
 
     if (keys[this.KEY_FIRE]) {
         this.ready2Fire = true;
+        if(this.power < 100) {
+            this.power = this.power + du;
+            if(this.power > 100) this.power = 100;
+            console.log(this.power);
+            console.log(du);
+        }
     }
 
     if(!keys[this.KEY_FIRE]){
@@ -250,6 +260,7 @@ Ship.prototype.maybeFireBullet = function () {
                 this.rotation);
             
             this.ready2Fire = false;
+            this.power = 0;
         }
     }
     

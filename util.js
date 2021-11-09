@@ -53,6 +53,11 @@ square: function(x) {
     return x*x;
 },
 
+min: function(num1, num2) {
+    if (num1 < num2) return num1;
+    return num2;
+},
+
 
 // DISTANCES
 // =========
@@ -101,6 +106,15 @@ fillBox: function (ctx, x, y, w, h, style) {
     ctx.fillStyle = style;
     ctx.fillRect(x, y, w, h);
     ctx.fillStyle = oldStyle;
+},
+
+rectCollision: function(ctx, srcX, srcY, posX, posY, height, width){
+    if(srcX > posX && srcX < posX+height){
+        if(srcY > posY && srcY < posY+width){
+            return true;
+        }
+    }
+    return false;
 }
 
 };
