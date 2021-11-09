@@ -34,7 +34,7 @@ Block.prototype.update = function (du) {
     // TODO: YOUR STUFF HERE! --- Unregister and check for death
     //spatialManager.unregister(this);
 
-    this.cx -= 0.5;
+    this.cx += g_envVel;
 
     //spatialManager.register(this);
 };
