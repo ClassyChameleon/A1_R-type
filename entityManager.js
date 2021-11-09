@@ -31,6 +31,7 @@ _rocks   : [],
 _bullets : [],
 _ships   : [],
 _blocks  : [],
+_enemies : [],
 
 _bShowRocks : true,
 
@@ -88,12 +89,16 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships, this._blocks];
+    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks];
 },
 
 init: function() {
-    this._generateRocks();
+    //this._generateRocks();
     //this._generateShip();
+    this.generateEnemy(new WormShip({
+        cx : g_canvas.width,
+        cy : 200
+    }));
 },
 
 fireBullet: function(cx, cy, rotation) {
@@ -115,6 +120,11 @@ generateShip : function(descr) {
 
 generateBlock : function(descr) {
     this._blocks.push(new Block(descr));
+},
+
+generateEnemy: function(descr) {
+    let ship = new WormShip(descr);
+    ship.init();
 },
 
 killNearestShip : function(xPos, yPos) {
@@ -165,7 +175,7 @@ update: function(du) {
         }
     }
     
-    if (this._rocks.length === 0) this._generateRocks();
+    //if (this._rocks.length === 0) this._generateRocks();
 
 },
 
