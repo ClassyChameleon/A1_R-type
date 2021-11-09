@@ -108,11 +108,25 @@ fillBox: function (ctx, x, y, w, h, style) {
     ctx.fillStyle = oldStyle;
 },
 
-rectCollision: function(ctx, srcX, srcY, posX, posY, height, width){
+boxPointCollision: function(ctx, srcX, srcY, posX, posY, height, width){
     if(srcX > posX && srcX < posX+height){
         if(srcY > posY && srcY < posY+width){
             return true;
         }
+    }
+    return false;
+},
+
+boxBoxCollision: function(entity1, entity2){
+    var x1 = entity1.cx;        var x2 = entity2.cx;
+    var y1 = entity1.cy;        var y2 = entity2.cy;
+    var w1 = entity1.width;     var w2 = entity2.width;
+    var h1 = entity1.height;    var h2 = entity2.height;
+    if (x1     <   x2+w1 &&
+        x1+w1  >   x2    &&
+        y1     <   y2+h2 &&
+        h1+y1  >   y2){
+            return true;
     }
     return false;
 }
