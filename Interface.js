@@ -23,9 +23,21 @@ function Interface(descr) {
 
     
 // Initial, inheritable, default values
-Interface.prototype.score = 1234567890;
+// _attribute means private attribute
+Interface.prototype._score = 0;
 Interface.prototype.lives = 2;
 Interface.prototype.beamMeter = 0;
+Interface.prototype.xIndentation = 152;
+
+Interface.prototype.addScore = function(number) {
+    if (this._score + number > 9999999) {
+        // if score > 9'999'999 then it overlaps in interface
+        this._score = 9999999;
+        return;
+    }
+    this._score += number;
+    this.xIndentation = 163 - this._score.toString().length*11;
+}
 
 Interface.prototype.render = function (ctx) {
     ctx.save()
@@ -37,12 +49,36 @@ Interface.prototype.render = function (ctx) {
     ctx.fill();
 
     // TODO: draw images indicating lives
+    for (let i = 0; i<this.lives; i++) {
+        var cel = g_spriteAnimations.ship[2];
+        cel.scale = 0.75;
+        cel.drawCenteredAt(ctx, 20+i*30, g_canvas.height-22, 0);
+    }
     // TODO: write player and score text
-    ctx.beginPath();
     ctx.font = "20px ArcadeClassic";
+    ctx.fillStyle = "rgb(94,101,172)";
+    ctx.fillText("1P-", 163 - 10*11, g_canvas.height);
     ctx.fillStyle = "white";
-    ctx.fillText("" + this.score, 163, g_canvas.height);
-    // TODO: draw beam meter
+    ctx.fillText("" + this._score, this.xIndentation, g_canvas.height);
+    // TODO: BEAM
+    ctx.fillStyle = "rgb(94,101,172)";
+    ctx.fillText("BEAM", 163, g_canvas.height-15);
+    var xPos = 163+5*11,
+        yPos = g_canvas.height-28,
+        width = g_canvas.width/3,
+        height = 15;
+    ctx.beginPath();
+    ctx.fillStyle = "white";
+    ctx.rect(xPos, yPos, width, height);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = "black";
+    ctx.rect(xPos+1, yPos+1, width-2, height-2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.fillStyle = "blue";
+    ctx.rect(xPos+1, yPos+1, (width-2)*this.beamMeter/100, height-2);
+    ctx.fill();
     // TODO: (optional) Write hi-score text
 
     ctx.restore();

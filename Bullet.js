@@ -75,7 +75,10 @@ Bullet.prototype.update = function (du) {
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
         var canTakeHit = hitEntity.takeBulletHit;
-        if (canTakeHit) canTakeHit.call(hitEntity); 
+        if (canTakeHit) {
+            canTakeHit.call(hitEntity);
+            g_interface.addScore(100);
+        } 
         return entityManager.KILL_ME_NOW;
     }
     // If off-screen

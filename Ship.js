@@ -158,6 +158,8 @@ Ship.prototype.update = function (du) {
         spatialManager.register(this);
     }
 
+    // Display power on interface
+    g_interface.beamMeter = this.power;
 };
 
 Ship.prototype.handleMovement = function (du) {
