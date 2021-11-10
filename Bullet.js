@@ -17,7 +17,9 @@ function Bullet(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
+    console.log("this.power: " + this.power);
     this.type = Math.floor(this.power / 20);
+    console.log(this.type);
     this.life = this.type + 1;
 
     switch(this.type){
@@ -72,6 +74,7 @@ Bullet.prototype.scale = 1.75;
 Bullet.prototype.life = 1;
 Bullet.prototype.power = 0;
 Bullet.prototype.type = 0;
+Bullet.prototype.celNo = 0;
 
 // Convert times from milliseconds to "nominal" time units.
 Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
@@ -117,6 +120,12 @@ Bullet.prototype.update = function (du) {
     
     // TODO: YOUR STUFF HERE! --- (Re-)Register
     spatialManager.register(this);
+
+    // Animation
+    if (this.type > 0) {
+        this.celNo++;
+        if (this.celNo >= this.sprite.length) this.celNo = 0;
+    }
 };
 
 Bullet.prototype.getRadius = function () {
@@ -131,16 +140,10 @@ Bullet.prototype.takeBulletHit = function () {
 };
 
 Bullet.prototype.render = function (ctx) {
-
-    var fadeThresh = Bullet.prototype.lifeSpan / 3;
-
-    if (this.lifeSpan < fadeThresh) {
-        ctx.globalAlpha = this.lifeSpan / fadeThresh;
+    if (this.type > 0) {
+        var cel = this.sprite[this.celNo];
+        cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
+    } else {
+        g_sprites.bullet.drawCenteredAt(ctx, this.cx, this.cy, 0);
     }
-
-    g_sprites.bullet.drawCenteredAt(
-        ctx, this.cx, this.cy, this.rotation
-    );
-
-    ctx.globalAlpha = 1;
 };

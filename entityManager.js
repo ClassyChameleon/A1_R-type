@@ -106,9 +106,9 @@ fireBullet: function(cx, cy, rotation, power) {
     this._bullets.push(new Bullet({
         cx   : cx,
         cy   : cy,
-        power: power,
 
-        rotation : rotation
+        rotation : rotation,
+        power    : power
     }));
 },
 
