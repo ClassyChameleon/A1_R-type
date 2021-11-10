@@ -257,7 +257,8 @@ Ship.prototype.maybeFireBullet = function (du) {
             entityManager.fireBullet(
                 this.cx + dX * launchDist, this.cy + dY * launchDist,
                 this.velX + relVelX,
-                this.rotation);
+                this.rotation,
+                this.power);
             
             this.ready2Fire = false;
             this.power = 0;

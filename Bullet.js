@@ -17,6 +17,30 @@ function Bullet(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
+    this.type = Math.floor(this.power / 20);
+    this.life = this.type + 1;
+
+    switch(this.type){
+        case 0:
+            break;
+        case 1:
+            this.sprite = g_spriteAnimations.bullet1;
+            break;
+        case 2:
+            this.sprite = g_spriteAnimations.bullet2;
+            break;
+        case 3:
+            this.sprite = g_spriteAnimations.bullet3;
+            break;
+        case 4:
+            this.sprite = g_spriteAnimations.bullet4;
+            break;
+        case 5:
+            this.sprite = g_spriteAnimations.bullet5;
+            break;
+        default:
+            break;
+    }
 
     // Make a noise when I am created (i.e. fired)
     this.fireSound.play();
@@ -44,6 +68,9 @@ Bullet.prototype.cy = 200;
 Bullet.prototype.velX = 20;
 Bullet.prototype.checkStuff = true;
 Bullet.prototype.scale = 1.75;
+Bullet.prototype.life = 1;
+Bullet.prototype.power = 0;
+Bullet.prototype.type = 0;
 
 // Convert times from milliseconds to "nominal" time units.
 Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
@@ -78,8 +105,9 @@ Bullet.prototype.update = function (du) {
         if (canTakeHit) {
             canTakeHit.call(hitEntity);
             g_interface.addScore(100);
-        } 
-        return entityManager.KILL_ME_NOW;
+        }
+        this.life--;
+        if(this.life < 1) return entityManager.KILL_ME_NOW;
     }
     // If off-screen
     if (this.cx > g_canvas.width) {
