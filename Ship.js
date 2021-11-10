@@ -45,7 +45,7 @@ Ship.prototype.KEY_RIGHT  = 'D'.charCodeAt(0);
 Ship.prototype.KEY_FIRE   = ' '.charCodeAt(0);
 
 // Initial, inheritable, default values
-Ship.prototype.rotation = Math.PI/2;
+Ship.prototype.rotation = 0;
 Ship.prototype.cx = 200;
 Ship.prototype.cy = 200;
 Ship.prototype.launchVel = 2;
@@ -235,10 +235,9 @@ Ship.prototype.maybeFireBullet = function (du) {
     if (keys[this.KEY_FIRE]) {
         this.ready2Fire = true;
         if(this.power < 100) {
-            this.power = this.power + du;
+            this.power += du;
             if(this.power > 100) this.power = 100;
-            console.log(this.power);
-            console.log(du);
+            // console.log(this.power);
         }
     }
 
@@ -255,8 +254,8 @@ Ship.prototype.maybeFireBullet = function (du) {
         if(!this.ready2Fire) return;
         else {
             entityManager.fireBullet(
-                this.cx + dX * launchDist, this.cy + dY * launchDist,
-                this.velX + relVelX,
+                this.cx + dX * launchDist + this.sprite.width, 
+                this.cy + dY,
                 this.rotation,
                 this.power);
             
