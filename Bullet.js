@@ -91,13 +91,13 @@ Bullet.prototype.update = function (du) {
     if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
     if (this.checkStuff) {
         this.checkStuff = false;
-        console.log("pos: (" + this.cx + ", " + this.cy + ")");
-        console.log("vel: (" + this.velX + ", " + this.velY + ")");
-        console.log("du: " + du);
+        // console.log("pos: (" + this.cx + ", " + this.cy + ")");
+        // console.log("vel: (" + this.velX + ", " + this.velY + ")");
+        // console.log("du: " + du);
     }
     this.cx += this.velX * du;
 
-    this.rotation += 1 * du;
+    //this.rotation += 1 * du;
     
     // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
     //
@@ -142,6 +142,7 @@ Bullet.prototype.takeBulletHit = function () {
 Bullet.prototype.render = function (ctx) {
     if (this.type > 0) {
         var cel = this.sprite[this.celNo];
+        cel.scale = 1.75;
         cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
     } else {
         g_sprites.bullet.drawCenteredAt(ctx, this.cx, this.cy, 0);
