@@ -213,11 +213,11 @@ function preloadDone() {
     g_sprites.bullet.scale = 1.75;
 
     // 2 frames, [1]
-    g_spriteAnimations.bullet1 = animate(19, 14, 2, 1, g_images.playerSheet, 230, 102);
-    g_spriteAnimations.bullet2 = animate(34, 14, 2, 1, g_images.playerSheet, 199, 119);
-    g_spriteAnimations.bullet3 = animate(49, 16, 2, 1, g_images.playerSheet, 167, 136);
-    g_spriteAnimations.bullet4 = animate(66, 16, 2, 1, g_images.playerSheet, 135, 152);
-    g_spriteAnimations.bullet5 = animate(82, 16, 2, 1, g_images.playerSheet, 103, 169);
+    g_spriteAnimations.bullet1 = animate(19, 14, 2, 1, 2, g_images.playerSheet, 230, 102);
+    g_spriteAnimations.bullet2 = animate(34, 14, 2, 1, 2, g_images.playerSheet, 199, 119);
+    g_spriteAnimations.bullet3 = animate(49, 16, 2, 1, 2, g_images.playerSheet, 167, 136);
+    g_spriteAnimations.bullet4 = animate(66, 16, 2, 1, 2, g_images.playerSheet, 135, 152);
+    g_spriteAnimations.bullet5 = animate(82, 16, 2, 1, 2, g_images.playerSheet, 103, 169);
 
     // 2 frames, [1]
     g_spriteAnimations.fireBullet = animate(19, 15, 2, 1, 2, g_images.playerSheet, 214, 83);
