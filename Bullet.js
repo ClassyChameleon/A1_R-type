@@ -37,6 +37,7 @@ function Bullet(descr) {
             break;
         case 5:
             this.sprite = g_spriteAnimations.bullet5;
+            this.life = Infinity;
             break;
         default:
             break;
