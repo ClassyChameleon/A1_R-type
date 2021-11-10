@@ -17,7 +17,7 @@ function WormShip(descr) {
 
 WormShip.prototype = new Entity();
 
-WormShip.prototype.init = function() { // Creates the six ships
+WormShip.prototype.init = function() { // Creates the six ships, maybe this belongs in entityManager. Like the _generateRocks method?!?!?!?
     let randStart = util.randRange(20, g_canvas.height-20);
     let cx = g_canvas.width;
     let newEnemy;
@@ -70,11 +70,9 @@ WormShip.prototype.update = function (du) {
     spatialManager.register(this);
 
     // Animation
+    // TODO: Make animation not dependant on real time.
     this.celNo = Date.now()%1000;
-    //this.celNo = this.celNo.substring(this.celNo.length-3, this.celNo.length);
-    console.log(this.celNo);
     this.celNo = parseInt(Math.floor(this.celNo*9/1000));
-    console.log(this.celNo);
     if (this.celNo >= g_spriteAnimations.redEnemy.length) this.celNo = 0;
 };
 

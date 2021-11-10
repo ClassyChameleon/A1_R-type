@@ -83,3 +83,39 @@ Entity.prototype.wrapPosition = function () {
     this.cx = util.wrapRange(this.cx, 0, g_canvas.width);
     this.cy = util.wrapRange(this.cy, 0, g_canvas.height);
 };
+
+Entity.prototype.enemyMaybeFireBullet = function (du) {
+
+    if (keys[this.KEY_FIRE]) {
+        this.ready2Fire = true;
+        if(this.power < 100) {
+            this.power = this.power + du;
+            if(this.power > 100) this.power = 100;
+            console.log(this.power);
+            console.log(du);
+        }
+    }
+
+    if(!keys[this.KEY_FIRE]){
+            
+        var dX = +Math.sin(this.rotation);
+        var dY = -Math.cos(this.rotation);
+        var launchDist = this.getRadius() * 1.2;
+        
+        var relVel = this.launchVel;
+        var relVelX = dX * relVel;
+        var relVelY = dY * relVel;
+        
+        if(!this.ready2Fire) return;
+        else {
+            entityManager.fireBullet(
+                this.cx + dX * launchDist, this.cy + dY * launchDist,
+                this.velX + relVelX,
+                this.rotation);
+            
+            this.ready2Fire = false;
+            this.power = 0;
+        }
+    }
+    
+};
