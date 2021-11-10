@@ -17,7 +17,7 @@ function WormShip(descr) {
 
 WormShip.prototype = new Entity();
 
-WormShip.prototype.init = function() { // Creates the six ships
+WormShip.prototype.init = function() { // Creates the six ships, maybe this belongs in entityManager. Like the _generateRocks method?!?!?!?
     let randStart = util.randRange(20, g_canvas.height-20);
     let cx = g_canvas.width;
     let newEnemy;

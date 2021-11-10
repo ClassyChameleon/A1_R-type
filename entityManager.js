@@ -27,11 +27,12 @@ var entityManager = {
 
 // "PRIVATE" DATA
 
-_rocks   : [],
-_bullets : [],
-_ships   : [],
-_blocks  : [],
-_enemies : [],
+_rocks       : [],
+_bullets     : [],
+_ships       : [],
+_blocks      : [],
+_enemies     : [],
+_enemyBullets: [],
 
 _bShowRocks : true,
 
@@ -89,7 +90,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks];
+    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks, this._enemyBullets];
 },
 
 init: function() {
@@ -108,6 +109,10 @@ fireBullet: function(cx, cy, rotation) {
 
         rotation : rotation
     }));
+},
+
+fireBulletEnemy: function(cx, cy, rotation) {
+    this._enemyBullets.push(/*TODO:*/);
 },
 
 generateRock : function(descr) {
@@ -176,6 +181,7 @@ update: function(du) {
     }
     
     //if (this._rocks.length === 0) this._generateRocks();
+    if (this._enemies.length === 0) this.generateEnemy();
 
 },
 
