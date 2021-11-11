@@ -53,6 +53,7 @@ Ship.prototype.numSubSteps = 1;
 Ship.prototype.speed = 3;
 // Firepower
 Ship.prototype.power = 0;
+Ship.prototype.powerTime = 0;
 Ship.prototype.ready2Fire = false;
 // Animation stuff
 Ship.prototype.celNo = 2;
@@ -237,8 +238,9 @@ Ship.prototype.maybeFireBullet = function (du) {
         if(this.power < 100) {
             this.power += du;
             if(this.power > 100) this.power = 100;
-            console.log("power charging...:" + this.power);
         }
+        // For charge animation
+        this.powerTime += du;
     }
 
     if(!keys[this.KEY_FIRE]){
@@ -294,4 +296,13 @@ Ship.prototype.render = function (ctx) {
     var cel = g_spriteAnimations.ship[this.celNo];
     cel.scale = this._scale;
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
+    if(this.power) {
+        var powerLevel = Math.floor(this.powerTime * 7/25);
+        console.log(powerLevel);
+        powerLevel = powerLevel%8;
+        var cel = g_spriteAnimations.charge[powerLevel];
+        cel.scale = this._scale;
+        var xPos = this.cx + this.sprite.width/2 + g_spriteAnimations.charge[0].width;
+        cel.drawCenteredAt(ctx, xPos, this.cy+4, 0);
+    }
 };
