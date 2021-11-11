@@ -153,6 +153,13 @@ Ship.prototype.update = function (du) {
     this.maybeFireBullet(du);
 
     // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
+    // Handle collision with environment blocks
+    for(var i = 0; i < entityManager._blocks.length; i++){
+        if(util.boxBoxCollision(this, entityManager._blocks[i])){
+            this.warp();
+        }
+    }
+
     if (this.isColliding()) {
         this.warp();
     } else {
