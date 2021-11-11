@@ -18,25 +18,18 @@ function Block(descr) {
     // Common inherited setup logic from Entity
     this.setup(descr);
 
-/*
-    // Diagnostics to check inheritance stuff
-    this._rockProperty = true;
-    console.dir(this);
-*/
-
 };
 
 Block.prototype = new Entity();
 Block.prototype.celNo = 0;
 
+
 Block.prototype.update = function (du) {
+    spatialManager.unregister(this);
 
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
-    //spatialManager.unregister(this);
+    this.cx += g_envVel;
 
-    this.cx -= 0.5;
-
-    //spatialManager.register(this);
+    spatialManager.register(this);
 };
 
 Block.prototype.render = function (ctx) {

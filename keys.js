@@ -19,7 +19,10 @@ function handleKeyup(evt) {
 //
 function eatKey(keyCode) {
     var isDown = keys[keyCode];
+    //console.log('keyCode: ' + keyCode)
+    //console.log('keys: ' + keys[keyCode])
     keys[keyCode] = false;
+    //console.log('isDown: ' + isDown)
     return isDown;
 }
 

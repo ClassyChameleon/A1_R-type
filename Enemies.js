@@ -10,8 +10,8 @@ function WormShip(descr) {
     this.oldY = this.cy;
 
 
-    this.sprite = this.sprite || g_sprites.enemy;
-    this.scale  = this.scale  || 1;
+    this.sprite = this.sprite || g_spriteAnimations.redEnemy[0];
+    this.scale  = this.scale  || 1.75;
     this.rotation = this.rotation || Math.PI * (-2/4);
 };
 
@@ -40,6 +40,7 @@ WormShip.prototype.init = function() { // Creates the six ships, maybe this belo
 
 WormShip.prototype.angle = 0;
 WormShip.prototype.angleSpeed = 0.01;
+WormShip.prototype.celNo = 0;
 
 WormShip.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
@@ -67,10 +68,17 @@ WormShip.prototype.update = function (du) {
     this.cy = (this.oldY + Math.sin(this.angle) * 100);
 
     spatialManager.register(this);
+
+    // Animation
+    // TODO: Make animation not dependant on real time.
+    this.celNo = Date.now()%1000;
+    this.celNo = parseInt(Math.floor(this.celNo*9/1000));
+    if (this.celNo >= g_spriteAnimations.redEnemy.length) this.celNo = 0;
 };
 
 
 WormShip.prototype.render = function (ctx) {
+    /*
     var origScale = this.sprite.scale;
     // pass my scale into the sprite, for drawing
     this.sprite.scale = this.scale;
@@ -78,4 +86,8 @@ WormShip.prototype.render = function (ctx) {
 	ctx, this.cx, this.cy, this.rotation
     );
     this.sprite.scale = origScale;
+    */
+    var cel = g_spriteAnimations.redEnemy[this.celNo];
+    cel.scale = this.scale;
+    cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
 };

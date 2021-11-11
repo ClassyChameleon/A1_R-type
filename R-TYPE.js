@@ -190,8 +190,8 @@ function requestPreloads() {
         ship         : "https://notendur.hi.is/~pk/308G/images/ship.png",
         ship2        : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         rock         : "https://notendur.hi.is/~pk/308G/images/rock.png",
-        playerSheet  : "https://notendur.hi.is/~gvg8/308G/A1_R-type/imgs/R-type.gif",
-        rockAnimated : "https://notendur.hi.is/~pk/308G/images/rocks.png"
+        playerSheet  : "https://notendur.hi.is/~gvg8/308G/imgs/R-type.gif",
+        redEnemy     : "https://notendur.hi.is/~gvg8/308G/imgs/r-redEnemy.gif"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -213,19 +213,21 @@ function preloadDone() {
     g_sprites.bullet.scale = 1.75;
 
     // 2 frames, [1]
-    g_spriteAnimations.bullet1 = animate(19, 14, 2, 1, g_images.playerSheet, 230, 102);
-    g_spriteAnimations.bullet2 = animate(34, 14, 2, 1, g_images.playerSheet, 199, 119);
-    g_spriteAnimations.bullet3 = animate(49, 16, 2, 1, g_images.playerSheet, 167, 136);
-    g_spriteAnimations.bullet4 = animate(66, 16, 2, 1, g_images.playerSheet, 135, 152);
-    g_spriteAnimations.bullet5 = animate(82, 16, 2, 1, g_images.playerSheet, 103, 169);
+    g_spriteAnimations.bullet1 = animate(19, 14, 2, 1, 2, g_images.playerSheet, 230, 102);
+    g_spriteAnimations.bullet2 = animate(34, 14, 2, 1, 2, g_images.playerSheet, 199, 119);
+    g_spriteAnimations.bullet3 = animate(49, 16, 2, 1, 2, g_images.playerSheet, 167, 136);
+    g_spriteAnimations.bullet4 = animate(66, 16, 2, 1, 2, g_images.playerSheet, 135, 152);
+    g_spriteAnimations.bullet5 = animate(82, 16, 2, 1, 2, g_images.playerSheet, 103, 169);
 
     // 2 frames, [1]
-    g_spriteAnimations.fireBullet = animate(19, 15, 2, 1, g_images.playerSheet, 214, 83);
+    g_spriteAnimations.fireBullet = animate(19, 15, 2, 1, 2, g_images.playerSheet, 214, 83);
     // 8 frames, [7]
-    g_spriteAnimations.charge = animate(33, 35, 8, 1, g_images.playerSheet, 2, 40);
+    g_spriteAnimations.charge = animate(33, 35, 8, 1, 8, g_images.playerSheet, 2, 40);
 
     g_spriteAnimations.rock = animate(64, 64, 5, 6, 30, g_images.rockAnimated, 0, 0)
     g_spriteAnimations.ship = animate(33, 17, 5, 1, 5, g_images.playerSheet, 100.5, 0)
+
+    g_spriteAnimations.redEnemy = animate(33, 36, 8, 1, 8, g_images.redEnemy, 0, 0);
 
     entityManager.init();
     createInitialShips();

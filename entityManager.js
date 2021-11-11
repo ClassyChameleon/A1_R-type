@@ -102,12 +102,12 @@ init: function() {
     }));
 },
 
-fireBullet: function(cx, cy, rotation) {
+fireBullet: function(cx, cy, rotation, power) {
     this._bullets.push(new Bullet({
         cx   : cx,
         cy   : cy,
-
-        rotation : rotation
+        rotation : rotation,
+        power: power
     }));
 },
 
