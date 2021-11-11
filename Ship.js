@@ -237,7 +237,7 @@ Ship.prototype.maybeFireBullet = function (du) {
         if(this.power < 100) {
             this.power += du;
             if(this.power > 100) this.power = 100;
-            // console.log(this.power);
+            console.log("power charging...:" + this.power);
         }
     }
 
@@ -258,7 +258,7 @@ Ship.prototype.maybeFireBullet = function (du) {
                 this.cy + dY,
                 this.rotation,
                 this.power);
-            
+            console.log("this.power: " + this.power);
             this.ready2Fire = false;
             this.power = 0;
         }
