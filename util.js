@@ -117,18 +117,20 @@ boxPointCollision: function(ctx, srcX, srcY, posX, posY, height, width){
     return false;
 },
 
-boxBoxCollision: function(entity1, entity2){
-    var x1 = entity1.cx;        var x2 = entity2.cx;
-    var y1 = entity1.cy;        var y2 = entity2.cy;
-    var w1 = entity1.width;     var w2 = entity2.width;
-    var h1 = entity1.height;    var h2 = entity2.height;
+boxBoxCollision: function(ship, entity){
+    var isColliding = false;
+    var x1 = ship.cx;        var x2 = entity.cx;
+    var y1 = ship.cy;        var y2 = entity.cy;
+    var w1 = ship.width;     var w2 = entity.width;
+    var h1 = ship.height;    var h2 = entity.height;
     if (x1     <   x2+w1 &&
         x1+w1  >   x2    &&
         y1     <   y2+h2 &&
         h1+y1  >   y2){
-            return true;
+            isColliding = true;
+            return isColliding;
     }
-    return false;
+    return isColliding;
 }
 
 };
