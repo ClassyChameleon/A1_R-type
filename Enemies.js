@@ -66,6 +66,8 @@ WormShip.prototype.update = function (du) {
     this.cx -= 4*du;
     this.angle += this.angleSpeed * du;
     this.cy = (this.oldY + Math.sin(this.angle) * 100);
+    
+    this.enemyMaybeFireBullet();
 
     spatialManager.register(this);
 
