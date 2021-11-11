@@ -119,11 +119,12 @@ boxPointCollision: function(ctx, srcX, srcY, posX, posY, height, width){
 
 boxBoxCollision: function(ship, entity){
     var isColliding = false;
-    var x1 = ship.cx;        var x2 = entity.cx;
-    var y1 = ship.cy;        var y2 = entity.cy;
-    var w1 = ship.width;     var w2 = entity.width;
-    var h1 = ship.height;    var h2 = entity.height;
-    if (x1     <   x2+w1 &&
+    var x1 = ship.cx;               var x2 = entity.cx;
+    var y1 = ship.cy;               var y2 = entity.cy;
+    var w1 = ship.sprite.width;     var w2 = entity.width;
+    var h1 = ship.sprite.height;    var h2 = entity.height;
+    
+    if (x1     <   x2+w2 &&
         x1+w1  >   x2    &&
         y1     <   y2+h2 &&
         h1+y1  >   y2){

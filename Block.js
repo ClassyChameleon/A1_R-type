@@ -34,5 +34,5 @@ Block.prototype.update = function (du) {
 
 Block.prototype.render = function (ctx) {
     ctx.fillStyle = "#FF0000";
-    ctx.fillRect(this.cx, this.cy, this.length, this.width);
+    ctx.fillRect(this.cx, this.cy, this.width, this.height);
 };

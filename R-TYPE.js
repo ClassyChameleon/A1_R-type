@@ -60,8 +60,8 @@ function createInitialEnvironment(){
     entityManager.generateBlock({
         cx : 200,
         cy : 20,
-        length: 100,
-        width: 50
+        width: 100,
+        height: 50
     });
 }
 
