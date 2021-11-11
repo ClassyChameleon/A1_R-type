@@ -263,6 +263,7 @@ Ship.prototype.maybeFireBullet = function (du) {
             console.log("this.power: " + this.power);
             this.ready2Fire = false;
             this.power = 0;
+            this.powerTime = 0;
         }
     }
     
@@ -298,7 +299,6 @@ Ship.prototype.render = function (ctx) {
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
     if(this.power) {
         var powerLevel = Math.floor(this.powerTime * 7/25);
-        console.log(powerLevel);
         powerLevel = powerLevel%8;
         var cel = g_spriteAnimations.charge[powerLevel];
         cel.scale = this._scale;
