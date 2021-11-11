@@ -84,38 +84,27 @@ Entity.prototype.wrapPosition = function () {
     this.cy = util.wrapRange(this.cy, 0, g_canvas.height);
 };
 
-Entity.prototype.enemyMaybeFireBullet = function (du) {
-
-    if (keys[this.KEY_FIRE]) {
-        this.ready2Fire = true;
-        if(this.power < 100) {
-            this.power = this.power + du;
-            if(this.power > 100) this.power = 100;
-            console.log(this.power);
-            console.log(du);
-        }
-    }
-
-    if(!keys[this.KEY_FIRE]){
-            
-        var dX = +Math.sin(this.rotation);
-        var dY = -Math.cos(this.rotation);
-        var launchDist = this.getRadius() * 1.2;
-        
-        var relVel = this.launchVel;
-        var relVelX = dX * relVel;
-        var relVelY = dY * relVel;
-        
-        if(!this.ready2Fire) return;
-        else {
-            entityManager.fireBullet(
-                this.cx + dX * launchDist, this.cy + dY * launchDist,
-                this.velX + relVelX,
-                this.rotation);
-            
-            this.ready2Fire = false;
-            this.power = 0;
-        }
-    }
+Entity.prototype.enemyMaybeFireBullet = function (chance=0.002) { // TODO: Kannski breyta?!
+    var speed = 4; // FIXME: ??? maybe the speed is not constat will look at later
     
+    var yVel = entityManager._ships[0].cy-this.cy;
+    var xVel = entityManager._ships[0].cx-this.cx;
+    
+    var angleRadians = Math.atan2(
+        entityManager._ships[0].cy-this.cy,
+        entityManager._ships[0].cx-this.cx
+    );
+
+    var yfinal = speed*yVel/Math.sqrt((yVel*yVel)+(xVel*xVel));
+    var xfinal = speed*xVel/Math.sqrt((yVel*yVel)+(xVel*xVel));
+
+    if (chance > Math.random()) {
+        entityManager.fireBulletEnemy(
+            this.cx, 
+            this.cy,
+            xfinal,
+            yfinal,
+            0);
+    }
+
 };

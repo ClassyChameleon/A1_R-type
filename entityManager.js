@@ -112,8 +112,14 @@ fireBullet: function(cx, cy, rotation, power) {
     }));
 },
 
-fireBulletEnemy: function(cx, cy, rotation) {
-    this._enemyBullets.push(/*TODO:*/);
+fireBulletEnemy: function(cx, cy, velX, velY, rotation) {
+    this._enemyBullets.push(new EnemyBullet({
+        cx   : cx,
+        cy   : cy,
+        velX : velX,
+        velY : velY,
+        rotation : rotation,
+    }));
 },
 
 generateRock : function(descr) {
