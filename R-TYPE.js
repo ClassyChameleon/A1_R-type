@@ -224,8 +224,11 @@ function preloadDone() {
     // 8 frames, [7]
     g_spriteAnimations.charge = animate(33, 35, 8, 1, 8, g_images.playerSheet, 2, 50);
 
-    g_spriteAnimations.rock = animate(64, 64, 5, 6, 30, g_images.rockAnimated, 0, 0)
-    g_spriteAnimations.ship = animate(33, 17, 5, 1, 5, g_images.playerSheet, 100.5, 0)
+    g_spriteAnimations.rock = animate(64, 64, 5, 6, 30, g_images.rockAnimated, 0, 0);
+    g_spriteAnimations.ship = animate(33, 17, 5, 1, 5, g_images.playerSheet, 100.5, 0);
+    g_spriteAnimations.shipDeath = animate(32.6, 30, 8, 1, 8, g_images.playerSheet, 69-2*32.5, 342);
+    g_spriteAnimations.shipDeath[0] = new SpriteAnimated(0, 342, 34, 30, g_images.playerSheet);
+    g_spriteAnimations.shipDeath[1] = new SpriteAnimated(34, 342, 34, 30, g_images.playerSheet);
 
     g_spriteAnimations.redEnemy = animate(33, 36, 8, 1, 8, g_images.redEnemy, 0, 0);
 
