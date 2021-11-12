@@ -61,6 +61,8 @@ Ship.prototype.timestampUP = 0;
 Ship.prototype.timestampUPSTOP = 0;
 Ship.prototype.timestampDOWN = 0;
 Ship.prototype.timestampDOWNSTOP = 0;
+Ship.prototype.dyingNow = false;
+Ship.prototype.dyingNowInitalize = false;
 
 // HACKED-IN AUDIO (no preloading)
 Ship.prototype.warpSound = new Audio(
@@ -133,6 +135,20 @@ Ship.prototype._moveToASafePlace = function () {
 };
     
 Ship.prototype.update = function (du) {
+    
+    if (this.dyingNowInitialize) {
+        this.initiateDeath(du);
+        return;
+    }
+
+    if (this.dyingNow) {
+        this.celNo += 0.25;
+        if (this.celNo >= g_spriteAnimations.shipDeath.length) {
+            this.dyingNow = false;
+            this.celNo = 0;
+        }
+        return;
+    }
 
     // Handle warping
     if (this._isWarping) {
@@ -156,12 +172,12 @@ Ship.prototype.update = function (du) {
     // Handle collision with environment blocks
     for(var i = 0; i < entityManager._blocks.length; i++){
         if(util.boxBoxCollision(this, entityManager._blocks[i])){
-            this.warp();
+            this.dyingNowInitialize = true;
         }
     }
 
     if (this.isColliding()) {
-        this.warp();
+        this.dyingNowInitialize = true;
     } else {
         spatialManager.register(this);
     }
@@ -170,7 +186,17 @@ Ship.prototype.update = function (du) {
     g_interface.beamMeter = this.power;
 };
 
+Ship.prototype.initiateDeath = function (du) {
+    this.celNo = 0;
+    this.dyingNow = true;
+    this.dyingNowInitialize = false;
+    this.warpSound.play();
+}
+
 Ship.prototype.handleMovement = function (du) {
+    if (this.dyingNow) {
+        return;
+    }
     var origSpeed = this.speed;
     this.speed *= du;
     
@@ -281,7 +307,7 @@ Ship.prototype.getRadius = function () {
 };
 
 Ship.prototype.takeBulletHit = function () {
-    this.warp();
+    this.dyingNowInitialize = true;
 };
 
 Ship.prototype.reset = function () {
@@ -301,6 +327,13 @@ Ship.prototype.render = function (ctx) {
     );
     this.sprite.scale = origScale;
     */
+    if (this.dyingNow) {
+        console.log(this.celNo);
+        var cel = g_spriteAnimations.shipDeath[Math.floor(this.celNo)];
+        cel.scale = this._scale;
+        cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
+        return;
+    }
     var cel = g_spriteAnimations.ship[this.celNo];
     cel.scale = this._scale;
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
@@ -312,4 +345,5 @@ Ship.prototype.render = function (ctx) {
         var xPos = this.cx + this.sprite.width/2 + g_spriteAnimations.charge[0].width;
         cel.drawCenteredAt(ctx, xPos, this.cy+4, 0);
     }
+    
 };
