@@ -328,7 +328,6 @@ Ship.prototype.render = function (ctx) {
     this.sprite.scale = origScale;
     */
     if (this.dyingNow) {
-        console.log(this.celNo);
         var cel = g_spriteAnimations.shipDeath[Math.floor(this.celNo)];
         cel.scale = this._scale;
         cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
