@@ -191,7 +191,8 @@ function requestPreloads() {
         ship2        : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
         rock         : "https://notendur.hi.is/~pk/308G/images/rock.png",
         playerSheet  : "https://notendur.hi.is/~gvg8/308G/imgs/R-type.gif",
-        redEnemy     : "https://notendur.hi.is/~gvg8/308G/imgs/r-redEnemy.gif"
+        redEnemy     : "https://notendur.hi.is/~gvg8/308G/imgs/r-redEnemy.gif",
+        walkingEnemy : "imgs/r-walkingEnemy.gif" // TODO: breyta í notendur.hi.is hlekk
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -228,6 +229,8 @@ function preloadDone() {
     g_spriteAnimations.ship = animate(33, 17, 5, 1, 5, g_images.playerSheet, 100.5, 0)
 
     g_spriteAnimations.redEnemy = animate(33, 36, 8, 1, 8, g_images.redEnemy, 0, 0);
+
+    g_spriteAnimations.walkingEnemy = animate(33, 33, 3, 1, 3, g_images.walkingEnemy, 0, 0);
 
     entityManager.init();
     createInitialShips();

@@ -96,10 +96,7 @@ deferredSetup : function () {
 init: function() {
     //this._generateRocks();
     //this._generateShip();
-    this.generateEnemy(new WormShip({
-        cx : g_canvas.width,
-        cy : 200
-    }));
+    this.generateEnemy();
 },
 
 fireBullet: function(cx, cy, rotation, power) {
@@ -134,9 +131,14 @@ generateBlock : function(descr) {
     this._blocks.push(new Block(descr));
 },
 
-generateEnemy: function(descr) {
-    let ship = new WormShip(descr);
+generateEnemy: function() {
+    let ship = new WormShip({
+        cx : g_canvas.width,
+        cy : 200
+    });
     ship.init();
+    let walk = new WalkingEnemy();
+    entityManager._enemies.push(walk);
 },
 
 killNearestShip : function(xPos, yPos) {
