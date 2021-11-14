@@ -187,12 +187,9 @@ var g_images = {};
 function requestPreloads() {
 
     var requiredImages = {
-        ship         : "https://notendur.hi.is/~pk/308G/images/ship.png",
-        ship2        : "https://notendur.hi.is/~pk/308G/images/ship_2.png",
-        rock         : "https://notendur.hi.is/~pk/308G/images/rock.png",
-        playerSheet  : "https://notendur.hi.is/~gvg8/308G/imgs/R-type.gif",
-        redEnemy     : "https://notendur.hi.is/~gvg8/308G/imgs/r-redEnemy.gif",
-        walkingEnemy : "imgs/r-walkingEnemy.gif" // TODO: breyta í notendur.hi.is hlekk
+        playerSheet  : "imgs/R-type.gif",
+        redEnemy     : "imgs/r-redEnemy.gif",
+        walkingEnemy : "imgs/r-walkingEnemy.gif" // TODO: Relative is better :)
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -203,10 +200,6 @@ var g_spriteAnimations = {}
 
 function preloadDone() {
 
-    g_sprites.ship  = new Sprite(g_images.ship);
-    g_sprites.ship2 = new Sprite(g_images.ship2);
-    g_sprites.rock  = new Sprite(g_images.rock);
-    g_sprites.enemy = new Sprite(g_images.ship2);
 
     //g_sprites.bullet = new Sprite(g_images.ship);
     //g_sprites.bullet.scale = 0.25;
