@@ -75,7 +75,6 @@ Ship.prototype.update = function (du) {
 
     if (this.timestampWAIT>0) {
         this.timestampWAIT -= du;
-        console.log(this.timestampWAIT);
         if (this.timestampWAIT<0) this.respawn();;
         return;
     }

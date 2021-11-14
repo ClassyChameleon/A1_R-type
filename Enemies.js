@@ -10,7 +10,7 @@ function WormShip(descr) {
     this.oldY = this.cy;
 
 
-    this.sprite = this.sprite || g_spriteAnimations.redEnemy[0];
+    this.sprite = this.sprite || g_spriteAnimations.brownEnemy[0];
     this.scale  = this.scale  || 1.75;
     this.rotation = this.rotation || Math.PI * (-2/4);
 };
@@ -73,8 +73,8 @@ WormShip.prototype.update = function (du) {
     // Animation
     // TODO: Make animation not dependant on real time.
     this.celNo = Date.now()%1000;
-    this.celNo = parseInt(Math.floor(this.celNo*9/1000));
-    if (this.celNo >= g_spriteAnimations.redEnemy.length) this.celNo = 0;
+    this.celNo = parseInt((this.celNo*9/1000));
+    if (this.celNo >= g_spriteAnimations.brownEnemy.length) this.celNo = 0;
 };
 
 WormShip.prototype.render = function (ctx) {
@@ -87,7 +87,7 @@ WormShip.prototype.render = function (ctx) {
     );
     this.sprite.scale = origScale;
     */
-    var cel = g_spriteAnimations.redEnemy[this.celNo];
+    var cel = g_spriteAnimations.brownEnemy[0]; // TODO: Make this more like in the game and not just a static image!
     cel.scale = this.scale;
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
 };
@@ -157,3 +157,63 @@ WalkingEnemy.prototype.render = function (ctx) {
     cel.scale = this.scale;
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
 };
+
+function SoloEnemy(descr) {
+    this.setup(descr);
+
+    this.isAlive = true;
+    this.hp = this.hp || 1;
+
+    this.oldY = this.cy;
+
+    this.sprite = this.sprite || g_spriteAnimations.redEnemy[0];
+    this.scale = this.scale || 1.75;
+    this.rotation = this.rotation || Math.PI * (-2/4);
+};
+
+SoloEnemy.prototype = new Entity();
+SoloEnemy.prototype.angle = 0;
+SoloEnemy.prototype.angleSpeed = 0.03;
+SoloEnemy.prototype.celNo = 0;
+SoloEnemy.prototype.cx = g_canvas.width;
+SoloEnemy.prototype.cy = 100;
+
+SoloEnemy.prototype.getRadius = function () {
+    return (this.sprite.width / 2 );
+};
+
+SoloEnemy.prototype.takeBulletHit = function () {
+    this.hp -= 1;
+    if (this.hp === 0) {
+        this.kill();
+    }
+};
+
+SoloEnemy.prototype.update = function (du) {
+    spatialManager.unregister(this);
+    if (this._isDeadNow) {
+        return entityManager.KILL_ME_NOW;
+    }
+
+    var halfWidth = this.sprite.width*this.scale/2;
+
+    if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
+
+    this.cx -= 4*du;
+    this.angle += this.angleSpeed * du;
+    this.cy = (this.oldY + Math.sin(this.angle) * 100);
+
+    this.enemyMaybeFireBullet();
+    
+    spatialManager.register(this);
+
+    this.celNo = Date.now()%1000;
+    this.celNo = parseInt(Math.floor(this.celNo*9/1000));
+    if (this.celNo >= g_spriteAnimations.redEnemy.length) this.celNo = 0;
+};
+
+SoloEnemy.prototype.render = function (ctx) {
+    var cel = g_spriteAnimations.redEnemy[this.celNo];
+    cel.scale = this.scale;
+    cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
+}

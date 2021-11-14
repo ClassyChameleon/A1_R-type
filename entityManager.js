@@ -137,8 +137,8 @@ generateEnemy: function() {
         cy : 200
     });
     ship.init();
-    let walk = new WalkingEnemy();
-    entityManager._enemies.push(walk);
+    entityManager._enemies.push(new WalkingEnemy());
+    entityManager._enemies.push(new SoloEnemy());
 },
 
 killNearestShip : function(xPos, yPos) {
