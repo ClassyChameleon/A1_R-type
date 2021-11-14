@@ -28,6 +28,7 @@ Interface.prototype._score = 0;
 Interface.prototype.lives = 2;
 Interface.prototype.beamMeter = 0;
 Interface.prototype.xIndentation = 152;
+Interface.prototype.gameover = false;
 
 Interface.prototype.addScore = function(number) {
     if (this._score + number > 9999999) {
@@ -40,8 +41,19 @@ Interface.prototype.addScore = function(number) {
 }
 
 Interface.prototype.render = function (ctx) {
-    ctx.save()
 
+    if (this.lives < 0) {
+        this.gameover = true;
+        ctx.save();
+        ctx.font = "30px ArcadeClassic";
+        ctx.fillStyle = "white";
+        ctx.fillText("Game Over",
+                     g_canvas.width/2 - 9*11,
+                     g_canvas.height/2 - 15);
+        ctx.restore();
+    }
+
+    ctx.save();
     // draw black background for interface
     ctx.beginPath();
     ctx.fillStyle = "black";

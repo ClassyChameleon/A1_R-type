@@ -25,7 +25,6 @@ function Ship(descr) {
     
     // Set normal drawing scale, and warp state off
     this._scale = 1.75;
-    this._isWarping = false;
 };
 
 Ship.prototype = new Entity();
@@ -61,80 +60,25 @@ Ship.prototype.timestampUP = 0;
 Ship.prototype.timestampUPSTOP = 0;
 Ship.prototype.timestampDOWN = 0;
 Ship.prototype.timestampDOWNSTOP = 0;
+Ship.prototype.timestampWAIT = 0;
+Ship.prototype.timestampINVULNERABLE = 0;
+Ship.prototype.invulnFrame = false;
 Ship.prototype.dyingNow = false;
 Ship.prototype.dyingNowInitalize = false;
 
 // HACKED-IN AUDIO (no preloading)
 Ship.prototype.warpSound = new Audio(
     "sounds/shipWarp.ogg");
-
-Ship.prototype.warp = function () {
-
-    this._isWarping = true;
-    this._scaleDirn = -1;
-    this.warpSound.play();
-    
-    // Unregister me from my old posistion
-    // ...so that I can't be collided with while warping
-    spatialManager.unregister(this);
-};
-
-Ship.prototype._updateWarp = function (du) {
-
-    var SHRINK_RATE = 3 / SECS_TO_NOMINALS;
-    this._scale += this._scaleDirn * SHRINK_RATE * du;
-    
-    if (this._scale < 0.2) {
-    
-        this._moveToASafePlace();
-        this._scaleDirn = 1;
-        
-    } else if (this._scale > 1.75) {
-    
-        this._scale = 1.75;
-        this._isWarping = false;
-        
-        // Reregister me from my old posistion
-        // ...so that I can be collided with again
-        spatialManager.register(this);
-        
-    }
-};
-
-Ship.prototype._moveToASafePlace = function () {
-
-    // Move to a safe place some suitable distance away
-    var origX = this.cx,
-        origY = this.cy,
-        MARGIN = 40,
-        isSafePlace = false;
-
-    for (var attempts = 0; attempts < 100; ++attempts) {
-    
-        var warpDistance = 100 + Math.random() * g_canvas.width /2;
-        var warpDirn = Math.random() * consts.FULL_CIRCLE;
-        
-        this.cx = origX + warpDistance * Math.sin(warpDirn);
-        this.cy = origY - warpDistance * Math.cos(warpDirn);
-        
-        this.wrapPosition();
-        
-        // Don't go too near the edges, and don't move into a collision!
-        if (!util.isBetween(this.cx, MARGIN, g_canvas.width - MARGIN)) {
-            isSafePlace = false;
-        } else if (!util.isBetween(this.cy, MARGIN, g_canvas.height - MARGIN)) {
-            isSafePlace = false;
-        } else {
-            isSafePlace = !this.isColliding();
-        }
-
-        // Get out as soon as we find a safe place
-        if (isSafePlace) break;
-        
-    }
-};
     
 Ship.prototype.update = function (du) {
+    spatialManager.unregister(this);
+
+    if (this.timestampWAIT>0) {
+        this.timestampWAIT -= du;
+        console.log(this.timestampWAIT);
+        if (this.timestampWAIT<0) this.respawn();;
+        return;
+    }
     
     if (this.dyingNowInitialize) {
         this.initiateDeath(du);
@@ -145,21 +89,10 @@ Ship.prototype.update = function (du) {
         this.celNo += 0.25;
         if (this.celNo >= g_spriteAnimations.shipDeath.length) {
             this.dyingNow = false;
-            this.celNo = 0;
+            this.celNo = 2;
+            this.timestampWAIT = 120;
         }
         return;
-    }
-
-    // Handle warping
-    if (this._isWarping) {
-        this._updateWarp(du);
-        return;
-    }
-    
-    // TODO: YOUR STUFF HERE! --- Unregister and check for death
-    spatialManager.unregister(this);
-    if (this._isDeadNow) {
-        return entityManager.KILL_ME_NOW;
     }
 
     // Perform movement substeps
@@ -168,25 +101,42 @@ Ship.prototype.update = function (du) {
     // Handle firing
     this.maybeFireBullet(du);
 
-    // TODO: YOUR STUFF HERE! --- Warp if isColliding, otherwise Register
-    // Handle collision with environment blocks
-    for(var i = 0; i < entityManager._blocks.length; i++){
-        if(util.boxBoxCollision(this, entityManager._blocks[i])){
-            this.dyingNowInitialize = true;
+    if (this.timestampINVULNERABLE > 0) {
+        this.timestampINVULNERABLE -= du;
+        this.invulnFrame = !this.invulnFrame;
+        if (this.timestampINVULNERABLE < 0) {
+            this.timestampINVULNERABLE = 0;
+            this.invulnFrame = false;
         }
-    }
-
-    if (this.isColliding()) {
-        this.dyingNowInitialize = true;
     } else {
-        spatialManager.register(this);
+        // Enable collision if not recently respawned.
+        for(var i = 0; i < entityManager._blocks.length; i++){
+            if(util.boxBoxCollision(this, entityManager._blocks[i])){
+                this.dyingNowInitialize = true;
+            }
+        }
+
+        if (this.isColliding()) {
+            this.dyingNowInitialize = true;
+        } else {
+            spatialManager.register(this);
+        }
     }
 
     // Display power on interface
     g_interface.beamMeter = this.power;
 };
 
+Ship.prototype.respawn = function () {
+    g_interface.lives--;
+    this.timestampWAIT = 0;
+    this.reset();
+    this.timestampINVULNERABLE = 120;
+}
+
 Ship.prototype.initiateDeath = function (du) {
+    this.power = 0;
+    g_interface.beamMeter = this.power;
     this.celNo = 0;
     this.dyingNow = true;
     this.dyingNowInitialize = false;
@@ -327,22 +277,26 @@ Ship.prototype.render = function (ctx) {
     );
     this.sprite.scale = origScale;
     */
+    if (this.timestampWAIT) return;
+
     if (this.dyingNow) {
         var cel = g_spriteAnimations.shipDeath[Math.floor(this.celNo)];
         cel.scale = this._scale;
         cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
         return;
     }
-    var cel = g_spriteAnimations.ship[this.celNo];
-    cel.scale = this._scale;
-    cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
-    if(this.power) {
-        var powerLevel = Math.floor(this.powerTime * 7/25);
-        powerLevel = powerLevel%8;
-        var cel = g_spriteAnimations.charge[powerLevel];
+    if (!this.invulnFrame) {
+        var cel = g_spriteAnimations.ship[this.celNo];
         cel.scale = this._scale;
-        var xPos = this.cx + this.sprite.width/2 + g_spriteAnimations.charge[0].width;
-        cel.drawCenteredAt(ctx, xPos, this.cy+4, 0);
+        cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
+        if(this.power) {
+            var powerLevel = Math.floor(this.powerTime * 7/25);
+            powerLevel = powerLevel%8;
+            var cel = g_spriteAnimations.charge[powerLevel];
+            cel.scale = this._scale;
+            var xPos = this.cx + this.sprite.width/2 + g_spriteAnimations.charge[0].width;
+            cel.drawCenteredAt(ctx, xPos, this.cy+4, 0);
+        }
     }
     
 };
