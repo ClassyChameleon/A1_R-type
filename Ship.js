@@ -239,7 +239,7 @@ Ship.prototype.maybeFireBullet = function (du) {
         this.ready2Fire = true;
         if(this.power < 100) {
             this.power += du;
-            this.shipSounds.charge.play();
+            if (this.power > 20) this.shipSounds.charge.play();
             if(this.power > 100) this.power = 100;
         }
         // For charge animation
@@ -247,7 +247,6 @@ Ship.prototype.maybeFireBullet = function (du) {
     }
 
     if(!keys[this.KEY_FIRE]){
-            
         var relVel = this.launchVel;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;

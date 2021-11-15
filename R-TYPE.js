@@ -165,7 +165,8 @@ function requestPreloads() {
         walkingEnemy : "imgs/r-walkingEnemy.gif",
         brownEnemy   : "imgs/r-brownEnemy.gif",
         enemyBullet  : "imgs/r-enemyBullet.gif",
-        explosions   : "imgs/r-explosions.gif"
+        explosions   : "imgs/r-explosions.gif",
+        level        : "imgs/level1.png",
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -176,7 +177,7 @@ var g_spriteAnimations = {}
 
 function preloadDone() {
 
-
+    g_sprites.level = new Sprite(g_images.level);
     //g_sprites.bullet = new Sprite(g_images.ship);
     //g_sprites.bullet.scale = 0.25;
     g_sprites.bullet = new SpriteAnimated(247, 88, 20, 7, g_images.playerSheet);
