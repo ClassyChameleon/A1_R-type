@@ -16,6 +16,10 @@ function WormShip(descr) {
 };
 
 WormShip.prototype = new Entity();
+
+WormShip.prototype.deathSound = new Audio(
+    "sounds/enemyDeath.ogg"
+);
 WormShip.prototype.angle = 0;
 WormShip.prototype.angleSpeed = 0.01;
 WormShip.prototype.celNo = 0;
@@ -48,6 +52,7 @@ WormShip.prototype.getRadius = function () {
 WormShip.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
+        this.deathSound.play();
         this.kill();
     }
 };
@@ -104,6 +109,10 @@ function WalkingEnemy(descr) {
 }
 
 WalkingEnemy.prototype = new Entity();
+WalkingEnemy.prototype.deathSound = new Audio(
+    "sounds/enemyDeath.ogg"
+);
+
 WalkingEnemy.prototype.angle = 0;
 WalkingEnemy.prototype.angleSpeed = 0.01;
 WalkingEnemy.prototype.celNo = 0;
@@ -117,6 +126,7 @@ WalkingEnemy.prototype.getRadius = function () {
 WalkingEnemy.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
+        this.deathSound.play();
         this.kill();
     }
 };
@@ -172,6 +182,9 @@ function SoloEnemy(descr) {
 };
 
 SoloEnemy.prototype = new Entity();
+SoloEnemy.prototype.deathSound = new Audio(
+    "sounds/enemyDeath.ogg"
+);
 SoloEnemy.prototype.angle = 0;
 SoloEnemy.prototype.angleSpeed = 0.03;
 SoloEnemy.prototype.celNo = 0;
@@ -185,6 +198,7 @@ SoloEnemy.prototype.getRadius = function () {
 SoloEnemy.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
+        this.deathSound.play();
         this.kill();
     }
 };

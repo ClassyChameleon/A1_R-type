@@ -68,8 +68,10 @@ Ship.prototype.dyingNow = false;
 Ship.prototype.dyingNowInitalize = false;
 
 // HACKED-IN AUDIO (no preloading)
-Ship.prototype.warpSound = new Audio(
-    "sounds/shipWarp.ogg");
+Ship.prototype.shipSounds = {
+    death : new Audio("sounds/shipDeath.ogg"),
+    charge: new Audio("sounds/chargeUp.ogg")
+};
     
 Ship.prototype.update = function (du) {
     spatialManager.unregister(this);
@@ -140,7 +142,7 @@ Ship.prototype.initiateDeath = function (du) {
     this.celNo = 0;
     this.dyingNow = true;
     this.dyingNowInitialize = false;
-    this.warpSound.play();
+    this.shipSounds.death.play();
 }
 
 Ship.prototype.handleMovement = function (du) {
@@ -231,6 +233,7 @@ Ship.prototype.maybeFireBullet = function (du) {
         this.ready2Fire = true;
         if(this.power < 100) {
             this.power += du;
+            this.shipSounds.charge.play();
             if(this.power > 100) this.power = 100;
         }
         // For charge animation
@@ -247,12 +250,13 @@ Ship.prototype.maybeFireBullet = function (du) {
         else {
             console.log("this.power: " + this.power);
             this.ready2Fire = false;
+            this.shipSounds.charge.pause();
+            this.shipSounds.charge.currentTime = 0;
             this.powerTime = 0;
             if (this.power < 20) {
                 this.power = 0;
                 return;
             }
-            
             entityManager.fireBullet(
                 this.cx + dX * launchDist + this.sprite.width, 
                 this.cy + dY,

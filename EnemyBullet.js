@@ -4,9 +4,14 @@
 function EnemyBullet(descr) {
     this.setup(descr);
     this.sprite = g_sprites.bullet;
+
+    this.fireSound.play();
 };
 
 EnemyBullet.prototype = new Entity();
+
+EnemyBullet.prototype.fireSound = new Audio(
+    "sounds/enemyBullet.ogg");
 
 EnemyBullet.prototype.rotation = 0;
 EnemyBullet.prototype.cx = 200;

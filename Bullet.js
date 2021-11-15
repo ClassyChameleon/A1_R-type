@@ -22,6 +22,16 @@ function Bullet(descr) {
     console.log(this.type);
     this.life = this.type + 1;
 
+    // HACKED-IN AUDIO (no preloading)
+    if (this.type) {
+        console.log("wow", this.power)
+        this.fireSound = new Audio(
+            "sounds/shipBANG.ogg");
+    } else {
+        this.fireSound = new Audio(
+            "sounds/bulletFire.ogg");
+    }
+
     switch(this.type){
         case 0:
             break;
@@ -58,9 +68,6 @@ function Bullet(descr) {
 
 Bullet.prototype = new Entity();
 
-// HACKED-IN AUDIO (no preloading)
-Bullet.prototype.fireSound = new Audio(
-    "sounds/bulletFire.ogg");
 Bullet.prototype.zappedSound = new Audio(
     "sounds/bulletZapped.ogg");
     
@@ -87,6 +94,12 @@ Bullet.prototype.update = function (du) {
     }
 
     this.lifeSpan -= du;
+
+    if (this.lifeSpan === (3000 / NOMINAL_UPDATE_INTERVAL)/1.2 ) {
+        this.fireSound.pause()
+        this.fireSound.currentTime = 0;
+    }
+
     if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
     if (this.checkStuff) {
         this.checkStuff = false;
