@@ -33,6 +33,7 @@ _ships       : [],
 _blocks      : [],
 _enemies     : [],
 _enemyBullets: [],
+_powerUps    : [],
 
 _bShowRocks : true,
 
@@ -90,13 +91,14 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks, this._enemyBullets];
+    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks, this._enemyBullets, this._powerUps];
 },
 
 init: function() {
     //this._generateRocks();
     //this._generateShip();
     this.generateEnemy();
+    this.generatePowerUp();
 },
 
 fireBullet: function(cx, cy, rotation, power) {
@@ -141,6 +143,13 @@ generateEnemy: function() {
     entityManager._enemies.push(new SoloEnemy());
 },
 
+generatePowerUp: function() {
+    this._powerUps.push(new PowerUp({
+        cx : g_canvas.width - 100,
+        cy : 200
+    }));
+},
+
 killNearestShip : function(xPos, yPos) {
     var theShip = this._findNearestShip(xPos, yPos).theShip;
     if (theShip) {
@@ -168,7 +177,6 @@ toggleRocks: function() {
 },
 
 update: function(du) {
-
     for (var c = 0; c < this._categories.length; ++c) {
 
         var aCategory = this._categories[c];

@@ -116,7 +116,8 @@ Ship.prototype.update = function (du) {
             }
         }
 
-        if (this.isColliding()) {
+        let hitEntity = this.findHitEntity();
+        if (this.isColliding() && !(hitEntity instanceof PowerUp)) {
             this.dyingNowInitialize = true;
         } else {
             spatialManager.register(this);
@@ -271,6 +272,10 @@ Ship.prototype.getRadius = function () {
 Ship.prototype.takeBulletHit = function () {
     this.dyingNowInitialize = true;
 };
+
+Ship.prototype.takePowerUp = function (type) {
+    console.log("took a power: " + type);
+}
 
 Ship.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
