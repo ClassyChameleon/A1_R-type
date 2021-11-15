@@ -61,10 +61,24 @@ Interface.prototype.render = function (ctx) {
     ctx.fill();
 
     // TODO: draw images indicating lives
-    for (let i = 0; i<this.lives; i++) {
+    var total = this.lives;
+    // lives more than 5 over-extends
+    if (total>5) {
         var cel = g_spriteAnimations.ship[2];
         cel.scale = 0.75;
-        cel.drawCenteredAt(ctx, 20+i*30, g_canvas.height-22, 0);
+        cel.drawCenteredAt(ctx, 20, g_canvas.height-22, 0);
+        ctx.beginPath();
+        ctx.font = "15px ArcadeClassic";
+        ctx.fillStyle = "white";
+        ctx.fillText("x " + total, 20+18, g_canvas.height-15);
+        ctx.fill();
+        ctx.beginPath();
+    } else {
+        for (let i = 0; i < total; i++) {
+            var cel = g_spriteAnimations.ship[2];
+            cel.scale = 0.75;
+            cel.drawCenteredAt(ctx, 20+i*30, g_canvas.height-22, 0);
+        }
     }
     // TODO: write player and score text
     ctx.font = "20px ArcadeClassic";

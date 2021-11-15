@@ -277,6 +277,7 @@ Ship.prototype.render = function (ctx) {
     this.sprite.scale = origScale;
     */
     if (this.timestampWAIT) return;
+    if (g_interface.lives<0) return;
 
     if (this.dyingNow) {
         var cel = g_spriteAnimations.shipDeath[Math.floor(this.celNo)];
