@@ -56,12 +56,98 @@ function createInitialShips() {
 }
 
 function createInitialEnvironment(){
+    entityManager.generateBlock({
+        cx : 0,
+        cy : 410,
+        width: 3800,
+        height: 40
+    });
 
     entityManager.generateBlock({
-        cx : 200,
-        cy : 20,
-        width: 100,
-        height: 50
+        cx : 370,
+        cy : 370,
+        width: 130,
+        height: 40
+    });
+
+    entityManager.generateBlock({
+        cx : 500,
+        cy : 390,
+        width: 130,
+        height: 20
+    });
+
+    entityManager.generateBlock({
+        cx : 1245,
+        cy : 390,
+        width: 130,
+        height: 20
+    });
+
+    entityManager.generateBlock({
+        cx : 1495,
+        cy : 370,
+        width: 130,
+        height: 40
+    });
+
+    entityManager.generateBlock({
+        cx : 2615,
+        cy : 390,
+        width: 130,
+        height: 20
+    });
+
+    entityManager.generateBlock({
+        cx : 3490,
+        cy : 390,
+        width: 130,
+        height: 20
+    });
+
+    entityManager.generateBlock({
+        cx : 3615,
+        cy : 370,
+        width: 130,
+        height: 40
+    });
+
+    //tunnel1
+    entityManager.generateBlock({
+        cx : 2910,
+        cy : 265,
+        width: 210,
+        height: 145
+    });
+
+    //tunnel2
+    entityManager.generateBlock({
+        cx : 2910,
+        cy : 0,
+        width: 210,
+        height: 185
+    });
+
+
+    entityManager.generateBlock({
+        cx : 3120,
+        cy : 0,
+        width: 800,
+        height: 40
+    });
+
+    entityManager.generateBlock({
+        cx : 3490,
+        cy : 40,
+        width: 130,
+        height: 20
+    });
+
+    entityManager.generateBlock({
+        cx : 3615,
+        cy : 40,
+        width: 130,
+        height: 40
     });
 }
 

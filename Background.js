@@ -26,10 +26,13 @@ function Background(descr) {
 // _attribute means private attribute
 Background.prototype.cx = 4678;
 Background.prototype.cy = g_canvas.height/2-15;
-Background.prototype.speed = 2;
 
 Background.prototype.update = function (du) {
-    this.cx -= this.speed*du;
+    if(this.cx > 1560){
+        this.cx += g_envVel;
+    } else{
+        g_envVel = 0;
+    }
 }
 
 Background.prototype.render = function (ctx) {

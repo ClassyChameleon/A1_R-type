@@ -26,16 +26,11 @@ Block.prototype.celNo = 0;
 
 Block.prototype.update = function (du) {
     this.cx += g_envVel;
-    if(this.cx < 0 - this.width){
-        var index = entityManager._blocks.indexOf(this);
-        if (index > -1) {
-            entityManager._blocks.splice(index, 1);
-        }
-        return entityManager.KILL_ME_NOW;
-    }
 };
 
 Block.prototype.render = function (ctx) {
     ctx.fillStyle = "#FF0000";
+    ctx.globalAlpha = 0.3;
     ctx.fillRect(this.cx, this.cy, this.width, this.height);
+    ctx.globalAlpha = 1.0;
 };
