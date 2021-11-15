@@ -181,6 +181,8 @@ function preloadDone() {
     //g_sprites.bullet.scale = 0.25;
     g_sprites.bullet = new SpriteAnimated(247, 88, 20, 7, g_images.playerSheet);
     g_sprites.bullet.scale = 1.75;
+    g_sprites.Rocket = new SpriteAnimated(335, 255, 15, 5, g_images.playerSheet);
+    g_sprites.Rocket.scale = 1.75;
 
     // 2 frames, [1]
     g_spriteAnimations.bullet1 = animate(19, 14, 2, 1, 2, g_images.playerSheet, 230, 102);
@@ -208,6 +210,9 @@ function preloadDone() {
     g_spriteAnimations.walkingEnemy = animate(33, 33, 3, 1, 3, g_images.walkingEnemy, 0, 0);
 
     g_spriteAnimations.explosion = animate(33, 33, 6, 1, 6, g_images.explosions, 128, 0);
+
+    // power ups
+    g_spriteAnimations.rocketFire = animate(16, 14, 7, 1, 7, g_images.playerSheet, 210, 275);
 
     entityManager.init();
     createInitialShips();

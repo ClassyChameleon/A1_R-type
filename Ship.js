@@ -54,6 +54,9 @@ Ship.prototype.speed = 3;
 Ship.prototype.power = 0;
 Ship.prototype.powerTime = 0;
 Ship.prototype.ready2Fire = false;
+// Power Ups
+Ship.prototype.rocketPU = false;
+Ship.prototype.rocketPUCooldown = 0;
 // Animation stuff
 Ship.prototype.celNo = 2;
 Ship.prototype.timestampUP = 0;
@@ -219,12 +222,14 @@ Ship.prototype._movementAnimation = function (du) {
 
 Ship.prototype.maybeFireBullet = function (du) {
 
+    //TODO: hvað er dX og dY að gera? Ég skoðaði þetta og dX er alltaf 0 og dY er alltaf -1?
     var dX = +Math.sin(this.rotation);
     var dY = -Math.cos(this.rotation);
     var launchDist = this.getRadius() * 1.2;
 
     if (keys[this.KEY_FIRE]) {
         if (!this.ready2Fire) {
+            if(this.rocketPU) this.maybeFireRocket(dX, dY, launchDist);
             entityManager.fireBullet(
                 this.cx + dX * launchDist + this.sprite.width, 
                 this.cy + dY,
@@ -258,6 +263,7 @@ Ship.prototype.maybeFireBullet = function (du) {
                 this.power = 0;
                 return;
             }
+            if(this.rocketPU) this.maybeFireRocket(dX, dY, launchDist);
             entityManager.fireBullet(
                 this.cx + dX * launchDist + this.sprite.width, 
                 this.cy + dY,
@@ -269,6 +275,21 @@ Ship.prototype.maybeFireBullet = function (du) {
     
 };
 
+Ship.prototype.maybeFireRocket = function (dX, dY, launchDist) {
+    entityManager.fireRocket(
+        this.cx + dX * launchDist + this.sprite.width,
+        this.cy + dY + this.sprite.width/2
+    )
+    entityManager.fireRocket(
+        this.cx + dX * launchDist + this.sprite.width,
+        this.cy + dY - this.sprite.width/2
+    )
+}
+
+Ship.prototype.pRocket = function () {
+    console.log('I fired a rocket')
+}
+
 Ship.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
@@ -278,6 +299,13 @@ Ship.prototype.takeBulletHit = function () {
 };
 
 Ship.prototype.takePowerUp = function (type) {
+    switch(type){
+        case 1:
+            this.rocketPU = true;
+            break;
+        default:
+            break;
+    }
     console.log("took a power: " + type);
 }
 
