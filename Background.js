@@ -30,7 +30,6 @@ Background.prototype.speed = 2;
 
 Background.prototype.update = function (du) {
     this.cx -= this.speed*du;
-    console.log(this.cx);
 }
 
 Background.prototype.render = function (ctx) {
