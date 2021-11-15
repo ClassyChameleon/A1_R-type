@@ -33,6 +33,7 @@ _ships       : [],
 _blocks      : [],
 _enemies     : [],
 _enemyBullets: [],
+_explosions  : [],
 
 _bShowRocks : true,
 
@@ -90,7 +91,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks, this._enemyBullets];
+    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks, this._enemyBullets, this._explosions];
 },
 
 init: function() {
@@ -139,6 +140,13 @@ generateEnemy: function() {
     ship.init();
     entityManager._enemies.push(new WalkingEnemy());
     entityManager._enemies.push(new SoloEnemy());
+},
+
+generateExplosion: function(x, y) {
+    this._explosions.push(new Explosion({
+        cx : x,
+        cy : y
+    }));
 },
 
 killNearestShip : function(xPos, yPos) {

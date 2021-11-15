@@ -207,7 +207,7 @@ function preloadDone() {
 
     g_spriteAnimations.walkingEnemy = animate(33, 33, 3, 1, 3, g_images.walkingEnemy, 0, 0);
 
-    g_spriteAnimations.enemyDeath = animate(33, 33, 6, 1, 6, g_images.explosions, 129, 0);
+    g_spriteAnimations.explosion = animate(33, 33, 6, 1, 6, g_images.explosions, 128, 0);
 
     entityManager.init();
     createInitialShips();
