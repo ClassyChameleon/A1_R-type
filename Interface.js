@@ -25,6 +25,7 @@ function Interface(descr) {
 // Initial, inheritable, default values
 // _attribute means private attribute
 Interface.prototype._score = 0;
+Interface.prototype._nextLiveCounter = 100000;
 Interface.prototype.lives = 2;
 Interface.prototype.beamMeter = 0;
 Interface.prototype.xIndentation = 152;
@@ -35,6 +36,11 @@ Interface.prototype.addScore = function(number) {
         // if score > 9'999'999 then it overlaps in interface
         this._score = 9999999;
         return;
+    }
+    this._nextLiveCounter -= number;
+    if (this._nextLiveCounter<=0) {
+        this.lives++;
+        this._nextLiveCounter += 100000;
     }
     this._score += number;
     this.xIndentation = 163 - this._score.toString().length*11;
@@ -48,7 +54,7 @@ Interface.prototype.render = function (ctx) {
         ctx.font = "30px ArcadeClassic";
         ctx.fillStyle = "white";
         ctx.fillText("Game Over",
-                     g_canvas.width/2 - 9*11,
+                     g_canvas.width/2 - 7*11,
                      g_canvas.height/2 - 15);
         ctx.restore();
     }

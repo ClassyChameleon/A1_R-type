@@ -62,6 +62,7 @@ Ship.prototype.timestampDOWN = 0;
 Ship.prototype.timestampDOWNSTOP = 0;
 Ship.prototype.timestampWAIT = 0;
 Ship.prototype.timestampINVULNERABLE = 0;
+Ship.prototype.timestampFIRE = 0;
 Ship.prototype.invulnFrame = false;
 Ship.prototype.dyingNow = false;
 Ship.prototype.dyingNowInitalize = false;
@@ -215,7 +216,18 @@ Ship.prototype._movementAnimation = function (du) {
 
 Ship.prototype.maybeFireBullet = function (du) {
 
+    var dX = +Math.sin(this.rotation);
+    var dY = -Math.cos(this.rotation);
+    var launchDist = this.getRadius() * 1.2;
+
     if (keys[this.KEY_FIRE]) {
+        if (!this.ready2Fire) {
+            entityManager.fireBullet(
+                this.cx + dX * launchDist + this.sprite.width, 
+                this.cy + dY,
+                this.rotation,
+                this.power);
+        }
         this.ready2Fire = true;
         if(this.power < 100) {
             this.power += du;
@@ -227,25 +239,26 @@ Ship.prototype.maybeFireBullet = function (du) {
 
     if(!keys[this.KEY_FIRE]){
             
-        var dX = +Math.sin(this.rotation);
-        var dY = -Math.cos(this.rotation);
-        var launchDist = this.getRadius() * 1.2;
-        
         var relVel = this.launchVel;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
         
         if(!this.ready2Fire) return;
         else {
+            console.log("this.power: " + this.power);
+            this.ready2Fire = false;
+            this.powerTime = 0;
+            if (this.power < 20) {
+                this.power = 0;
+                return;
+            }
+            
             entityManager.fireBullet(
                 this.cx + dX * launchDist + this.sprite.width, 
                 this.cy + dY,
                 this.rotation,
                 this.power);
-            console.log("this.power: " + this.power);
-            this.ready2Fire = false;
             this.power = 0;
-            this.powerTime = 0;
         }
     }
     
