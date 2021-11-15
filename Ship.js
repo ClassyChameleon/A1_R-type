@@ -241,7 +241,6 @@ Ship.prototype.maybeFireBullet = function (du) {
     }
 
     if(!keys[this.KEY_FIRE]){
-            
         var relVel = this.launchVel;
         var relVelX = dX * relVel;
         var relVelY = dY * relVel;
