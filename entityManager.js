@@ -33,7 +33,9 @@ _ships       : [],
 _blocks      : [],
 _enemies     : [],
 _enemyBullets: [],
+_powerUps    : [],
 _explosions  : [],
+_powerUpsFire: [],
 
 _bShowRocks : true,
 
@@ -91,13 +93,19 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks, this._enemyBullets, this._explosions];
+    this._categories = [
+        this._rocks, this._bullets, 
+        this._ships, this._enemies, 
+        this._blocks, this._enemyBullets, 
+        this._explosions, this._powerUps, 
+        this._powerUpsFire];
 },
 
 init: function() {
     //this._generateRocks();
     //this._generateShip();
     this.generateEnemy();
+    this.generatePowerUp();
 },
 
 fireBullet: function(cx, cy, rotation, power) {
@@ -140,6 +148,20 @@ generateEnemy: function() {
     ship.init();
     entityManager._enemies.push(new WalkingEnemy());
     entityManager._enemies.push(new SoloEnemy());
+},
+
+generatePowerUp: function() {
+    this._powerUps.push(new PowerUp({
+        cx : g_canvas.width - 100,
+        cy : 200
+    }))
+},
+
+fireRocket: function(cx, cy) {
+    this._powerUpsFire.push(new RocketPower({
+        cx   : cx,
+        cy   : cy,
+    }))
 },
 
 generateExplosion: function(x, y) {

@@ -116,7 +116,7 @@ Bullet.prototype.update = function (du) {
     // Handle collisions
     //
     var hitEntity = this.findHitEntity();
-    if (hitEntity && !(hitEntity instanceof EnemyBullet)) {
+    if (hitEntity && !(hitEntity instanceof EnemyBullet) && !(hitEntity instanceof RocketPower)) {
         var canTakeHit = hitEntity.takeBulletHit;
         if (canTakeHit) {
             canTakeHit.call(hitEntity);
