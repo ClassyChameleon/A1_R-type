@@ -148,12 +148,7 @@ killNearestShip : function(xPos, yPos) {
     }
 },
 
-yoinkNearestShip : function(xPos, yPos) {
-    var theShip = this._findNearestShip(xPos, yPos).theShip;
-    if (theShip) {
-        theShip.setPos(xPos, yPos);
-    }
-},
+
 
 resetShips: function() {
     this._forEachOf(this._ships, Ship.prototype.reset);
