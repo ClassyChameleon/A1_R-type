@@ -16,14 +16,23 @@ function WormShip(descr) {
 };
 
 WormShip.prototype = new Entity();
+
+WormShip.prototype.deathSound = new Audio(
+    "sounds/enemyDeath.ogg"
+);
 WormShip.prototype.angle = 0;
 WormShip.prototype.angleSpeed = 0.01;
+WormShip.prototype.speed = 4;
+WormShip.prototype.moveType = 2;
+WormShip.prototype.timestampMove = 0;
 WormShip.prototype.celNo = 0;
 
 WormShip.prototype.init = function() { // Creates the six ships, maybe this belongs in entityManager. Like the _generateRocks method?!?!?!?
-    let randStart = util.randRange(20, g_canvas.height-20);
+    let randStart = util.randRange(120, g_canvas.height-20);
     let cx = g_canvas.width;
     let newEnemy;
+    // This method is more suitable for the red ships
+    /*
     for (let index = 0; index < 6; index++) {
         if (index % 2 === 0) {
             newEnemy = new WormShip({
@@ -39,6 +48,15 @@ WormShip.prototype.init = function() { // Creates the six ships, maybe this belo
         }
         entityManager._enemies.push(newEnemy);
     }
+    */
+    for (let index = 0; index < 6; index++) {
+        newEnemy = new WormShip({
+            cx            : cx + (index * 50),
+            cy            : randStart + 20,
+            timestampMove : (index * 10)
+        });
+        entityManager._enemies.push(newEnemy);
+    }
 };
 
 WormShip.prototype.getRadius = function () {
@@ -48,6 +66,7 @@ WormShip.prototype.getRadius = function () {
 WormShip.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
+        this.deathSound.play();
         this.kill();
     }
 };
@@ -58,23 +77,32 @@ WormShip.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
+    // Move according to moveType
+    var move = this.speed*this.speed;
+    if (this.moveType%2 === 1) {
+        var moveX = Math.sqrt(3*move/4);
+        var moveY = Math.sqrt(1*move/4);
+        this.cx -= (moveX + g_envVel)*du;
+        this.cy -= moveY*du*(this.moveType-2);
+    } else {
+        this.cx -= (this.speed + g_envVel)*du;
+    }
+
+    // Change moveType on time intervals
+    this.timestampMove -= du;
+    if (this.timestampMove <= 0) {
+        this.timestampMove += 75;
+        this.moveType++;
+        if (this.moveType>3) this.moveType = 0;
+    }
+
+    // Calculate off-screen deletion
     var halfWidth = this.sprite.width*this.scale/2;
-
     if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
-
-    this.cx -= 4*du;
-    this.angle += this.angleSpeed * du;
-    this.cy = (this.oldY + Math.sin(this.angle) * 100);
     
     this.enemyMaybeFireBullet();
 
     spatialManager.register(this);
-
-    // Animation
-    // TODO: Make animation not dependant on real time.
-    this.celNo = Date.now()%1000;
-    this.celNo = parseInt((this.celNo*9/1000));
-    if (this.celNo >= g_spriteAnimations.brownEnemy.length) this.celNo = 0;
 };
 
 WormShip.prototype.render = function (ctx) {
@@ -87,7 +115,10 @@ WormShip.prototype.render = function (ctx) {
     );
     this.sprite.scale = origScale;
     */
-    var cel = g_spriteAnimations.brownEnemy[0]; // TODO: Make this more like in the game and not just a static image!
+    var celNo = 8;
+    if (this.moveType === 1) celNo = 7;
+    if (this.moveType === 3) celNo = 9;
+    var cel = g_spriteAnimations.brownEnemy[celNo]; // TODO: Make this more like in the game and not just a static image!
     cel.scale = this.scale;
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
 };
@@ -104,6 +135,10 @@ function WalkingEnemy(descr) {
 }
 
 WalkingEnemy.prototype = new Entity();
+WalkingEnemy.prototype.deathSound = new Audio(
+    "sounds/enemyDeath.ogg"
+);
+
 WalkingEnemy.prototype.angle = 0;
 WalkingEnemy.prototype.angleSpeed = 0.01;
 WalkingEnemy.prototype.celNo = 0;
@@ -117,6 +152,7 @@ WalkingEnemy.prototype.getRadius = function () {
 WalkingEnemy.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
+        this.deathSound.play();
         this.kill();
     }
 };
@@ -172,6 +208,9 @@ function SoloEnemy(descr) {
 };
 
 SoloEnemy.prototype = new Entity();
+SoloEnemy.prototype.deathSound = new Audio(
+    "sounds/enemyDeath.ogg"
+);
 SoloEnemy.prototype.angle = 0;
 SoloEnemy.prototype.angleSpeed = 0.03;
 SoloEnemy.prototype.celNo = 0;
@@ -185,6 +224,7 @@ SoloEnemy.prototype.getRadius = function () {
 SoloEnemy.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
+        this.deathSound.play();
         this.kill();
     }
 };

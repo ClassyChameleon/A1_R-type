@@ -4,15 +4,21 @@
 function EnemyBullet(descr) {
     this.setup(descr);
     this.sprite = g_sprites.bullet;
+
+    this.fireSound.play();
 };
 
 EnemyBullet.prototype = new Entity();
+
+EnemyBullet.prototype.fireSound = new Audio(
+    "sounds/enemyBullet.ogg");
 
 EnemyBullet.prototype.rotation = 0;
 EnemyBullet.prototype.cx = 200;
 EnemyBullet.prototype.cy = 200;
 EnemyBullet.prototype.velX = 20;
 EnemyBullet.prototype.velY = 20;
+EnemyBullet.prototype.celNo = 0;
 
 EnemyBullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
 
@@ -47,6 +53,9 @@ EnemyBullet.prototype.update = function (du) {
     }
     
     spatialManager.register(this);
+
+    this.celNo += 0.2;
+    if (this.celNo >= g_spriteAnimations.enemyBullet.length) this.celNo = 0;
 };
 
 EnemyBullet.prototype.getRadius = function () {
@@ -60,7 +69,9 @@ EnemyBullet.prototype.render = function (ctx) {
         ctx.globalAlpha = this.lifeSpan / fadeThresh;
     }
 
-    g_sprites.bullet.drawCenteredAt(
+    var cel = g_spriteAnimations.enemyBullet[Math.floor(this.celNo)];
+    cel.scale = 1.75;
+    cel.drawCenteredAt(
         ctx, this.cx, this.cy, this.rotation
     );
 

@@ -34,6 +34,7 @@ _blocks      : [],
 _enemies     : [],
 _enemyBullets: [],
 _powerUps    : [],
+_explosions  : [],
 
 _bShowRocks : true,
 
@@ -91,7 +92,7 @@ KILL_ME_NOW : -1,
 // i.e. thing which need `this` to be defined.
 //
 deferredSetup : function () {
-    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks, this._enemyBullets, this._powerUps];
+    this._categories = [this._rocks, this._bullets, this._ships, this._enemies, this._blocks, this._enemyBullets, this._explosions, this._powerUps];
 },
 
 init: function() {
@@ -147,6 +148,13 @@ generatePowerUp: function() {
     this._powerUps.push(new PowerUp({
         cx : g_canvas.width - 100,
         cy : 200
+    }))
+},
+
+generateExplosion: function(x, y) {
+    this._explosions.push(new Explosion({
+        cx : x,
+        cy : y
     }));
 },
 
@@ -157,12 +165,7 @@ killNearestShip : function(xPos, yPos) {
     }
 },
 
-yoinkNearestShip : function(xPos, yPos) {
-    var theShip = this._findNearestShip(xPos, yPos).theShip;
-    if (theShip) {
-        theShip.setPos(xPos, yPos);
-    }
-},
+
 
 resetShips: function() {
     this._forEachOf(this._ships, Ship.prototype.reset);

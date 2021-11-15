@@ -162,8 +162,10 @@ function requestPreloads() {
     var requiredImages = {
         playerSheet  : "imgs/R-type.gif",
         redEnemy     : "imgs/r-redEnemy.gif",
-        walkingEnemy : "imgs/r-walkingEnemy.gif", // TODO: Relative is better :)
-        brownEnemy   : "imgs/r-brownEnemy.gif"
+        walkingEnemy : "imgs/r-walkingEnemy.gif",
+        brownEnemy   : "imgs/r-brownEnemy.gif",
+        enemyBullet  : "imgs/r-enemyBullet.gif",
+        explosions   : "imgs/r-explosions.gif"
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -187,6 +189,8 @@ function preloadDone() {
     g_spriteAnimations.bullet4 = animate(66, 16, 2, 1, 2, g_images.playerSheet, 135, 152);
     g_spriteAnimations.bullet5 = animate(82, 16, 2, 1, 2, g_images.playerSheet, 103, 169);
 
+    g_spriteAnimations.enemyBullet = animate(7+10, 7, 4, 1, 4, g_images.enemyBullet, 136-5, 6);
+
     // 2 frames, [1]
     g_spriteAnimations.fireBullet = animate(19, 15, 2, 1, 2, g_images.playerSheet, 214, 83);
     // 8 frames, [7]
@@ -202,6 +206,8 @@ function preloadDone() {
     g_spriteAnimations.brownEnemy = animate(33, 34, 8, 2, 16, g_images.brownEnemy, 0, 0);
 
     g_spriteAnimations.walkingEnemy = animate(33, 33, 3, 1, 3, g_images.walkingEnemy, 0, 0);
+
+    g_spriteAnimations.explosion = animate(33, 33, 6, 1, 6, g_images.explosions, 128, 0);
 
     entityManager.init();
     createInitialShips();

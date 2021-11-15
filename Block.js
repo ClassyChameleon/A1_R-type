@@ -25,11 +25,14 @@ Block.prototype.celNo = 0;
 
 
 Block.prototype.update = function (du) {
-    spatialManager.unregister(this);
-
     this.cx += g_envVel;
-
-    spatialManager.register(this);
+    if(this.cx < 0 - this.width){
+        var index = entityManager._blocks.indexOf(this);
+        if (index > -1) {
+            entityManager._blocks.splice(index, 1);
+        }
+        return entityManager.KILL_ME_NOW;
+    }
 };
 
 Block.prototype.render = function (ctx) {
