@@ -64,6 +64,8 @@ Entity.prototype.getSpatialID = function () {
 };
 
 Entity.prototype.kill = function () {
+    if (this.power === undefined)
+        entityManager.generateExplosion(this.cx, this.cy);
     this._isDeadNow = true;
 };
 
