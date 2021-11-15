@@ -178,6 +178,7 @@ var g_spriteAnimations = {}
 function preloadDone() {
 
     g_sprites.level = new Sprite(g_images.level);
+    g_sprites.level.scale = 2.6;
     //g_sprites.bullet = new Sprite(g_images.ship);
     //g_sprites.bullet.scale = 0.25;
     g_sprites.bullet = new SpriteAnimated(247, 88, 20, 7, g_images.playerSheet);
