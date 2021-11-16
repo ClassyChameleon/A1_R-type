@@ -155,7 +155,7 @@ WalkingEnemy.prototype.update = function (du) {
     if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
 
     var walkerSpeed = 2.5*du;
-    for(var i = 0; i < entityManager._blocks.length; i++){
+    for(var i = 1; i < entityManager._blocks.length; i++){
         if(util.boxWalkerCollision(this, entityManager._blocks[i])){
             walkerSpeed = 0;
         }

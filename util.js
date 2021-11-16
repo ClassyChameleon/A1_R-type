@@ -121,7 +121,7 @@ fillBox: function (ctx, x, y, w, h, style) {
 },
 
 boxWalkerCollision: function(walker, box){
-    var srcX = walker.cx - walker.sprite.width*walker.scale/2;
+    var srcX = walker.cx - walker.sprite.width/2;;
     if(srcX > box.cx && srcX < box.cx+box.width){
         return true;
     }
