@@ -267,4 +267,67 @@ SoloEnemy.prototype.render = function (ctx) {
     var cel = g_spriteAnimations.redEnemy[this.celNo];
     cel.scale = this.scale;
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
+};
+
+function Boss(descr) {
+    this.setup(descr);
+    this.isAlive = true;
+    this.hp = 100;
+
+    this.sprite = this.sprite || g_spriteAnimations.boss[0];
+    this.scale = 3;
+    this.rotation = Math.PI * (-2/4)
 }
+
+Boss.prototype = new Entity();
+Boss.prototype.deathSound = new Audio(
+    "sounds/enemyDeath.ogg"
+);
+
+Boss.prototype.angle = 0;
+Boss.prototype.angleSpeed = 0.01;
+Boss.prototype.celNo = 0;
+Boss.prototype.cx = g_canvas.width - 150;
+Boss.prototype.cy = g_canvas.height/2;
+
+Boss.prototype.getRadius = function () {
+    return (this.sprite.height / 2) * this.scale * 0.5;
+};
+
+Boss.prototype.takeBulletHit = function () {
+    this.hp -= 1;
+    if (this.hp === 0) {
+        this.deathSound.play();
+        this.kill();
+        util.powerChance(this.chanceOfDrop, this.cx, this.cy);
+    }
+};
+
+Boss.prototype.update = function (du) {
+    spatialManager.unregister(this);
+    if (this._isDeadNow) {
+        return entityManager.KILL_ME_NOW;
+    }
+
+    var halfWidth = this.sprite.width*this.scale/2;
+
+    if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
+
+    // this.cx += g_envVel;
+    // if (this.celNo !== 0) this.cx -= 2.5*du;    
+    this.enemyMaybeFireBullet(0.01, -65, 15);
+
+    spatialManager.register(this);
+
+    // Animation
+    // TODO: Make animation not dependant on real time.
+    this.celNo = Date.now()%1000;
+    this.celNo = parseInt(Math.floor(this.celNo*6/1000));
+    if (this.celNo >= g_spriteAnimations.boss.length) this.celNo = 0;
+};
+
+Boss.prototype.render = function (ctx) {
+    var cel = g_spriteAnimations.boss[this.celNo];
+    cel.scale = this.scale;
+    cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
+};

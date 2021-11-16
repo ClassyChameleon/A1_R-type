@@ -256,6 +256,7 @@ function requestPreloads() {
         redEnemy     : "imgs/r-redEnemy.gif",
         walkingEnemy : "imgs/r-walkingEnemy.gif",
         brownEnemy   : "imgs/r-brownEnemy.gif",
+        boss         : "imgs/r-smallBoss.gif",
         enemyBullet  : "imgs/r-enemyBullet.gif",
         explosions   : "imgs/r-explosions.gif",
         level        : "imgs/level1.png",
@@ -297,11 +298,11 @@ function preloadDone() {
     g_spriteAnimations.shipDeath[0] = new SpriteAnimated(0, 342, 34, 30, g_images.playerSheet);
     g_spriteAnimations.shipDeath[1] = new SpriteAnimated(34, 342, 34, 30, g_images.playerSheet);
 
+    // ENEMIES
     g_spriteAnimations.redEnemy = animate(33, 36, 8, 1, 8, g_images.redEnemy, 0, 0);
-
     g_spriteAnimations.brownEnemy = animate(33, 34, 8, 2, 16, g_images.brownEnemy, 0, 0);
-
     g_spriteAnimations.walkingEnemy = animate(33, 33, 3, 1, 3, g_images.walkingEnemy, 0, 0);
+    g_spriteAnimations.boss = animate(54, 57, 1, 1, 1, g_images.boss, 0, 0);
 
     g_spriteAnimations.explosion = animate(33, 33, 6, 1, 6, g_images.explosions, 128, 0);
 

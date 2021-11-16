@@ -38,6 +38,7 @@ _explosions  : [],
 _powerUpsFire: [],
 
 _bShowRocks : true,
+_bossSpawned: false,
 
 _timeStampSpawner    : 1000,
 _timeStampSpawnerMEM : 1000, //memory
@@ -110,7 +111,7 @@ deferredSetup : function () {
 init: function() {
     //this._generateRocks();
     //this._generateShip();
-    this.generateEnemy();
+    //this.generateEnemy();
     //this.generatePowerUp();
 },
 
@@ -206,6 +207,13 @@ generateWalker: function(descr) {
     this._timeStamps[2] = 100;
 },
 
+generateBoss: function(descr) {
+    if (this._bossSpawned) return;
+    this._bossSpawned = true;
+
+    entityManager._enemies.push(new Boss(descr));
+},
+
 resetTimeSpawner: function() {
     if (g_envVel === 0) {
         if (this._timeStampSpawnerMEM > 200)
@@ -283,9 +291,9 @@ update: function(du) {
     for (let i = 0; i<=2; i++) {
         this._timeStamps[i] -= du;
     }
-    this.maybeGenerateEnemy();
+    //this.maybeGenerateEnemy();
     //if (this._rocks.length === 0) this._generateRocks();
-    if (this._enemies.length === 0) this.generateAllEnemies();
+    //if (this._enemies.length === 0) this.generateAllEnemies();
 
 },
 
