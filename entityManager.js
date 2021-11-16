@@ -148,7 +148,6 @@ generateBlock : function(descr) {
 
 maybeGenerateEnemy: function() {
     var spawn = Math.floor(util.randRange(0,this._timeStampSpawner));
-    //console.log(this._timeStampSpawner);
     if (spawn === 0) this.generateAllEnemies();
     if (spawn === 1) this.generateWormShipWave();
     if (spawn === 2) this.generateRedShipWave();
