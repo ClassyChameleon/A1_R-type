@@ -210,7 +210,7 @@ generateWalker: function(descr) {
 resetTimeSpawner: function() {
     if (g_envVel === 0) {
         if (this._timeStampSpawnerMEM > 200)
-            this._timeStampSpawnerMEM--;
+            this._timeStampSpawnerMEM -= 10;
     }
     this._timeStampSpawner = this._timeStampSpawnerMEM;
 },
