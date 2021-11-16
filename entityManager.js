@@ -111,7 +111,7 @@ deferredSetup : function () {
 init: function() {
     //this._generateRocks();
     //this._generateShip();
-    //this.generateEnemy();
+    this.generateEnemy();
     //this.generatePowerUp();
 },
 
@@ -298,9 +298,9 @@ update: function(du) {
     for (let i = 0; i<=2; i++) {
         this._timeStamps[i] -= du;
     }
-    //this.maybeGenerateEnemy();
+    this.maybeGenerateEnemy();
     //if (this._rocks.length === 0) this._generateRocks();
-    //if (this._enemies.length === 0) this.generateAllEnemies();
+    if (this._enemies.length === 0) this.generateAllEnemies();
 
 },
 
