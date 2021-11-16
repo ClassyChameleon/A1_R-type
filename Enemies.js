@@ -28,32 +28,15 @@ WormShip.prototype.timestampMove = 0;
 WormShip.prototype.celNo = 0;
 
 WormShip.prototype.init = function() { // Creates the six ships, maybe this belongs in entityManager. Like the _generateRocks method?!?!?!?
-    let randStart = util.randRange(120, g_canvas.height-20);
+    let randStart = this.cy || util.randRange(120, g_canvas.height-20);
     let cx = g_canvas.width;
     let newEnemy;
-    // This method is more suitable for the red ships
-    /*
-    for (let index = 0; index < 6; index++) {
-        if (index % 2 === 0) {
-            newEnemy = new WormShip({
-                cx : cx + (index * 60),
-                cy : randStart + 20
-            });
-        }
-        else {
-            newEnemy = new WormShip({
-                cx : cx + (index * 60),
-                cy : randStart - 20,
-            });
-        }
-        entityManager._enemies.push(newEnemy);
-    }
-    */
     for (let index = 0; index < 6; index++) {
         newEnemy = new WormShip({
             cx            : cx + (index * 50),
             cy            : randStart + 20,
-            timestampMove : (index * 10)
+            timestampMove : (index * 10),
+            moveType      : this.moveType
         });
         entityManager._enemies.push(newEnemy);
     }
@@ -143,7 +126,7 @@ WalkingEnemy.prototype.angle = 0;
 WalkingEnemy.prototype.angleSpeed = 0.01;
 WalkingEnemy.prototype.celNo = 0;
 WalkingEnemy.prototype.cx = g_canvas.width;
-WalkingEnemy.prototype.cy = g_canvas.height - 60;
+WalkingEnemy.prototype.cy = g_canvas.height - 100;
 
 WalkingEnemy.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
@@ -167,6 +150,7 @@ WalkingEnemy.prototype.update = function (du) {
 
     if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
 
+    this.cx += g_envVel;
     if (this.celNo !== 0) this.cx -= 2.5*du;    
     this.enemyMaybeFireBullet();
 
@@ -212,10 +196,31 @@ SoloEnemy.prototype.deathSound = new Audio(
     "sounds/enemyDeath.ogg"
 );
 SoloEnemy.prototype.angle = 0;
-SoloEnemy.prototype.angleSpeed = 0.03;
+SoloEnemy.prototype.angleSpeed = 0.09;
 SoloEnemy.prototype.celNo = 0;
 SoloEnemy.prototype.cx = g_canvas.width;
 SoloEnemy.prototype.cy = 100;
+
+SoloEnemy.prototype.init = function() { 
+    let randStart = util.randRange(120, g_canvas.height-20);
+    let cx = g_canvas.width;
+    let newEnemy;
+    for (let index = 0; index < 4; index++) {
+        if (index % 2 === 0) {
+            newEnemy = new SoloEnemy({
+                cx : cx + (index * 60),
+                cy : randStart + 20
+            });
+        }
+        else {
+            newEnemy = new SoloEnemy({
+                cx : cx + (index * 60),
+                cy : randStart - 20,
+            });
+        }
+        entityManager._enemies.push(newEnemy);
+    }
+};
 
 SoloEnemy.prototype.getRadius = function () {
     return (this.sprite.width / 2 );
@@ -241,7 +246,7 @@ SoloEnemy.prototype.update = function (du) {
 
     this.cx -= 4*du;
     this.angle += this.angleSpeed * du;
-    this.cy = (this.oldY + Math.sin(this.angle) * 100);
+    this.cy = (this.oldY + Math.sin(this.angle) * 50);
 
     this.enemyMaybeFireBullet();
     

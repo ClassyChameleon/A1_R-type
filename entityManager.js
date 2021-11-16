@@ -150,6 +150,20 @@ generateEnemy: function() {
     entityManager._enemies.push(new SoloEnemy());
 },
 
+generateWormShipWave: function(descr) {
+    let ship = new WormShip(descr);
+    ship.init();
+},
+
+generateRedShipWave: function(descr) {
+    let ship = new SoloEnemy(descr);
+    ship.init();
+},
+
+generateWalker: function(descr) {
+    entityManager._enemies.push(new WalkingEnemy(descr));
+},
+
 generatePowerUp: function() {
     this._powerUps.push(new PowerUp({
         cx : g_canvas.width - 100,
