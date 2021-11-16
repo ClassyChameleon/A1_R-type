@@ -231,7 +231,6 @@ Ship.prototype.maybeFireBullet = function (du) {
 
     if (this.rocketPUCooldown > 0) this.rocketPUCooldown -= du;
     if (this.rocketPUCooldown < 0) this.rocketPUCooldown = 0;
-    console.log("rocket cooldown: ", this.rocketPUCooldown)
 
     if (keys[this.KEY_FIRE]) {
         if (!this.ready2Fire) {
@@ -296,10 +295,6 @@ Ship.prototype.maybeFireRocket = function (dX, dY, launchDist) {
     )
 }
 
-Ship.prototype.pRocket = function () {
-    console.log('I fired a rocket')
-}
-
 Ship.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
@@ -316,7 +311,6 @@ Ship.prototype.takePowerUp = function (type) {
         default:
             break;
     }
-    console.log("took a power: " + type);
 }
 
 Ship.prototype.reset = function () {

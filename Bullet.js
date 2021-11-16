@@ -17,14 +17,11 @@ function Bullet(descr) {
 
     // Common inherited setup logic from Entity
     this.setup(descr);
-    console.log("this.power: " + this.power);
     this.type = Math.floor(this.power / 20);
-    console.log(this.type);
     this.life = this.type + 1;
 
     // HACKED-IN AUDIO (no preloading)
     if (this.type) {
-        console.log("wow", this.power)
         this.fireSound = new Audio(
             "sounds/shipBANG.ogg");
     } else {
