@@ -304,7 +304,7 @@ function preloadDone() {
     g_spriteAnimations.redEnemy = animate(33, 36, 8, 1, 8, g_images.redEnemy, 0, 0);
     g_spriteAnimations.brownEnemy = animate(33, 34, 8, 2, 16, g_images.brownEnemy, 0, 0);
     g_spriteAnimations.walkingEnemy = animate(33, 33, 3, 1, 3, g_images.walkingEnemy, 0, 0);
-    g_spriteAnimations.boss = animate(54, 57, 1, 1, 1, g_images.boss, 0, 0);
+    g_spriteAnimations.boss = animate(54, 57, 3, 1, 3, g_images.boss, 0, 0);
 
     g_spriteAnimations.explosion = animate(33, 33, 6, 1, 6, g_images.explosions, 128, 0);
 

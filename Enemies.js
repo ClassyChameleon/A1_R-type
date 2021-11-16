@@ -288,7 +288,10 @@ Boss.prototype.angle = 0;
 Boss.prototype.angleSpeed = 0.01;
 Boss.prototype.celNo = 0;
 Boss.prototype.cx = g_canvas.width - 150;
-Boss.prototype.cy = g_canvas.height/2;
+Boss.prototype.cy = g_canvas.height - 200;
+Boss.prototype.velY = 0;
+Boss.prototype.jumping = false;
+Boss.prototype.floatTime = 0;
 
 Boss.prototype.getRadius = function () {
     return (this.sprite.height / 2) * this.scale * 0.5;
@@ -313,25 +316,62 @@ Boss.prototype.update = function (du) {
     if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
 
     // this.cx += g_envVel;
-    // if (this.celNo !== 0) this.cx -= 2.5*du;    
-    this.enemyMaybeFireBullet(0.01, -65, 15);
-    this.maybeFireLazer();
+    // if (this.celNo !== 0) this.cx -= 2.5*du;
+    if(this.jumping) {
+        this.enemyMaybeFireBullet(0.01, -85, -15);    
+        this.maybeFireLazer(55, 50);
+    } 
+    else {
+        this.enemyMaybeFireBullet(0.01, -65, 15);
+        this.maybeFireLazer(30, 20);
+        
+    } 
+    this.maybeJump(du);
 
     spatialManager.register(this);
 
     // Animation
     // TODO: Make animation not dependant on real time.
-    this.celNo = Date.now()%1000;
-    this.celNo = parseInt(Math.floor(this.celNo*6/1000));
-    if (this.celNo >= g_spriteAnimations.boss.length) this.celNo = 0;
 };
 
-Boss.prototype.maybeFireLazer = function () {
+Boss.prototype.maybeFireLazer = function (cx, cy) {
     if (0.01 > Math.random()) {
         entityManager.fireEnemyLazer(
-            this.cx - 30, 
-            this.cy - 20
+            this.cx - cx, 
+            this.cy - cy
             );
+    }
+}
+
+//The ugliest code I have ever made, but it works™
+Boss.prototype.maybeJump = function (du) {
+    if (this.jumping){
+        if(this.velY > 0){
+            this.cy -= this.velY;
+            this.velY -= 0.5*du;
+            if(this.velY < 0) this.velY = 0;
+        }
+        else if(this.floatTime > 0){
+            this.celNo = 1
+            this.floatTime -= du;
+        }
+        else if(this.cy < g_canvas.height - 200){
+            this.cy -= this.velY;
+            this.velY -= 0.5*du;
+            this.celNo = 2;
+            if(this.cy >= g_canvas.height - 200){
+                this.velY = 0;
+                this.cy = g_canvas.height - 200;
+                this.jumping = false;
+                this.celNo = 0;
+            }
+        }
+    }
+    if(0.005 > Math.random() && !this.jumping) {
+        this.celNo = 2;
+        this.jumping = true;
+        this.velY = util.randRange(5, 11);
+        this.floatTime = util.randRange(100, 301);
     }
 }
 
