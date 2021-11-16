@@ -65,7 +65,7 @@ RocketPower.prototype = new Entity();
 
 RocketPower.prototype.cx = 200;
 RocketPower.prototype.cy = 200;
-RocketPower.prototype.velX = 20;
+RocketPower.prototype.velX = 0.01;
 RocketPower.prototype.scale = 1;
 RocketPower.prototype.life = 1;
 RocketPower.fireCelNo = 0;
@@ -77,10 +77,12 @@ RocketPower.prototype.update = function (du) {
         return entityManager.KILL_ME_NOW;
     }
 
+    if (this.velX > 20) this.velX = 20;
     this.cx += this.velX * du;
+    if (this.velX < 20) this.velX *= 1.5;
 
     var hitEntity = this.findHitEntity();
-    if (hitEntity && !(hitEntity instanceof EnemyBullet) && !(hitEntity instanceof Bullet)) {
+    if (hitEntity && !(hitEntity instanceof EnemyBullet) && !(hitEntity instanceof Bullet) && !(hitEntity instanceof Ship)) {
         var canTakeHit = hitEntity.takeBulletHit;
         if (canTakeHit) {
             canTakeHit.call(hitEntity);

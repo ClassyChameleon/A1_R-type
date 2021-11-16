@@ -57,6 +57,7 @@ Ship.prototype.ready2Fire = false;
 // Power Ups
 Ship.prototype.rocketPU = false;
 Ship.prototype.rocketPUCooldown = 0;
+Ship.prototype.baseCooldown = 40;
 // Animation stuff
 Ship.prototype.celNo = 2;
 Ship.prototype.timestampUP = 0;
@@ -122,7 +123,7 @@ Ship.prototype.update = function (du) {
         }
 
         let hitEntity = this.findHitEntity();
-        if (this.isColliding() && !(hitEntity instanceof PowerUp)) {
+        if (this.isColliding() && !(hitEntity instanceof PowerUp) && !(hitEntity instanceof RocketPower)) {
             this.dyingNowInitialize = true;
         } else {
             spatialManager.register(this);
@@ -142,6 +143,7 @@ Ship.prototype.respawn = function () {
 
 Ship.prototype.initiateDeath = function (du) {
     this.power = 0;
+    this.rocketPU = false;
     g_interface.beamMeter = this.power;
     this.celNo = 0;
     this.dyingNow = true;
@@ -227,9 +229,16 @@ Ship.prototype.maybeFireBullet = function (du) {
     var dY = -Math.cos(this.rotation);
     var launchDist = this.getRadius() * 1.2;
 
+    if (this.rocketPUCooldown > 0) this.rocketPUCooldown -= du;
+    if (this.rocketPUCooldown < 0) this.rocketPUCooldown = 0;
+    console.log("rocket cooldown: ", this.rocketPUCooldown)
+
     if (keys[this.KEY_FIRE]) {
         if (!this.ready2Fire) {
-            if(this.rocketPU) this.maybeFireRocket(dX, dY, launchDist);
+            if(this.rocketPU && this.rocketPUCooldown === 0){
+                this.maybeFireRocket(dX, dY, launchDist);
+                this.rocketPUCooldown = this.baseCooldown;
+            } 
             entityManager.fireBullet(
                 this.cx + dX * launchDist + this.sprite.width, 
                 this.cy + dY,
@@ -253,7 +262,6 @@ Ship.prototype.maybeFireBullet = function (du) {
         
         if(!this.ready2Fire) return;
         else {
-            console.log("this.power: " + this.power);
             this.ready2Fire = false;
             this.shipSounds.charge.pause();
             this.shipSounds.charge.currentTime = 0;
@@ -262,7 +270,10 @@ Ship.prototype.maybeFireBullet = function (du) {
                 this.power = 0;
                 return;
             }
-            if(this.rocketPU) this.maybeFireRocket(dX, dY, launchDist);
+            if(this.rocketPU && this.rocketPUCooldown === 0){
+                this.maybeFireRocket(dX, dY, launchDist);
+                this.rocketPUCooldown = this.baseCooldown;
+            } 
             entityManager.fireBullet(
                 this.cx + dX * launchDist + this.sprite.width, 
                 this.cy + dY,
