@@ -92,8 +92,8 @@ Entity.prototype.enemyMaybeFireBullet = function (chance=0.002, bulletStartX = 0
     bulletStartX += this.cx;
     bulletStartY += this.cy;
     
-    var yVel = entityManager._ships[0].cy-this.cy;
-    var xVel = entityManager._ships[0].cx-this.cx;
+    var yVel = entityManager._ships[0].cy-bulletStartY;
+    var xVel = entityManager._ships[0].cx-bulletStartX;
     
     var angleRadians = Math.atan2(
         entityManager._ships[0].cy-this.cy,
