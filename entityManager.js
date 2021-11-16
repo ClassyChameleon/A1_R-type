@@ -135,6 +135,13 @@ fireBulletEnemy: function(cx, cy, velX, velY, rotation) {
     }));
 },
 
+fireEnemyLazer: function(cx, cy) {
+    this._enemyBullets.push(new EnemyLazer({
+        cx   : cx,
+        cy   : cy,
+    }));
+},
+
 generateRock : function(descr) {
     this._rocks.push(new Rock(descr));
 },

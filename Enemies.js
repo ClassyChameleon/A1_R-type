@@ -299,7 +299,6 @@ Boss.prototype.takeBulletHit = function () {
     if (this.hp === 0) {
         this.deathSound.play();
         this.kill();
-        util.powerChance(this.chanceOfDrop, this.cx, this.cy);
     }
 };
 
@@ -316,6 +315,7 @@ Boss.prototype.update = function (du) {
     // this.cx += g_envVel;
     // if (this.celNo !== 0) this.cx -= 2.5*du;    
     this.enemyMaybeFireBullet(0.01, -65, 15);
+    this.maybeFireLazer();
 
     spatialManager.register(this);
 
@@ -325,6 +325,15 @@ Boss.prototype.update = function (du) {
     this.celNo = parseInt(Math.floor(this.celNo*6/1000));
     if (this.celNo >= g_spriteAnimations.boss.length) this.celNo = 0;
 };
+
+Boss.prototype.maybeFireLazer = function () {
+    if (0.01 > Math.random()) {
+        entityManager.fireEnemyLazer(
+            this.cx, 
+            this.cy
+            );
+    }
+}
 
 Boss.prototype.render = function (ctx) {
     var cel = g_spriteAnimations.boss[this.celNo];

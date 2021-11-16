@@ -260,6 +260,7 @@ function requestPreloads() {
         enemyBullet  : "imgs/r-enemyBullet.gif",
         explosions   : "imgs/r-explosions.gif",
         level        : "imgs/level1.png",
+        lazers       : "imgs/r-laserFire.gif",
     };
 
     imagesPreload(requiredImages, g_images, preloadDone);
@@ -287,6 +288,7 @@ function preloadDone() {
     g_spriteAnimations.bullet5 = animate(82, 16, 2, 1, 2, g_images.playerSheet, 103, 169);
 
     g_spriteAnimations.enemyBullet = animate(7+10, 7, 4, 1, 4, g_images.enemyBullet, 136-5, 6);
+    g_spriteAnimations.enemyLazer = animate(66, 34, 4, 2, 8, g_images.lazers, 300, 469);
 
     // 2 frames, [1]
     g_spriteAnimations.fireBullet = animate(19, 15, 2, 1, 2, g_images.playerSheet, 214, 83);

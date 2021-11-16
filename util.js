@@ -52,8 +52,6 @@ randRange: function(min, max) {
 powerChance: function(chance, cx, cy) {
     let fullChance = Math.floor(this.randRange(1, 101));
     if(fullChance <= chance) entityManager.generatePowerUp(cx, cy);
-    console.log("fullchance: ", fullChance);
-    console.log("chance: ", chance);
     return;
 },
 
