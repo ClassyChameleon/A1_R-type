@@ -91,15 +91,7 @@ WormShip.prototype.update = function (du) {
 };
 
 WormShip.prototype.render = function (ctx) {
-    /*
-    var origScale = this.sprite.scale;
-    // pass my scale into the sprite, for drawing
-    this.sprite.scale = this.scale;
-    this.sprite.drawCentredAt(
-	ctx, this.cx, this.cy, this.rotation
-    );
-    this.sprite.scale = origScale;
-    */
+
     var celNo = 8;
     if (this.moveType === 1) celNo = 7;
     if (this.moveType === 3) celNo = 9;
@@ -146,6 +138,16 @@ WalkingEnemy.prototype.takeBulletHit = function () {
 
 WalkingEnemy.prototype.update = function (du) {
     spatialManager.unregister(this);
+    for(var i = 1; i < entityManager._blocks.length; i++){
+        let box = entityManager._blocks[i];
+        while(
+            util.boxWalkerCollision(this, box) && 
+            util.boxWalkerFixSpawn(this, box) 
+        ){
+            this.cy -= box.height;
+        }
+    }
+
     if (this._isDeadNow) {
         return entityManager.KILL_ME_NOW;
     }
@@ -175,15 +177,6 @@ WalkingEnemy.prototype.update = function (du) {
 };
 
 WalkingEnemy.prototype.render = function (ctx) {
-    /*
-    var origScale = this.sprite.scale;
-    // pass my scale into the sprite, for drawing
-    this.sprite.scale = this.scale;
-    this.sprite.drawCentredAt(
-	ctx, this.cx, this.cy, this.rotation
-    );
-    this.sprite.scale = origScale;
-    */
     var cel = g_spriteAnimations.walkingEnemy[this.celNo];
     cel.scale = this.scale;
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
