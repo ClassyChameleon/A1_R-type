@@ -204,6 +204,7 @@ var KEY_0 = keyCode('0');
 
 var KEY_1 = keyCode('1');
 var KEY_2 = keyCode('2');
+var KEY_3 = keyCode('3');
 
 var KEY_K = keyCode('K');
 
@@ -218,6 +219,8 @@ function processDiagnostics() {
     if (eatKey(KEY_1)) g_interface.addScore(10000);
     // Faster scrolling
     if (eatKey(KEY_2)) g_envVel -= 0.5;
+
+    if (eatKey(KEY_3)) g_blockVisibility = 0.3 - g_blockVisibility;
 }
 
 

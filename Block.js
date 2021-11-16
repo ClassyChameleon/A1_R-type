@@ -28,9 +28,11 @@ Block.prototype.update = function (du) {
     this.cx += g_envVel;
 };
 
+var g_blockVisibility = 0.3;
+
 Block.prototype.render = function (ctx) {
     ctx.fillStyle = "#FF0000";
-    ctx.globalAlpha = 0.3;
+    ctx.globalAlpha = g_blockVisibility;
     ctx.fillRect(this.cx, this.cy, this.width, this.height);
     ctx.globalAlpha = 1.0;
 };
