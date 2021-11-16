@@ -32,15 +32,15 @@ Interface.prototype.xIndentation = 152;
 Interface.prototype.gameover = false;
 
 Interface.prototype.addScore = function(number) {
-    if (this._score + number > 9999999) {
-        // if score > 9'999'999 then it overlaps in interface
-        this._score = 9999999;
-        return;
-    }
     this._nextLiveCounter -= number;
     if (this._nextLiveCounter<=0) {
         this.lives++;
         this._nextLiveCounter += 100000;
+    }
+    if (this._score + number > 9999999) {
+        // if score > 9'999'999 then it overextends in interface
+        this._score = 9999999;
+        return;
     }
     this._score += number;
     this.xIndentation = 163 - this._score.toString().length*11;

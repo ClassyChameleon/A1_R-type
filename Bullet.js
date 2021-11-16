@@ -82,6 +82,7 @@ Bullet.prototype.life = 1;
 Bullet.prototype.power = 0;
 Bullet.prototype.type = 0;
 Bullet.prototype.celNo = 0;
+Bullet.prototype.score = 100;
 
 // Convert times from milliseconds to "nominal" time units.
 Bullet.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
@@ -120,7 +121,8 @@ Bullet.prototype.update = function (du) {
         var canTakeHit = hitEntity.takeBulletHit;
         if (canTakeHit) {
             canTakeHit.call(hitEntity);
-            g_interface.addScore(100);
+            g_interface.addScore(this.score);
+            this.score *= 2;
         }
         this.life--;
         if(this.life < 1) return entityManager.KILL_ME_NOW;

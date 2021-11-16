@@ -212,6 +212,12 @@ function processDiagnostics() {
     //if (eatKey(KEY_AVE_VEL)) g_useAveVel = !g_useAveVel;
 
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
+
+    // Cheats to demonstrate some features
+    // Add 10'000 score
+    if (eatKey(KEY_1)) g_interface.addScore(10000);
+    // Faster scrolling
+    if (eatKey(KEY_2)) g_envVel -= 0.5;
 }
 
 
