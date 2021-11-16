@@ -138,13 +138,23 @@ WalkingEnemy.prototype.takeBulletHit = function () {
 
 WalkingEnemy.prototype.update = function (du) {
     spatialManager.unregister(this);
+    var walkerSpeed = 2.5*du;
+
+    this.oldX = this.cx + 5;
+    for(var i = 1; i < entityManager._blocks.length; i++){
+        if(util.boxWalkerCollision(this, entityManager._blocks[i])){
+            this.cx = this.oldX;
+            walkerSpeed = 0;
+        }
+    }
+
     for(var i = 1; i < entityManager._blocks.length; i++){
         let box = entityManager._blocks[i];
         while(
             util.boxWalkerCollision(this, box) && 
             util.boxWalkerFixSpawn(this, box) 
         ){
-            this.cy -= box.height;
+            return entityManager.KILL_ME_NOW;
         }
     }
 
@@ -156,12 +166,6 @@ WalkingEnemy.prototype.update = function (du) {
 
     if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
 
-    var walkerSpeed = 2.5*du;
-    for(var i = 1; i < entityManager._blocks.length; i++){
-        if(util.boxWalkerCollision(this, entityManager._blocks[i])){
-            walkerSpeed = 0;
-        }
-    }
 
     this.cx += g_envVel;
     if (this.celNo !== 0) this.cx -= walkerSpeed;
