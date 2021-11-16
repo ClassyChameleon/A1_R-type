@@ -154,8 +154,15 @@ WalkingEnemy.prototype.update = function (du) {
 
     if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
 
+    var walkerSpeed = 2.5*du;
+    for(var i = 0; i < entityManager._blocks.length; i++){
+        if(util.boxWalkerCollision(this, entityManager._blocks[i])){
+            walkerSpeed = 0;
+        }
+    }
+
     this.cx += g_envVel;
-    if (this.celNo !== 0) this.cx -= 2.5*du;    
+    if (this.celNo !== 0) this.cx -= walkerSpeed;
     this.enemyMaybeFireBullet();
 
     spatialManager.register(this);

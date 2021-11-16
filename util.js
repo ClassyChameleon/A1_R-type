@@ -120,11 +120,10 @@ fillBox: function (ctx, x, y, w, h, style) {
     ctx.fillStyle = oldStyle;
 },
 
-boxPointCollision: function(ctx, srcX, srcY, posX, posY, height, width){
-    if(srcX > posX && srcX < posX+height){
-        if(srcY > posY && srcY < posY+width){
-            return true;
-        }
+boxWalkerCollision: function(walker, box){
+    var srcX = walker.cx - walker.sprite.width*walker.scale/2;
+    if(srcX > box.cx && srcX < box.cx+box.width){
+        return true;
     }
     return false;
 },
