@@ -111,7 +111,7 @@ init: function() {
     //this._generateRocks();
     //this._generateShip();
     this.generateEnemy();
-    this.generatePowerUp();
+    //this.generatePowerUp();
 },
 
 fireBullet: function(cx, cy, rotation, power) {
@@ -148,7 +148,7 @@ generateBlock : function(descr) {
 
 maybeGenerateEnemy: function() {
     var spawn = Math.floor(util.randRange(0,this._timeStampSpawner));
-    console.log(this._timeStampSpawner);
+    //console.log(this._timeStampSpawner);
     if (spawn === 0) this.generateAllEnemies();
     if (spawn === 1) this.generateWormShipWave();
     if (spawn === 2) this.generateRedShipWave();
@@ -215,10 +215,10 @@ resetTimeSpawner: function() {
     this._timeStampSpawner = this._timeStampSpawnerMEM;
 },
 
-generatePowerUp: function() {
+generatePowerUp: function(cx, cy) {
     this._powerUps.push(new PowerUp({
-        cx : g_canvas.width - 100,
-        cy : 200
+        cx : cx,
+        cy : cy
     }))
 },
 

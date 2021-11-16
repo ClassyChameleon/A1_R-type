@@ -26,6 +26,7 @@ WormShip.prototype.speed = 4;
 WormShip.prototype.moveType = 2;
 WormShip.prototype.timestampMove = 0;
 WormShip.prototype.celNo = 0;
+WormShip.prototype.chanceOfDrop = 5;
 
 WormShip.prototype.init = function() { // Creates the six ships, maybe this belongs in entityManager. Like the _generateRocks method?!?!?!?
     let randStart = this.cy || util.randRange(120, g_canvas.height-20);
@@ -51,6 +52,7 @@ WormShip.prototype.takeBulletHit = function () {
     if (this.hp === 0) {
         this.deathSound.play();
         this.kill();
+        util.powerChance(this.chanceOfDrop, this.cx, this.cy);
     }
 };
 
@@ -127,6 +129,7 @@ WalkingEnemy.prototype.angleSpeed = 0.01;
 WalkingEnemy.prototype.celNo = 0;
 WalkingEnemy.prototype.cx = g_canvas.width;
 WalkingEnemy.prototype.cy = g_canvas.height - 100;
+WalkingEnemy.prototype.chanceOfDrop = 20;
 
 WalkingEnemy.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
@@ -137,6 +140,7 @@ WalkingEnemy.prototype.takeBulletHit = function () {
     if (this.hp === 0) {
         this.deathSound.play();
         this.kill();
+        util.powerChance(this.chanceOfDrop, this.cx, this.cy);
     }
 };
 
@@ -200,6 +204,7 @@ SoloEnemy.prototype.angleSpeed = 0.09;
 SoloEnemy.prototype.celNo = 0;
 SoloEnemy.prototype.cx = g_canvas.width;
 SoloEnemy.prototype.cy = 100;
+SoloEnemy.prototype.chanceOfDrop = 10;
 
 SoloEnemy.prototype.init = function() { 
     let randStart = util.randRange(120, g_canvas.height-100);
@@ -231,6 +236,7 @@ SoloEnemy.prototype.takeBulletHit = function () {
     if (this.hp === 0) {
         this.deathSound.play();
         this.kill();
+        util.powerChance(this.chanceOfDrop, this.cx, this.cy);
     }
 };
 

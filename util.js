@@ -45,6 +45,18 @@ randRange: function(min, max) {
     return (min + Math.random() * (max - min));
 },
 
+// CHANCE OF POWER UP
+// ==================
+
+// needs chance(number from 1-100 and location to spawn power up)
+powerChance: function(chance, cx, cy) {
+    let fullChance = Math.floor(this.randRange(1, 101));
+    if(fullChance <= chance) entityManager.generatePowerUp(cx, cy);
+    console.log("fullchance: ", fullChance);
+    console.log("chance: ", chance);
+    return;
+},
+
 
 // MISC
 // ====

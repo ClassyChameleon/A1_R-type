@@ -11,7 +11,7 @@ function PowerUp(descr) {
 
 PowerUp.prototype = new Entity();
 
-PowerUp.prototype.cx = 200;
+PowerUp.prototype.cx = 540;
 PowerUp.prototype.cy = 200;
 PowerUp.prototype.fireCelNo = 0;
 PowerUp.prototype.type = 1; //type 1 = rockets, type 2 = , type 3 = 
