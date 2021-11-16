@@ -329,8 +329,8 @@ Boss.prototype.update = function (du) {
 Boss.prototype.maybeFireLazer = function () {
     if (0.01 > Math.random()) {
         entityManager.fireEnemyLazer(
-            this.cx, 
-            this.cy
+            this.cx - 30, 
+            this.cy - 20
             );
     }
 }

@@ -82,7 +82,7 @@ EnemyBullet.prototype.render = function (ctx) {
 function EnemyLazer(descr) {
     this.setup(descr);
     this.sprite = g_spriteAnimations.enemyLazer;
-    this.scale = 1.75;
+    this.scale = 0.4;
     this.celNo = this.sprite.length - 1;
 
 }
@@ -92,7 +92,7 @@ EnemyLazer.prototype = new Entity();
 EnemyLazer.prototype.rotation = 0;
 EnemyLazer.prototype.cx = 200;
 EnemyLazer.prototype.cy = 200;
-EnemyLazer.prototype.velX = 20;
+EnemyLazer.prototype.velX = 10;
 
 EnemyLazer.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
 
@@ -131,12 +131,12 @@ EnemyLazer.prototype.update = function (du) {
 };
 
 EnemyLazer.prototype.getRadius = function () {
-    return (this.sprite[0].width / 2) * 0.9;
+    return (this.sprite[0].width / 2) * this.scale;
 };
 
 EnemyLazer.prototype.render = function (ctx) {
     var cel = this.sprite[Math.floor(this.celNo)];
-    cel.scale = 1.75;
+    cel.scale = 0.90;
     cel.drawCenteredAt(
         ctx, this.cx, this.cy, this.rotation
     );
