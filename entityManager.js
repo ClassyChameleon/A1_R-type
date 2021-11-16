@@ -39,6 +39,12 @@ _powerUpsFire: [],
 
 _bShowRocks : true,
 
+_timeStampSpawner    : 1000,
+_timeStampSpawnerMEM : 1000, //memory
+_timeStamps          : [0, 0, 0],
+// _timeStamps to keep track on how long ago an enemy spawned,
+// [0]: worm, [1]: red, [2]: walker
+
 // "PRIVATE" METHODS
 
 _generateRocks : function() {
@@ -140,28 +146,73 @@ generateBlock : function(descr) {
     this._blocks.push(new Block(descr));
 },
 
+maybeGenerateEnemy: function() {
+    var spawn = Math.floor(util.randRange(0,this._timeStampSpawner));
+    console.log(this._timeStampSpawner);
+    if (spawn === 0) this.generateAllEnemies();
+    if (spawn === 1) this.generateWormShipWave();
+    if (spawn === 2) this.generateRedShipWave();
+    if (spawn === 3) this.generateWalker();
+    if (spawn < 4) this.resetTimeSpawner();
+    this._timeStampSpawner -= 1;
+},
+
+generateAllEnemies: function() {
+    this.generateWormShipWave();
+    this.generateRedShipWave();
+    this.generateWalker();
+},
+
 generateEnemy: function() {
+    var whatShouldSpawn = Math.floor(util.randRange(0,2));
+    if (whatShouldSpawn === 0) this.generateWormShipWave();
+    if (whatShouldSpawn === 1) this.generateRedShipWave();
+    if (whatShouldSpawn === 2) this.generateWalker();
+    /*
     let ship = new WormShip({
         cx : g_canvas.width,
         cy : 200
     });
     ship.init();
     entityManager._enemies.push(new WalkingEnemy());
-    entityManager._enemies.push(new SoloEnemy());
+    entityManager._enemies.push(new SoloEnemy());*/
 },
 
 generateWormShipWave: function(descr) {
+    if (this._timeStamps[0] > 0) return;
+    if (descr === undefined) descr = {};
+    let moveType = Math.floor(util.randRange(0,2));
+    if (moveType === 0) {
+        descr.cy = 200;
+        descr.moveType = 0;
+    } else {
+        descr.cy = 200;
+        descr.moveType = 2;
+    }
     let ship = new WormShip(descr);
     ship.init();
+    this._timeStamps[0] = 60;
 },
 
 generateRedShipWave: function(descr) {
+    if (this._timeStamps[1] > 0) return;
     let ship = new SoloEnemy(descr);
     ship.init();
+    this._timeStamps[1] = 60;
 },
 
 generateWalker: function(descr) {
+    if (this._timeStamps[2] > 0) return;
     entityManager._enemies.push(new WalkingEnemy(descr));
+    this._timeStamps[2] = 100;
+},
+
+resetTimeSpawner: function() {
+    if (g_envVel === 0) {
+        if (this._timeStampSpawnerMEM > 200)
+            this._timeStampSpawnerMEM--;
+    }
+    this._timeStampSpawner = this._timeStampSpawnerMEM;
 },
 
 generatePowerUp: function() {
@@ -229,9 +280,13 @@ update: function(du) {
             }
         }
     }
-    
+
+    for (let i = 0; i<=2; i++) {
+        this._timeStamps[i] -= du;
+    }
+    this.maybeGenerateEnemy();
     //if (this._rocks.length === 0) this._generateRocks();
-    if (this._enemies.length === 0) this.generateEnemy();
+    if (this._enemies.length === 0) this.generateAllEnemies();
 
 },
 

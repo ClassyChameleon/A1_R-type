@@ -202,7 +202,7 @@ SoloEnemy.prototype.cx = g_canvas.width;
 SoloEnemy.prototype.cy = 100;
 
 SoloEnemy.prototype.init = function() { 
-    let randStart = util.randRange(120, g_canvas.height-20);
+    let randStart = util.randRange(120, g_canvas.height-100);
     let cx = g_canvas.width;
     let newEnemy;
     for (let index = 0; index < 4; index++) {
