@@ -189,7 +189,11 @@ WalkingEnemy.prototype.update = function (du) {
 WalkingEnemy.prototype.render = function (ctx) {
     var cel = g_spriteAnimations.walkingEnemy[this.celNo];
     cel.scale = this.scale;
-    cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
+    // Walker looks at ship
+    var scale = this.scale;
+    if (this.cx < entityManager._ships[0].cx) scale *= -1;
+    console.log(scale);
+    cel.drawCenteredAt(ctx, this.cx, this.cy, 0, scale);
 };
 
 function SoloEnemy(descr) {
