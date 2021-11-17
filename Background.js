@@ -31,7 +31,7 @@ Background.prototype.cy = g_canvas.height/2-15;
 
 Background.prototype.update = function (du) {
     if(this.cx < 2470) g_StopEnemySpawn = true;
-    if(this.cx > 1560){
+    if(this.cx > 1558){
         this.cx += g_envVel;
     } else {
         g_envVel = 0;
