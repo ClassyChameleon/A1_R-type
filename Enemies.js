@@ -122,6 +122,7 @@ WalkingEnemy.prototype.celNo = 0;
 WalkingEnemy.prototype.cx = g_canvas.width;
 WalkingEnemy.prototype.cy = g_canvas.height - 100;
 WalkingEnemy.prototype.chanceOfDrop = 20;
+WalkingEnemy.prototype.stop = false;
 
 WalkingEnemy.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
@@ -145,6 +146,7 @@ WalkingEnemy.prototype.update = function (du) {
         if(util.boxWalkerCollision(this, entityManager._blocks[i])){
             this.cx = this.oldX;
             walkerSpeed = 0;
+            this.stop = true;
         }
     }
 
@@ -175,6 +177,10 @@ WalkingEnemy.prototype.update = function (du) {
 
     // Animation
     // TODO: Make animation not dependant on real time.
+    if (this.stop) {
+        this.celNo = 0;
+        return;
+    }
     this.celNo = Date.now()%1000;
     this.celNo = parseInt(Math.floor(this.celNo*6/1000));
     if (this.celNo >= g_spriteAnimations.walkingEnemy.length) this.celNo = 0;
@@ -211,7 +217,7 @@ SoloEnemy.prototype.cy = 100;
 SoloEnemy.prototype.chanceOfDrop = 10;
 
 SoloEnemy.prototype.init = function() { 
-    let randStart = util.randRange(120, g_canvas.height-100);
+    let randStart = util.randRange(120, g_canvas.height-200);
     let cx = g_canvas.width;
     let newEnemy;
     for (let index = 0; index < 4; index++) {

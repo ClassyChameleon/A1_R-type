@@ -190,7 +190,7 @@ generateWormShipWave: function(descr) {
     if (descr === undefined) descr = {};
     let moveType = Math.floor(util.randRange(0,2));
     if (moveType === 0) {
-        descr.cy = 200;
+        descr.cy = 170;
         descr.moveType = 0;
     } else {
         descr.cy = 200;
