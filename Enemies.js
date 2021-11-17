@@ -378,7 +378,7 @@ Boss.prototype.maybeJump = function (du) {
     if(0.005 > Math.random() && !this.jumping) {
         this.celNo = 2;
         this.jumping = true;
-        this.velY = 15//util.randRange(5, 11);
+        this.velY = util.randRange(5, 11);
         this.floatTime = util.randRange(100, 301);
     }
 }
