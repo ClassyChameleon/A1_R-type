@@ -67,10 +67,10 @@ WormShip.prototype.update = function (du) {
     if (this.moveType%2 === 1) {
         var moveX = Math.sqrt(3*move/4);
         var moveY = Math.sqrt(1*move/4);
-        this.cx -= (moveX + g_envVel)*du;
+        this.cx -= (moveX - g_envVel)*du;
         this.cy -= moveY*du*(this.moveType-2);
     } else {
-        this.cx -= (this.speed + g_envVel)*du;
+        this.cx -= (this.speed - g_envVel)*du;
     }
 
     // Change moveType on time intervals
@@ -254,7 +254,7 @@ SoloEnemy.prototype.update = function (du) {
 
     if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
 
-    this.cx -= 4*du;
+    this.cx -= (3.5-g_envVel)*du;
     this.angle += this.angleSpeed * du;
     this.cy = (this.oldY + Math.sin(this.angle) * 50);
 
