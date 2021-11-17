@@ -77,3 +77,67 @@ EnemyBullet.prototype.render = function (ctx) {
 
     ctx.globalAlpha = 1;
 };
+
+
+function EnemyLazer(descr) {
+    this.setup(descr);
+    this.sprite = g_spriteAnimations.enemyLazer;
+    this.scale = 0.4;
+    this.celNo = this.sprite.length - 1;
+
+}
+
+EnemyLazer.prototype = new Entity();
+
+EnemyLazer.prototype.rotation = 0;
+EnemyLazer.prototype.cx = 200;
+EnemyLazer.prototype.cy = 200;
+EnemyLazer.prototype.velX = 10;
+
+EnemyLazer.prototype.lifeSpan = 3000 / NOMINAL_UPDATE_INTERVAL;
+
+EnemyLazer.prototype.update = function (du) {
+
+    spatialManager.unregister(this);
+    if (this._isDeadNow) {
+        return entityManager.KILL_ME_NOW;
+    }
+    this.lifeSpan -= du;
+    if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
+
+    
+    this.cx -= this.velX * du;
+    
+    // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
+    //
+    // Handle collisions
+    //
+    var hitEntity = this.findHitEntity();
+    if (hitEntity) {
+        var canTakeHit = hitEntity.takeBulletHit;
+        if (hitEntity instanceof Ship && canTakeHit) {
+            canTakeHit.call(hitEntity);
+        }
+    }
+    // If off-screen
+    if (this.cx > g_canvas.width) {
+        return entityManager.KILL_ME_NOW;
+    }
+    
+    spatialManager.register(this);
+
+    this.celNo -= 0.2;
+    if (this.celNo <= 0) this.celNo = this.sprite.length - 1;
+};
+
+EnemyLazer.prototype.getRadius = function () {
+    return (this.sprite[0].width / 2) * this.scale;
+};
+
+EnemyLazer.prototype.render = function (ctx) {
+    var cel = this.sprite[Math.floor(this.celNo)];
+    cel.scale = 0.90;
+    cel.drawCenteredAt(
+        ctx, this.cx, this.cy, this.rotation
+    );
+};

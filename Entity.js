@@ -86,11 +86,14 @@ Entity.prototype.wrapPosition = function () {
     this.cy = util.wrapRange(this.cy, 0, g_canvas.height);
 };
 
-Entity.prototype.enemyMaybeFireBullet = function (chance=0.002) { // TODO: Kannski breyta?!
+Entity.prototype.enemyMaybeFireBullet = function (chance=0.002, bulletStartX = 0, bulletStartY = 0) { // TODO: Kannski breyta?!
     var speed = 4; // FIXME: ??? maybe the speed is not constat will look at later
+
+    bulletStartX += this.cx;
+    bulletStartY += this.cy;
     
-    var yVel = entityManager._ships[0].cy-this.cy;
-    var xVel = entityManager._ships[0].cx-this.cx;
+    var yVel = entityManager._ships[0].cy-bulletStartY;
+    var xVel = entityManager._ships[0].cx-bulletStartX;
     
     var angleRadians = Math.atan2(
         entityManager._ships[0].cy-this.cy,
@@ -102,8 +105,8 @@ Entity.prototype.enemyMaybeFireBullet = function (chance=0.002) { // TODO: Kanns
 
     if (chance > Math.random()) {
         entityManager.fireBulletEnemy(
-            this.cx, 
-            this.cy,
+            bulletStartX, 
+            bulletStartY,
             xfinal,
             yfinal,
             0);
