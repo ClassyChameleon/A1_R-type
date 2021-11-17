@@ -38,6 +38,7 @@ _explosions  : [],
 _powerUpsFire: [],
 
 _bShowRocks : true,
+_bossSpawned: false,
 
 _timeStampSpawner    : 1000,
 _timeStampSpawnerMEM : 1000, //memory
@@ -134,6 +135,13 @@ fireBulletEnemy: function(cx, cy, velX, velY, rotation) {
     }));
 },
 
+fireEnemyLazer: function(cx, cy) {
+    this._enemyBullets.push(new EnemyLazer({
+        cx   : cx,
+        cy   : cy,
+    }));
+},
+
 generateRock : function(descr) {
     this._rocks.push(new Rock(descr));
 },
@@ -204,6 +212,13 @@ generateWalker: function(descr) {
     if (this._timeStamps[2] > 0) return;
     entityManager._enemies.push(new WalkingEnemy(descr));
     this._timeStamps[2] = 100;
+},
+
+generateBoss: function(descr) {
+    if (this._bossSpawned) return;
+    this._bossSpawned = true;
+
+    entityManager._enemies.push(new Boss(descr));
 },
 
 resetTimeSpawner: function() {

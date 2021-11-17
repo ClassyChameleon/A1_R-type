@@ -30,8 +30,9 @@ Background.prototype.cy = g_canvas.height/2-15;
 Background.prototype.update = function (du) {
     if(this.cx > 1560){
         this.cx += g_envVel;
-    } else{
+    } else {
         g_envVel = 0;
+        entityManager.generateBoss();
     }
 }
 
