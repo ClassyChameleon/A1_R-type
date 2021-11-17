@@ -30,6 +30,7 @@ Interface.prototype.lives = 2;
 Interface.prototype.beamMeter = 0;
 Interface.prototype.xIndentation = 152;
 Interface.prototype.gameover = false;
+Interface.prototype.bossCount = 1;
 
 Interface.prototype.addScore = function(number) {
     this._nextLiveCounter -= number;
@@ -54,6 +55,17 @@ Interface.prototype.render = function (ctx) {
         ctx.font = "30px ArcadeClassic";
         ctx.fillStyle = "white";
         ctx.fillText("Game Over",
+                     g_canvas.width/2 - 7*11,
+                     g_canvas.height/2 - 15);
+        ctx.restore();
+    }
+
+    if (this.bossCount <= 0) {
+        this.gameover = true;
+        ctx.save();
+        ctx.font = "30px ArcadeClassic";
+        ctx.fillStyle = "white";
+        ctx.fillText("You Win",
                      g_canvas.width/2 - 7*11,
                      g_canvas.height/2 - 15);
         ctx.restore();

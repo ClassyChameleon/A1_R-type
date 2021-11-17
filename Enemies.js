@@ -312,6 +312,7 @@ Boss.prototype.takeBulletHit = function () {
     if (this.hp === 0) {
         this.deathSound.play();
         this.kill();
+        g_interface.bossCount -= 1;
     }
 };
 
