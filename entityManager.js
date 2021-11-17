@@ -298,9 +298,9 @@ update: function(du) {
     for (let i = 0; i<=2; i++) {
         this._timeStamps[i] -= du;
     }
-    this.maybeGenerateEnemy();
+    if (!g_StopEnemySpawn) this.maybeGenerateEnemy();
     //if (this._rocks.length === 0) this._generateRocks();
-    if (this._enemies.length === 0) this.generateAllEnemies();
+    if (this._enemies.length === 0 && !g_StopEnemySpawn) this.generateAllEnemies();
 
 },
 
