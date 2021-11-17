@@ -1,0 +1,17 @@
+@font-face {
+    font-family: 'ArcadeClassic';
+    src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  #myCanvas{
+    padding: 0;
+    margin: auto;
+    display: block;
+  }
+
+  #cheats {
+    display: flex;
+    color: green;
+    padding: 20px;
+  }
