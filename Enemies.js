@@ -353,6 +353,10 @@ Boss.prototype.maybeJump = function (du) {
         if(this.velY > 0){
             this.cy -= this.velY;
             this.velY -= 0.5*du;
+            if(this.cy < g_canvas.height/3){
+                this. cy = g_canvas.height/3;
+                this.velY = 0;
+            }
             if(this.velY < 0) this.velY = 0;
         }
         else if(this.floatTime > 0){
@@ -374,7 +378,7 @@ Boss.prototype.maybeJump = function (du) {
     if(0.005 > Math.random() && !this.jumping) {
         this.celNo = 2;
         this.jumping = true;
-        this.velY = util.randRange(5, 11);
+        this.velY = 15//util.randRange(5, 11);
         this.floatTime = util.randRange(100, 301);
     }
 }
