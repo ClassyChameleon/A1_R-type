@@ -313,6 +313,7 @@ Boss.prototype.getRadius = function () {
 
 Boss.prototype.takeBulletHit = function () {
     this.hp -= 1;
+    g_interface.bossLife = this.hp;
     if (this.hp === 0) {
         this.deathSound.play();
         this.kill();

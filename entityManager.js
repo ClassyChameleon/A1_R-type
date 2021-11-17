@@ -219,6 +219,7 @@ generateBoss: function(descr) {
     this._bossSpawned = true;
 
     entityManager._enemies.push(new Boss(descr));
+    g_interface.bossActive = true;
 },
 
 resetTimeSpawner: function() {
