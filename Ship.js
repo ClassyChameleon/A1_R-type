@@ -221,12 +221,9 @@ Ship.prototype._movementAnimation = function (du) {
     }
 }
 
-
+//fires bullets and rockets
 Ship.prototype.maybeFireBullet = function (du) {
 
-    //TODO: hvað er dX og dY að gera? Ég skoðaði þetta og dX er alltaf 0 og dY er alltaf -1?
-    var dX = +Math.sin(this.rotation);
-    var dY = -Math.cos(this.rotation);
     var launchDist = this.getRadius() * 1.2;
 
     if (this.rocketPUCooldown > 0) this.rocketPUCooldown -= du;
@@ -235,12 +232,12 @@ Ship.prototype.maybeFireBullet = function (du) {
     if (keys[this.KEY_FIRE]) {
         if (!this.ready2Fire) {
             if(this.rocketPU && this.rocketPUCooldown === 0){
-                this.maybeFireRocket(dX, dY, launchDist);
+                this.maybeFireRocket();
                 this.rocketPUCooldown = this.baseCooldown;
             } 
             entityManager.fireBullet(
-                this.cx + dX * launchDist + this.sprite.width, 
-                this.cy + dY,
+                this.cx + this.sprite.width, 
+                this.cy, 
                 this.rotation,
                 this.power);
         }
@@ -255,9 +252,6 @@ Ship.prototype.maybeFireBullet = function (du) {
     }
 
     if(!keys[this.KEY_FIRE]){
-        var relVel = this.launchVel;
-        var relVelX = dX * relVel;
-        var relVelY = dY * relVel;
         
         if(!this.ready2Fire) return;
         else {
@@ -270,12 +264,12 @@ Ship.prototype.maybeFireBullet = function (du) {
                 return;
             }
             if(this.rocketPU && this.rocketPUCooldown === 0){
-                this.maybeFireRocket(dX, dY, launchDist);
+                this.maybeFireRocket();
                 this.rocketPUCooldown = this.baseCooldown;
             } 
             entityManager.fireBullet(
-                this.cx + dX * launchDist + this.sprite.width, 
-                this.cy + dY,
+                this.cx + this.sprite.width, 
+                this.cy,
                 this.rotation,
                 this.power);
             this.power = 0;
@@ -284,14 +278,15 @@ Ship.prototype.maybeFireBullet = function (du) {
     
 };
 
-Ship.prototype.maybeFireRocket = function (dX, dY, launchDist) {
+//Fire 2 rockets
+Ship.prototype.maybeFireRocket = function () {
     entityManager.fireRocket(
-        this.cx + dX * launchDist + this.sprite.width,
-        this.cy + dY + this.sprite.width/2
+        this.cx + this.sprite.width,
+        this.cy + this.sprite.width/2
     )
     entityManager.fireRocket(
-        this.cx + dX * launchDist + this.sprite.width,
-        this.cy + dY - this.sprite.width/2
+        this.cx + this.sprite.width,
+        this.cy - this.sprite.width/2
     )
 }
 
@@ -299,10 +294,12 @@ Ship.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
 
+//What happens if ship takes hit
 Ship.prototype.takeBulletHit = function () {
     this.dyingNowInitialize = true;
 };
 
+//Function for getting the power ups, open for expansion
 Ship.prototype.takePowerUp = function (type) {
     switch(type){
         case 1:

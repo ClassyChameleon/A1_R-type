@@ -2,6 +2,7 @@
 
 // Power uppið sjálft. S.s það sem að skipið þarf að ná í
 function PowerUp(descr) {
+    // Common inherited setup logic from Entity
     this.setup(descr);
 
     this.sprite = g_sprites.Rocket;
@@ -55,6 +56,8 @@ PowerUp.prototype.render = function (ctx) {
 
 // Rocket power up-ið. Þetta eru skotin sjálf
 function RocketPower(descr) {
+
+    // Common inherited setup logic from Entity
     this.setup(descr);
 
     this.sprite = g_sprites.Rocket;
@@ -81,8 +84,14 @@ RocketPower.prototype.update = function (du) {
     this.cx += this.velX * du;
     if (this.velX < 20) this.velX *= 1.5;
 
+    // The rocket checks what it is hitting and if it's an EnemyBullet, Bullet, PowerUp or Ship it ignorse collision
     var hitEntity = this.findHitEntity();
-    if (hitEntity && !(hitEntity instanceof EnemyBullet) && !(hitEntity instanceof Bullet) && !(hitEntity instanceof Ship)) {
+    if (hitEntity 
+        && !(hitEntity instanceof EnemyBullet) 
+        && !(hitEntity instanceof Bullet) 
+        && !(hitEntity instanceof Ship) 
+        && !(hitEntity instanceof PowerUp)
+        && !(hitEntity instanceof EnemyLazer)) {
         var canTakeHit = hitEntity.takeBulletHit;
         if (canTakeHit) {
             canTakeHit.call(hitEntity);

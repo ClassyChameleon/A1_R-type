@@ -62,6 +62,7 @@ Interface.prototype.render = function (ctx) {
         ctx.restore();
     }
 
+    //function to check how many bosses are still in the game, if none, player wins.
     if (this.bossCount <= 0) {
         this.gameover = true;
         ctx.save();

@@ -1,5 +1,6 @@
 "use strict";
 
+// A generic contructor which accepts an arbitrary descriptor object
 function WormShip(descr) {
 
     // Common inherited setup logic from Entity
@@ -28,7 +29,8 @@ WormShip.prototype.timestampMove = 0;
 WormShip.prototype.celNo = 0;
 WormShip.prototype.chanceOfDrop = 5;
 
-WormShip.prototype.init = function() { // Creates the six ships, maybe this belongs in entityManager. Like the _generateRocks method?!?!?!?
+// Creates the six WoromShips
+WormShip.prototype.init = function() { 
     let randStart = this.cy || util.randRange(120, g_canvas.height-20);
     let cx = g_canvas.width;
     let newEnemy;
@@ -47,6 +49,7 @@ WormShip.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
 
+//What happens each time a WormShip takes a bullet hit
 WormShip.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
@@ -100,7 +103,10 @@ WormShip.prototype.render = function (ctx) {
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
 };
 
+// A generic contructor which accepts an arbitrary descriptor object
 function WalkingEnemy(descr) {
+
+    // Common inherited setup logic from Entity
     this.setup(descr);
 
     this.isAlive = true;
@@ -128,6 +134,7 @@ WalkingEnemy.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
 
+//What happens each time a WalkingEnemy takes a bullet hit
 WalkingEnemy.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
@@ -192,11 +199,13 @@ WalkingEnemy.prototype.render = function (ctx) {
     // Walker looks at ship
     var scale = this.scale;
     if (this.cx < entityManager._ships[0].cx) scale *= -1;
-    console.log(scale);
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0, scale);
 };
 
+// A generic contructor which accepts an arbitrary descriptor object
 function SoloEnemy(descr) {
+
+    // Common inherited setup logic from Entity
     this.setup(descr);
 
     this.isAlive = true;
@@ -245,6 +254,7 @@ SoloEnemy.prototype.getRadius = function () {
     return (this.sprite.width / 2 );
 };
 
+//What happens each time a SoloEnemy takes a bullet hit
 SoloEnemy.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
@@ -283,7 +293,10 @@ SoloEnemy.prototype.render = function (ctx) {
     cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
 };
 
+// A generic contructor which accepts an arbitrary descriptor object
 function Boss(descr) {
+
+    // Common inherited setup logic from Entity
     this.setup(descr);
     this.isAlive = true;
     this.hp = 100;
@@ -311,6 +324,7 @@ Boss.prototype.getRadius = function () {
     return (this.sprite.height / 2) * this.scale * 0.5;
 };
 
+//What happens each time the Boss takes a bullet hit
 Boss.prototype.takeBulletHit = function () {
     this.hp -= 1;
     g_interface.bossLife = this.hp;
@@ -331,8 +345,7 @@ Boss.prototype.update = function (du) {
 
     if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
 
-    // this.cx += g_envVel;
-    // if (this.celNo !== 0) this.cx -= 2.5*du;
+    //Depending on if the boss is jumping or not where the bullets and lazer spawns spawn
     if(this.jumping) {
         this.enemyMaybeFireBullet(0.01, -85, -15);    
         this.maybeFireLazer(55, 50);
@@ -350,6 +363,7 @@ Boss.prototype.update = function (du) {
     // TODO: Make animation not dependant on real time.
 };
 
+//Eye lazer function
 Boss.prototype.maybeFireLazer = function (cx, cy) {
     if (0.01 > Math.random()) {
         entityManager.fireEnemyLazer(
@@ -359,26 +373,32 @@ Boss.prototype.maybeFireLazer = function (cx, cy) {
     }
 }
 
+//The jump mechanic for the boss
 //The ugliest code I have ever made, but it works™
 Boss.prototype.maybeJump = function (du) {
+    //if the boss is jumping
     if (this.jumping){
         if(this.velY > 0){
             this.cy -= this.velY;
             this.velY -= 0.5*du;
+            //if the boss jumps too high, stop him
             if(this.cy < g_canvas.height/3){
                 this. cy = g_canvas.height/3;
                 this.velY = 0;
             }
             if(this.velY < 0) this.velY = 0;
         }
+        //makes the boss float for some time
         else if(this.floatTime > 0){
             this.celNo = 1
             this.floatTime -= du;
         }
+        //the falling mechanic
         else if(this.cy < g_canvas.height - 200){
             this.cy -= this.velY;
             this.velY -= 0.5*du;
             this.celNo = 2;
+            //what happens when the boss lands
             if(this.cy >= g_canvas.height - 200){
                 this.velY = 0;
                 this.cy = g_canvas.height - 200;
@@ -387,6 +407,7 @@ Boss.prototype.maybeJump = function (du) {
             }
         }
     }
+    //This makes the boss jump randomly
     if(0.005 > Math.random() && !this.jumping) {
         this.celNo = 2;
         this.jumping = true;

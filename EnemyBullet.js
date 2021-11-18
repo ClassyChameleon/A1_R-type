@@ -1,8 +1,11 @@
 "use strict";
 
-
+// A generic contructor which accepts an arbitrary descriptor object
 function EnemyBullet(descr) {
+    
+    // Common inherited setup logic from Entity
     this.setup(descr);
+
     this.sprite = g_sprites.bullet;
 
     this.fireSound.play();
@@ -35,8 +38,6 @@ EnemyBullet.prototype.update = function (du) {
     this.cx += this.velX * du;
     this.cy += this.velY * du;
     
-    // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
-    //
     // Handle collisions
     //
     var hitEntity = this.findHitEntity();
@@ -78,9 +79,12 @@ EnemyBullet.prototype.render = function (ctx) {
     ctx.globalAlpha = 1;
 };
 
-
+// A generic contructor which accepts an arbitrary descriptor object
 function EnemyLazer(descr) {
+    
+    // Common inherited setup logic from Entity
     this.setup(descr);
+
     this.sprite = g_spriteAnimations.enemyLazer;
     this.scale = 0.4;
     this.celNo = this.sprite.length - 1;

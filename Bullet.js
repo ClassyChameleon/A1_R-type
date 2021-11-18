@@ -29,6 +29,7 @@ function Bullet(descr) {
             "sounds/bulletFire.ogg");
     }
 
+    // Changes the sprite for the bullet depending on its power
     switch(this.type){
         case 0:
             break;
@@ -73,7 +74,6 @@ Bullet.prototype.rotation = 0;
 Bullet.prototype.cx = 200;
 Bullet.prototype.cy = 200;
 Bullet.prototype.velX = 20;
-Bullet.prototype.checkStuff = true;
 Bullet.prototype.scale = 1.75;
 Bullet.prototype.life = 1;
 Bullet.prototype.power = 0;
@@ -98,22 +98,18 @@ Bullet.prototype.update = function (du) {
         this.fireSound.currentTime = 0;
     }
 
+    // If the bullets life span is finished it dies
     if (this.lifeSpan < 0) return entityManager.KILL_ME_NOW;
-    if (this.checkStuff) {
-        this.checkStuff = false;
-        // console.log("pos: (" + this.cx + ", " + this.cy + ")");
-        // console.log("vel: (" + this.velX + ", " + this.velY + ")");
-        // console.log("du: " + du);
-    }
-    this.cx += this.velX * du;
 
-    //this.rotation += 1 * du;
+    this.cx += this.velX * du;
     
     // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
     //
     // Handle collisions
     //
     var hitEntity = this.findHitEntity();
+    
+    // The bullet checks what it is hitting and if it's an EnemyBullet, PowerUp or EnemyLazer it ignorse collision
     if (hitEntity && !(hitEntity instanceof EnemyBullet)  && !(hitEntity instanceof PowerUp) && !(hitEntity instanceof EnemyLazer)) {
         var canTakeHit = hitEntity.takeBulletHit;
         if (canTakeHit) {
@@ -122,9 +118,10 @@ Bullet.prototype.update = function (du) {
             this.score *= 2;
         }
         this.life--;
+        // If the bullet loses all of it's life it dies
         if(this.life < 1) return entityManager.KILL_ME_NOW;
     }
-    // If off-screen
+    // If off-screen, dies
     if (this.cx > g_canvas.width) {
         return entityManager.KILL_ME_NOW;
     }

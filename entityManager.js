@@ -101,11 +101,10 @@ KILL_ME_NOW : -1,
 //
 deferredSetup : function () {
     this._categories = [
-        this._rocks, this._bullets, 
-        this._ships, this._enemies, 
-        this._blocks, this._enemyBullets, 
-        this._explosions, this._powerUps, 
-        this._powerUpsFire];
+        this._bullets, this._ships, 
+        this._enemies, this._blocks, 
+        this._enemyBullets, this._explosions, 
+        this._powerUps, this._powerUpsFire];
 },
 
 init: function() {
@@ -140,10 +139,6 @@ fireEnemyLazer: function(cx, cy) {
         cx   : cx,
         cy   : cy,
     }));
-},
-
-generateRock : function(descr) {
-    this._rocks.push(new Rock(descr));
 },
 
 generateShip : function(descr) {

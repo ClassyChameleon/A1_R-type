@@ -42,7 +42,6 @@ register: function(entity) {
     var pos = entity.getPos();
     var spatialID = entity.getSpatialID();
     
-    // TODO: YOUR STUFF HERE!
     pos.radius = entity.getRadius();
     pos.entity = entity; // How else am I to find the entity again?
     this._entities[spatialID] = pos;
@@ -51,14 +50,12 @@ register: function(entity) {
 unregister: function(entity) {
     var spatialID = entity.getSpatialID();
 
-    // TODO: YOUR STUFF HERE!
     // Object might not be ideal but it works :)
     this._entities[spatialID] = Object;
 },
 
 findEntityInRange: function(posX, posY, radius) {
 
-    // TODO: YOUR STUFF HERE!
     for (var ID in this._entities) {
         var e = this._entities[ID];
         var radiusSq = util.square(radius + e.radius)
