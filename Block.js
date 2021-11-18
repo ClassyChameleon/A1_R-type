@@ -1,5 +1,5 @@
 // ====
-// ROCK
+// BLOCK
 // ====
 
 "use strict";
@@ -23,8 +23,8 @@ function Block(descr) {
 Block.prototype = new Entity();
 Block.prototype.celNo = 0;
 
-
 Block.prototype.update = function (du) {
+    //moves the environment to the left
     this.cx += g_envVel;
 };
 
@@ -33,6 +33,7 @@ var g_blockVisibility = 0.0;
 Block.prototype.render = function (ctx) {
     ctx.fillStyle = "#FF0000";
     ctx.globalAlpha = g_blockVisibility;
+    //creates a hitbox block with toggle-able visibility
     ctx.fillRect(this.cx, this.cy, this.width, this.height);
     ctx.globalAlpha = 1.0;
 };

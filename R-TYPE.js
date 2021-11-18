@@ -220,6 +220,7 @@ function processDiagnostics() {
     // Faster scrolling
     if (eatKey(KEY_2)) g_envVel -= 0.5;
 
+    //Enables visible env-hitboxes, toggles between 0.3 and 0.0
     if (eatKey(KEY_3)) g_blockVisibility = 0.3 - g_blockVisibility;
 }
 

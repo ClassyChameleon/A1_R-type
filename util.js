@@ -126,6 +126,7 @@ boxWalkerCollision: function(walker, box, fix=0){
     return false;
 },
 
+//checks if walker enemy collides with environment
 boxWalkerFixSpawn: function(walker, box){
     var srcY = walker.cy + walker.sprite.height/2;
     if (srcY > box.cy && srcY < box.cy+box.height) {
@@ -134,6 +135,7 @@ boxWalkerFixSpawn: function(walker, box){
     return false;
 },
 
+//checks if player ship collides with environment
 boxBoxCollision: function(ship, entity){
     var isColliding = false;
     var scale = ship._scale;

@@ -115,7 +115,7 @@ Ship.prototype.update = function (du) {
             this.invulnFrame = false;
         }
     } else {
-        // Enable collision if not recently respawned.
+        // Checks if ship is colliding with any of the env-blocks
         for(var i = 0; i < entityManager._blocks.length; i++){
             if(util.boxBoxCollision(this, entityManager._blocks[i])){
                 this.dyingNowInitialize = true;

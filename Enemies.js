@@ -157,6 +157,7 @@ WalkingEnemy.prototype.update = function (du) {
         }
     }
 
+    //Checks for collision between walker and environment
     for(var i = 1; i < entityManager._blocks.length; i++){
         let box = entityManager._blocks[i];
         while(
