@@ -1,47 +1,66 @@
 @font-face {
-    font-family: 'ArcadeClassic';
-    src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
-    font-weight: normal;
-    font-style: normal;
-  }
+  font-family: 'ArcadeClassic';
+  src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
 
-  #col{
-    display: flex;
-    flex-direction: column;
-  }
+#col{
+  display: flex;
+  flex-direction: column;
+}
 
-  body {
-    background-color: black;
-  }
+body {
+  background-color: black;
+}
 
-  p {
-    margin: 5px;
-  }
+p {
+  margin: 5px;
+}
 
-  h1{
-    font-family: 'ArcadeClassic';
-    src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
-    text-align: center;
-    color: green;
-  }
+h1{
+  font-family: 'ArcadeClassic';
+  src: url('fonts/ARCADECLASSIC.TTF') format('truetype');
+  text-align: center;
+  color: green;
+}
 
-  #controls{
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    color: green;
-    padding: 20px;
-  }
+#controls{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  color: green;
+  padding: 20px;
+}
 
-  #myCanvas{
-    display: flex;
-    padding: 0;
-    margin: auto;
-    display: block;
-  }
+#myCanvas{
+  display: flex;
+  padding: 0;
+  margin: auto;
+  display: block;
+}
 
-  #cheats {
-    display: flex;
-    align-self: center;
-    color: green;
-  }
+#cheats {
+  display: flex;
+  align-self: center;
+  color: green;
+}
+
+ol {
+  counter-reset: item;
+  margin-left: 0;
+  padding-left: 0;
+}
+li {
+  display: block;
+  margin-bottom: .5em;
+  margin-left: 2em;
+}
+li::before {
+  display: inline-block;
+  content: "[" counter(item) "] ";
+  counter-increment: item;
+  width: 2em;
+  margin-left: -2em;
+}
+  
