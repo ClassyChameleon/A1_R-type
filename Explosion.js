@@ -1,4 +1,18 @@
-// Instantiate this to create an explosion effect
+// =========================
+// Explosion (visual effect)
+// =========================
+// Instantiate this to create an explosion effect.
+// Requires descr parameter with cx and cy coordinates.
+
+"use strict";
+
+/* jshint browser: true, devel: true, globalstrict: true */
+
+/*
+0        1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+*/
+
 
 "use-strict";
 
@@ -7,6 +21,8 @@ function Explosion(descr) {
     this.cy = descr.cy;
 }
 
+// If we see an explosion in top-left corner,
+// then we know an explosion was instantiated incorrectly.
 Explosion.prototype.cx = 0;
 Explosion.prototype.cy = 0;
 Explosion.prototype.celNo = 0;

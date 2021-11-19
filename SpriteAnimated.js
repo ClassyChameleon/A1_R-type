@@ -1,5 +1,21 @@
-// Used instead of Sprite when using a sprite sheet
+// ==============
+// SPRITEANIMATED
+// ==============
+// Used instead of Sprite when using a sprite sheet.
+// Includes a handy animate function.
 
+"use strict";
+
+/* jshint browser: true, devel: true, globalstrict: true */
+
+/*
+0        1         2         3         4         5         6         7         8
+12345678901234567890123456789012345678901234567890123456789012345678901234567890
+*/
+
+
+// (sx,sy) is top left point of sprite in given spritesheet.
+// width and height for the size of sprite.
 function SpriteAnimated(sx, sy, width, height, spriteSheet) {
     this.sx = sx;
     this.sy = sy;
@@ -8,6 +24,8 @@ function SpriteAnimated(sx, sy, width, height, spriteSheet) {
     this.image = spriteSheet;
 }
 
+// ctx, cx and cy are required.
+// scale is used for x axis only (currently used to turn walker around)
 SpriteAnimated.prototype.drawCenteredAt = function (ctx, cx, cy, rotation, scale) {
     if (rotation === undefined) rotation = 0;
     if (scale === undefined) scale = this.scale;
@@ -27,7 +45,15 @@ SpriteAnimated.prototype.drawCenteredAt = function (ctx, cx, cy, rotation, scale
     ctx.restore();
 }
 
-//TODO: Maybe there's a better way to store/use this function.
+// To automate sprite animation.
+// celWidth and celHeight for each sprite cells height and width.
+// numCols for number of collumns (X-axis)
+// numRows for number of rows (Y-axis)
+// numCels for number of total cells. Useful if some rows aren't full.
+// sheet is the spriteSheet where the sprites will be taken from.
+// startW, startH is top-left location of first sprite in the field.
+// Note: This is only useful if the majority of sprites in the spritesheet are
+// equally big, equally spaced apart and equally centered.
 function animate(celWidth, celHeight, numCols, numRows, numCels, sheet, startW, startH) {
     var sprites = [];
     var sprite;

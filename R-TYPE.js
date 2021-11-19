@@ -277,14 +277,13 @@ function preloadDone() {
 
     g_sprites.level = new Sprite(g_images.level);
     g_sprites.level.scale = 2.6;
-    //g_sprites.bullet = new Sprite(g_images.ship);
-    //g_sprites.bullet.scale = 0.25;
     g_sprites.bullet = new SpriteAnimated(247, 88, 20, 7, g_images.playerSheet);
     g_sprites.bullet.scale = 1.75;
     g_sprites.Rocket = new SpriteAnimated(335, 255, 15, 5, g_images.playerSheet);
     g_sprites.Rocket.scale = 1.75;
 
     // 2 frames, [1]
+    // Different levels of beam charging
     g_spriteAnimations.bullet1 = animate(19, 14, 2, 1, 2, g_images.playerSheet, 230, 102);
     g_spriteAnimations.bullet2 = animate(34, 14, 2, 1, 2, g_images.playerSheet, 199, 119);
     g_spriteAnimations.bullet3 = animate(49, 16, 2, 1, 2, g_images.playerSheet, 167, 136);
@@ -301,6 +300,8 @@ function preloadDone() {
 
     g_spriteAnimations.ship = animate(33, 17, 5, 1, 5, g_images.playerSheet, 100.5, 0);
     g_spriteAnimations.shipDeath = animate(32.6, 30, 8, 1, 8, g_images.playerSheet, 69-2*32.5, 342);
+    // Spritesheet has differently sized sprites.
+    // Hacked in first 2 frames.
     g_spriteAnimations.shipDeath[0] = new SpriteAnimated(0, 342, 34, 30, g_images.playerSheet);
     g_spriteAnimations.shipDeath[1] = new SpriteAnimated(34, 342, 34, 30, g_images.playerSheet);
 
@@ -309,7 +310,7 @@ function preloadDone() {
     g_spriteAnimations.brownEnemy = animate(33, 34, 8, 2, 16, g_images.brownEnemy, 0, 0);
     g_spriteAnimations.walkingEnemy = animate(33, 33, 3, 1, 3, g_images.walkingEnemy, 0, 0);
     g_spriteAnimations.boss = animate(54, 57, 3, 1, 3, g_images.boss, 0, 0);
-
+    // ENEMY DEATH
     g_spriteAnimations.explosion = animate(33, 33, 6, 1, 6, g_images.explosions, 128, 0);
 
     // power ups

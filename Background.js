@@ -1,6 +1,6 @@
-// =============================
-// Background (score, lives etc.)
-// =============================
+// =========================
+// Background (level sprite)
+// =========================
 
 "use strict";
 
@@ -21,11 +21,10 @@ function Background(descr) {
 
 }
 
-    
-// Initial, inheritable, default values
-// _attribute means private attribute
+// For when we're reaching the boss enemy
 var  g_StopEnemySpawn = false;
 
+// Initial, inheritable, default values
 Background.prototype.cx = 4678;
 Background.prototype.cy = g_canvas.height/2-15;
 
@@ -45,4 +44,5 @@ Background.prototype.render = function (ctx) {
 
 };
 
+// One and only instance of Background.
 var g_Background = new Background();

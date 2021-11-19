@@ -63,10 +63,6 @@ square: function(x) {
     return x*x;
 },
 
-min: function(num1, num2) {
-    if (num1 < num2) return num1;
-    return num2;
-},
 
 
 // DISTANCES
