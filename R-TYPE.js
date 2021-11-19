@@ -191,11 +191,12 @@ var g_allowMixedActions = true;
 var g_useGravity = false;
 var g_useAveVel = true;
 var g_renderSpatialDebug = false;
+var g_muted = false;
 
-var KEY_MIXED   = keyCode('M');;
 var KEY_GRAVITY = keyCode('G');
 var KEY_AVE_VEL = keyCode('V');
 var KEY_SPATIAL = keyCode('X');
+var KEY_MUTE = keyCode('M');
 
 var KEY_HALT  = keyCode('H');
 var KEY_RESET = keyCode('R');
@@ -209,9 +210,7 @@ var KEY_3 = keyCode('3');
 var KEY_K = keyCode('K');
 
 function processDiagnostics() {
-
-    //if (eatKey(KEY_AVE_VEL)) g_useAveVel = !g_useAveVel;
-
+    // Show the entity hitbox
     if (eatKey(KEY_SPATIAL)) g_renderSpatialDebug = !g_renderSpatialDebug;
 
     // Cheats to demonstrate some features
@@ -219,9 +218,10 @@ function processDiagnostics() {
     if (eatKey(KEY_1)) g_interface.addScore(10000);
     // Faster scrolling
     if (eatKey(KEY_2)) g_envVel -= 0.5;
-
     //Enables visible env-hitboxes, toggles between 0.3 and 0.0
     if (eatKey(KEY_3)) g_blockVisibility = 0.3 - g_blockVisibility;
+    // Mute audio
+    if (eatKey(KEY_MUTE)) g_muted = !g_muted;
 }
 
 

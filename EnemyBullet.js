@@ -1,14 +1,16 @@
 "use strict";
 
 // A generic contructor which accepts an arbitrary descriptor object
+//=====================
+// Generic Enemy Bullet
+//=====================
 function EnemyBullet(descr) {
     
     // Common inherited setup logic from Entity
     this.setup(descr);
-
     this.sprite = g_sprites.bullet;
 
-    this.fireSound.play();
+    if (!g_muted) this.fireSound.play();
 };
 
 EnemyBullet.prototype = new Entity();
@@ -80,6 +82,9 @@ EnemyBullet.prototype.render = function (ctx) {
 };
 
 // A generic contructor which accepts an arbitrary descriptor object
+//===============
+// The Boss Laser
+//===============
 function EnemyLazer(descr) {
     
     // Common inherited setup logic from Entity
@@ -88,7 +93,6 @@ function EnemyLazer(descr) {
     this.sprite = g_spriteAnimations.enemyLazer;
     this.scale = 0.4;
     this.celNo = this.sprite.length - 1;
-
 }
 
 EnemyLazer.prototype = new Entity();
@@ -115,7 +119,7 @@ EnemyLazer.prototype.update = function (du) {
     // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
     //
     // Handle collisions
-    //
+    // Can only kill a Ship entity (i.e. the player)
     var hitEntity = this.findHitEntity();
     if (hitEntity) {
         var canTakeHit = hitEntity.takeBulletHit;

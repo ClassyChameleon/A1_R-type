@@ -154,7 +154,7 @@ Ship.prototype.initiateDeath = function (du) {
     this.celNo = 0;
     this.dyingNow = true;
     this.dyingNowInitialize = false;
-    this.shipSounds.death.play();
+    if (!g_muted) this.shipSounds.death.play();
 }
 
 Ship.prototype.handleMovement = function (du) {
@@ -252,7 +252,7 @@ Ship.prototype.maybeFireBullet = function (du) {
         this.ready2Fire = true;
         if(this.power < 100) {
             this.power += du;
-            if (this.power > 20) this.shipSounds.charge.play();
+            if (this.power > 20 && !muted) this.shipSounds.charge.play();
             if(this.power > 100) this.power = 100;
         }
         // For charge animation

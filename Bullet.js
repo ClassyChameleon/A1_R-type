@@ -4,14 +4,6 @@
 
 "use strict";
 
-/* jshint browser: true, devel: true, globalstrict: true */
-
-/*
-0        1         2         3         4         5         6         7         8
-12345678901234567890123456789012345678901234567890123456789012345678901234567890
-*/
-
-
 // A generic contructor which accepts an arbitrary descriptor object
 function Bullet(descr) {
 
@@ -54,14 +46,7 @@ function Bullet(descr) {
     }
 
     // Make a noise when I am created (i.e. fired)
-    this.fireSound.play();
-    
-/*
-    // Diagnostics to check inheritance stuff
-    this._bulletProperty = true;
-    console.dir(this);
-*/
-
+    if (!g_muted) this.fireSound.play();
 }
 
 Bullet.prototype = new Entity();
@@ -140,7 +125,7 @@ Bullet.prototype.takeBulletHit = function () {
     this.kill();
     
     // Make a noise when I am zapped by another bullet
-    this.zappedSound.play();
+    if (!g_muted) this.zappedSound.play();
 };
 
 Bullet.prototype.render = function (ctx) {

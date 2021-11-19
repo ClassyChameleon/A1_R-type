@@ -1,6 +1,10 @@
 "use strict";
 
 // A generic contructor which accepts an arbitrary descriptor object
+// ============
+// WORM SHIP
+// ============
+// Requires cx and cy in the descr to place on the canvas
 function WormShip(descr) {
 
     // Common inherited setup logic from Entity
@@ -9,7 +13,6 @@ function WormShip(descr) {
     this.isAlive = true;
     this.hp = this.hp || 1;
     this.oldY = this.cy;
-
 
     this.sprite = this.sprite || g_spriteAnimations.brownEnemy[0];
     this.scale  = this.scale  || 1.75;
@@ -45,6 +48,7 @@ WormShip.prototype.init = function() {
     }
 };
 
+// Returns the radius of the ship
 WormShip.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
@@ -53,12 +57,13 @@ WormShip.prototype.getRadius = function () {
 WormShip.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
-        this.deathSound.play();
+        if (!g_muted) this.deathSound.play();
         this.kill();
         util.powerChance(this.chanceOfDrop, this.cx, this.cy);
     }
 };
 
+// Updates the entity and does its logic
 WormShip.prototype.update = function (du) {
     spatialManager.unregister(this);
     if (this._isDeadNow) {
@@ -93,6 +98,7 @@ WormShip.prototype.update = function (du) {
     spatialManager.register(this);
 };
 
+// Renders the Wormship
 WormShip.prototype.render = function (ctx) {
 
     var celNo = 8;
@@ -104,6 +110,10 @@ WormShip.prototype.render = function (ctx) {
 };
 
 // A generic contructor which accepts an arbitrary descriptor object
+// ============
+// Walking Enemy
+// ============
+// Takes in decsr 
 function WalkingEnemy(descr) {
 
     // Common inherited setup logic from Entity
@@ -138,7 +148,7 @@ WalkingEnemy.prototype.getRadius = function () {
 WalkingEnemy.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
-        this.deathSound.play();
+        if (!g_muted) this.deathSound.play();
         this.kill();
         util.powerChance(this.chanceOfDrop, this.cx, this.cy);
     }
@@ -183,8 +193,6 @@ WalkingEnemy.prototype.update = function (du) {
 
     spatialManager.register(this);
 
-    // Animation
-    // TODO: Make animation not dependant on real time.
     if (this.stop) {
         this.celNo = 0;
         return;
@@ -230,6 +238,7 @@ SoloEnemy.prototype.cx = g_canvas.width;
 SoloEnemy.prototype.cy = 100;
 SoloEnemy.prototype.chanceOfDrop = 10;
 
+// Creates 4 Solo Enemies and sets their starting posistions!
 SoloEnemy.prototype.init = function() { 
     let randStart = util.randRange(120, g_canvas.height-200);
     let cx = g_canvas.width;
@@ -259,7 +268,7 @@ SoloEnemy.prototype.getRadius = function () {
 SoloEnemy.prototype.takeBulletHit = function () {
     this.hp -= 1;
     if (this.hp === 0) {
-        this.deathSound.play();
+        if (!g_muted) this.deathSound.play();
         this.kill();
         util.powerChance(this.chanceOfDrop, this.cx, this.cy);
     }
@@ -275,6 +284,7 @@ SoloEnemy.prototype.update = function (du) {
 
     if (this.cx + halfWidth < 0) return entityManager.KILL_ME_NOW;
 
+    // Controls how the ship moves
     this.cx -= (3.5-g_envVel)*du;
     this.angle += this.angleSpeed * du;
     this.cy = (this.oldY + Math.sin(this.angle) * 50);
@@ -295,6 +305,9 @@ SoloEnemy.prototype.render = function (ctx) {
 };
 
 // A generic contructor which accepts an arbitrary descriptor object
+//============
+// The Boss
+//============
 function Boss(descr) {
 
     // Common inherited setup logic from Entity
@@ -330,7 +343,7 @@ Boss.prototype.takeBulletHit = function () {
     this.hp -= 1;
     g_interface.bossLife = this.hp;
     if (this.hp === 0) {
-        this.deathSound.play();
+        if (!g_muted) this.deathSound.play();
         this.kill();
         g_interface.bossCount -= 1;
     }
@@ -359,9 +372,6 @@ Boss.prototype.update = function (du) {
     this.maybeJump(du);
 
     spatialManager.register(this);
-
-    // Animation
-    // TODO: Make animation not dependant on real time.
 };
 
 //Eye lazer function

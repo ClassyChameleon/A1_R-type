@@ -1,70 +1,76 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>R-type (A1)</title>
-    <link rel="stylesheet" href="styles.css">
-  </head>
-  <body>
 
-	<canvas id="myCanvas" width="640" height="480"
-		style="border: 1px solid black;">
-	Sorry, but your browser does not support the HTML5 canvas tag.
-	</canvas>
+<head>
+  <meta charset="UTF-8">
+  <title>R-type (A1)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
 
-  <!--div style="position: absolute; top: 600px;"-->
-  <div id="cheats">
-    <h1>Cheats:</h1>
-    
-    <ol>
-      <li>
-        Adds 10'000 score
-        <ul>
-          <li>
-            each 100'000 points = +1 life
-          </li>
-        </ul>
-      </li>
-      <li>
-        Screen scrolls faster
-      </li>
-      <li>
-        Toggles environment hitbox visibility
-      </li>
-    </ol>
+<body>
+  <div id="col">
+    <div id="controls">
+      <p>Control the ship using WASD.</p>
+      <p>Tapping spacebar shoots a single shot.</p>
+      <p>Holding spacebar allows you to charge your shoot, letting you shoot more powerful projectiles</p>
+      <p>Press M to mute the Audio!</p>
+      <p>Pick up the rocket powerup to upgrade your firepower with Rockets!</p>
+    </div>
+    <h1>R-TYPE</h1>
+    <canvas id="myCanvas" width="640" height="480" style="border: 1px solid black;">
+      Sorry, but your browser does not support the HTML5 canvas tag.
+    </canvas>
+    <div id="cheats">
+      <h1>Cheats:</h1>
+      <ol>
+        <li>
+          Adds 10'000 score
+          <ul>
+            <li>
+              each 100'000 points = +1 life
+            </li>
+          </ul>
+        </li>
+        <li>
+          Screen scrolls faster
+        </li>
+        <li>
+          Toggles environment hitbox visibility
+        </li>
+      </ol>
+    </div>
   </div>
-    <div id="output"></div>
 
-    <script src="globals.js"></script>
-    <script src="util.js"></script>
-    <script src="keys.js"></script>
-    <script src="handleMouse.js"></script>
+  <script src="globals.js"></script>
+  <script src="util.js"></script>
+  <script src="keys.js"></script>
+  <script src="handleMouse.js"></script>
 
-    <script src="Interface.js"></script>
-    <script src="spatialManager.js"></script>
-    <script src="entityManager.js"></script>
+  <script src="Interface.js"></script>
+  <script src="spatialManager.js"></script>
+  <script src="entityManager.js"></script>
 
-    <script src="Sprite.js"></script>
-    <script src="SpriteAnimated.js"></script>
-    <script src="Explosion.js"></script>
-    <script src="Background.js"></script>
-    
-    <script src="Entity.js"></script>
-    <script src="Rock.js"></script>
-    <script src="Bullet.js"></script>
-    <script src="EnemyBullet.js"></script>
-    <script src="Ship.js"></script>
-    <script src="Block.js"></script>
-    <script src="Enemies.js"></script>
-    
-    <script src="PowerUps.js"></script>
+  <script src="Sprite.js"></script>
+  <script src="SpriteAnimated.js"></script>
+  <script src="Explosion.js"></script>
+  <script src="Background.js"></script>
 
-    <script src="update.js"></script>
-    <script src="render.js"></script>
+  <script src="Entity.js"></script>
+  <script src="Rock.js"></script>
+  <script src="Bullet.js"></script>
+  <script src="EnemyBullet.js"></script>
+  <script src="Ship.js"></script>
+  <script src="Block.js"></script>
+  <script src="Enemies.js"></script>
+  <script src="PowerUps.js"></script>
 
-    <script src="imagesPreload.js"></script>
-    <script src="main.js"></script>
+  <script src="update.js"></script>
+  <script src="render.js"></script>
 
-    <script src="R-TYPE.js"></script>
-  </body>
+  <script src="imagesPreload.js"></script>
+  <script src="main.js"></script>
+
+  <script src="R-TYPE.js"></script>
+</body>
+
 </html>
