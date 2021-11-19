@@ -103,10 +103,7 @@ Bullet.prototype.update = function (du) {
 
     this.cx += this.velX * du;
     
-    // TODO? NO, ACTUALLY, I JUST DID THIS BIT FOR YOU! :-)
-    //
     // Handle collisions
-    //
     var hitEntity = this.findHitEntity();
     
     // The bullet checks what it is hitting and if it's an EnemyBullet, PowerUp or EnemyLazer it ignorse collision

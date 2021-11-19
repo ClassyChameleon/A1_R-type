@@ -57,8 +57,8 @@ Interface.prototype.addScore = function(number) {
 }
 
 // Take a seat, this function is very long!
-// I think it's better I just comment the different chapters
-// instead of creating smaller functions.
+// Split into different parts.
+// Use: ctrl+F, write 'P0', 'P1' etc. to locate parts/chapters
 Interface.prototype.render = function (ctx) {
 
     // GAME OVER (You lost!)

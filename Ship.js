@@ -80,17 +80,20 @@ Ship.prototype.shipSounds = {
 Ship.prototype.update = function (du) {
     spatialManager.unregister(this);
 
+    // Ship is dead and needs to wait out the timestamp.
     if (this.timestampWAIT>0) {
         this.timestampWAIT -= du;
         if (this.timestampWAIT<0) this.respawn();;
         return;
     }
     
+    // Ship has been marked dead. Death initalizes
     if (this.dyingNowInitialize) {
         this.initiateDeath(du);
         return;
     }
 
+    // Death initalized. Play death animation. Set timestampWAIT.
     if (this.dyingNow) {
         this.celNo += 0.25;
         if (this.celNo >= g_spriteAnimations.shipDeath.length) {
@@ -107,6 +110,7 @@ Ship.prototype.update = function (du) {
     // Handle firing
     this.maybeFireBullet(du);
 
+    // Ship just respawned. It's invulnerable for a while.
     if (this.timestampINVULNERABLE > 0) {
         this.timestampINVULNERABLE -= du;
         this.invulnFrame = !this.invulnFrame;
@@ -122,6 +126,7 @@ Ship.prototype.update = function (du) {
             }
         }
 
+        // Checks if ship is hit
         let hitEntity = this.findHitEntity();
         if (this.isColliding() && !(hitEntity instanceof PowerUp) && !(hitEntity instanceof RocketPower)) {
             this.dyingNowInitialize = true;
@@ -142,6 +147,7 @@ Ship.prototype.respawn = function () {
 }
 
 Ship.prototype.initiateDeath = function (du) {
+    // Set variables to prepare for death
     this.power = 0;
     this.rocketPU = false;
     g_interface.beamMeter = this.power;
@@ -152,6 +158,7 @@ Ship.prototype.initiateDeath = function (du) {
 }
 
 Ship.prototype.handleMovement = function (du) {
+    // If ship is dead, don't handle movement
     if (this.dyingNow) {
         return;
     }
@@ -174,7 +181,8 @@ Ship.prototype.handleMovement = function (du) {
 };
 
 Ship.prototype._movementInputs = function (du) {
-    // Movement inputs
+    // Movement inputs.
+    // Sets celNo in accordance to what sprite should be displayed.
     if (keys[this.KEY_UP]) {
         this.timestampUPSTOP = Date.now();
         this.cy -= this.speed;
@@ -200,7 +208,7 @@ Ship.prototype._movementInputs = function (du) {
 };
 
 Ship.prototype._movementAnimation = function (du) {
-    // Animation timestamps
+    // Animation timestamps for when buttons are no longer pressed.
     if (!keys[this.KEY_UP]) {
         this.timestampUP = Date.now();
         if (this.celNo > 2) {
@@ -294,12 +302,12 @@ Ship.prototype.getRadius = function () {
     return (this.sprite.width / 2) * 0.9;
 };
 
-//What happens if ship takes hit
+// Mark ship as dead
 Ship.prototype.takeBulletHit = function () {
     this.dyingNowInitialize = true;
 };
 
-//Function for getting the power ups, open for expansion
+// Function for getting the power ups, open for expansion
 Ship.prototype.takePowerUp = function (type) {
     switch(type){
         case 1:
@@ -310,6 +318,7 @@ Ship.prototype.takePowerUp = function (type) {
     }
 }
 
+// Sets ship in spawn location
 Ship.prototype.reset = function () {
     this.setPos(this.reset_cx, this.reset_cy);
     this.rotation = this.reset_rotation;
@@ -317,25 +326,20 @@ Ship.prototype.reset = function () {
 
 
 Ship.prototype.render = function (ctx) {
-    // Previous sprite code
-    /*
-    var origScale = this.sprite.scale;
-    // pass my scale into the sprite, for drawing
-    this.sprite.scale = this._scale;
-    this.sprite.drawWrappedCentredAt(
-	ctx, this.cx, this.cy, this.rotation
-    );
-    this.sprite.scale = origScale;
-    */
+    // Conditions for when we shouldn't render anything.
     if (this.timestampWAIT) return;
     if (g_interface.lives<0) return;
 
+    // Death animation
     if (this.dyingNow) {
         var cel = g_spriteAnimations.shipDeath[Math.floor(this.celNo)];
         cel.scale = this._scale;
         cel.drawCenteredAt(ctx, this.cx, this.cy, 0);
         return;
     }
+
+    // Render ship
+    // While invulnerable, invulnFrame flickers between true and false.
     if (!this.invulnFrame) {
         var cel = g_spriteAnimations.ship[this.celNo];
         cel.scale = this._scale;

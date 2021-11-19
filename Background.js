@@ -1,6 +1,7 @@
 // =========================
 // Background (level sprite)
 // =========================
+// Rendered first (in the back)
 
 "use strict";
 
@@ -29,10 +30,12 @@ Background.prototype.cx = 4678;
 Background.prototype.cy = g_canvas.height/2-15;
 
 Background.prototype.update = function (du) {
+    // If we're close to boss, stop enemy spawn
     if(this.cx < 2470) g_StopEnemySpawn = true;
     if(this.cx > 1558){
         this.cx += g_envVel;
     } else {
+        // Boss reached
         g_envVel = 0;
         entityManager.generateBoss();
     }
