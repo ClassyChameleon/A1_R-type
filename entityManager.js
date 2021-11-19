@@ -42,7 +42,7 @@ _bossSpawned: false,
 
 _timeStampSpawner    : 1000,
 _timeStampSpawnerMEM : 1000, //memory
-_timeStamps          : [0, 0, 0],
+_timeStamps          : [80, 50, 100],
 // _timeStamps to keep track on how long ago an enemy spawned,
 // [0]: worm, [1]: red, [2]: walker
 
